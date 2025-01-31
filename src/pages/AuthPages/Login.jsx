@@ -125,6 +125,18 @@ const Login = () => {
 
         {alert.msg && <Alert alert={alert} />}
       </form>
+      <div>
+        <div>
+        <p>No tienes una cuenta? Registrate 
+      <Link 
+      className="text-primary hover:text-indigo-900"
+      to="/signup"> aqui</Link></p>
+        </div>
+            <Link 
+            className="text-primary hover:text-indigo-900"
+            to="/forgot-password">Olvide mi password</Link>
+     
+      </div>
     </div>
   );
 };

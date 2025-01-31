@@ -207,6 +207,10 @@ const navigate = useNavigate();
               {alert.msg && <Alert alert={alert} />}
             </div>
       </form>
+      <p>Ya tienes una cuenta? 
+      <Link 
+      className="text-primary hover:text-indigo-900"
+      to="/login"> inicia sesion</Link></p>
         </div>
     </div>
   )
