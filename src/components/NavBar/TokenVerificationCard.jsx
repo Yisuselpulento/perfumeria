@@ -39,7 +39,7 @@ const TokenVerificationCard = ({setIsCardVisible}) => {
       </p>
       <button
         onClick={handleClose}
-        className="ml-4 px-2 py-1 text-sm hover:text-gray-500"
+        className="ml-4 px-2 py-1 text-sm hover:text-primary cursor-pointer"
       >
         <CloseIcon />
       </button>

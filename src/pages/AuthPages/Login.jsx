@@ -5,6 +5,8 @@ import { loginFetching } from "../../services/AuthFetching";
 import { Alert } from "../../components/Alert";
 import Spinner from "../../components/Spinner/Spinner";
 import useAuth from "../../hooks/useAuth";
+import EyeIcon from "../../icons/EyeIcon";
+import EyeLeashIcon from "../../icons/EyeLeashIcon";
 
 const Login = () => {
   const { updateAuth, clearVerificationCardOnLogin } = useAuth()
@@ -17,6 +19,8 @@ const Login = () => {
     error: false
   });
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -90,14 +94,23 @@ const Login = () => {
 
         <div>
           <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-          />
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer hover:text-primary"
+            >
+              {showPassword ? <EyeIcon /> : <EyeLeashIcon />}
+            </button>
+          </div>
         </div>
 
         <button

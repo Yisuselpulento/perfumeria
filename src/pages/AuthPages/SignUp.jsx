@@ -4,6 +4,8 @@ import { toast } from "sonner";
 import { signUpFetching } from "../../services/AuthFetching";
 import { Alert } from "../../components/Alert";
 import Spinner from "../../components/Spinner/Spinner";
+import EyeIcon from "../../icons/EyeIcon";
+import EyeLeashIcon from "../../icons/EyeLeashIcon";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +21,8 @@ const SignUp = () => {
     error: false
 })
 const [loading, setLoading] = useState(false);
+const [showPassword, setShowPassword] = useState(false); 
+const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 const navigate = useNavigate();
 
@@ -56,7 +60,6 @@ const navigate = useNavigate();
 
       try {
         const response = await signUpFetching(formData );
-        console.log(response)
         if (response.success) {
          navigate("/verification-email") 
          setAlert({error: false, msg: "" })
@@ -113,32 +116,46 @@ const navigate = useNavigate();
             </div>
 
             <div>
-              <label htmlFor="password" >
-                Password
-              </label>
+            <label htmlFor="password">Password</label>
+            <div className="relative">
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 id="password"
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer hover:text-primary"
+              >
+                {showPassword ? <EyeIcon /> : <EyeLeashIcon />}
+              </button>
             </div>
+          </div>
 
             <div>
-              <label htmlFor="confirmPassword" >
-                Confirm Password
-              </label>
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <div className="relative">
               <input
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 id="confirmPassword"
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 className="mt-1 p-2 w-full border border-gray-300 rounded-md"
               />
+              <button
+                type="button"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                className="absolute right-2 top-1/2 transform -translate-y-1/2 cursor-pointer hover:text-primary"
+              >
+                {showConfirmPassword ? <EyeIcon /> : <EyeLeashIcon />}
+              </button>
             </div>
+          </div>
 
             <div>
               <label htmlFor="birthDate" >
@@ -168,8 +185,8 @@ const navigate = useNavigate();
                <option value="" disabled hidden>
                 Select Gender
               </option>
-              <option value="Femenino">Femenino</option>
-              <option value="Masculino">Masculino</option>
+              <option value="Femenino">Mujer</option>
+              <option value="Masculino">Hombre</option>
               </select>
             </div>
 

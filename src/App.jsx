@@ -10,6 +10,9 @@ import NotFound from "./pages/NotFound";
 import Login from './pages/AuthPages/Login';
 import SignUp from './pages/AuthPages/SignUp';
 import GuestRoute from './components/GuestRoute';
+import EmailVerification from './pages/AuthPages/EmailVerification';
+import ForgotPassword from './pages/AuthPages/ForgotPassword';
+import UptadePassword from './pages/AuthPages/UptadePassword';
 
 function App() {
   return (
@@ -24,7 +27,10 @@ function App() {
                   <Route element={<GuestRoute />}>
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<SignUp />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
                   </Route>
+                    <Route path="/update-password" element={<UptadePassword />} />
+                    <Route path="/verification-email" element={<EmailVerification />} />
 
                   <Route element={<ProtectedRoute />}>
                           <Route path='/profile' element={<Profile/>} />

@@ -36,7 +36,7 @@ const LogoutButton = ({toggleMenu}) => {
     handleLogout();
   }}
   disabled={loading}
-  className={`flex items-center gap-2 p-2 rounded-md
+  className={`flex items-center gap-2 p-2 rounded-md w-[100px] justify-center
     ${loading ? "bg-primary opacity-80" : " hover:bg-indigo-700 cursor-pointer hover:text-white"}`}
 >
   {loading ? 
