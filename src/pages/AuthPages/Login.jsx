@@ -118,7 +118,7 @@ const Login = () => {
           aria-label="iniciar sesión"
           disabled={loading}
           className={`w-full mt-3 rounded-lg py-2 h-[40px] flex items-center justify-center text-white transition-colors 
-            ${loading ? "bg-primary opacity-80" : "bg-primary hover:bg-indigo-700 cursor-pointer"}`}
+            ${loading ? "bg-primary opacity-90" : "bg-primary hover:bg-indigo-700 cursor-pointer"}`}
         >
           {loading ? <Spinner size="1.2em" /> : "Login"}
         </button>

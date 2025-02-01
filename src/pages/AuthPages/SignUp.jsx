@@ -78,14 +78,14 @@ const navigate = useNavigate();
 
 
   return (
-    <div>
-       <p>Sign Up</p>
-      <Link
-        className="hover:text-primary"
-        to="/"
-        >Atras</Link>
+    <div className="md:w-[500px] mx-auto">
+        <p className="text-xl font-bold mb-4">Sign Up</p>
+        
+        <Link className="hover:text-primary" to="/">
+          Atras
+        </Link>
         <div className="md:w-[500px] mx-auto">
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4  mt-4">
             
           <div>
               <label htmlFor="username" >
@@ -196,12 +196,11 @@ const navigate = useNavigate();
                 type="submit"
                 disabled={loading}
                 className={`w-full mt-3 rounded-lg py-2 h-[40px] flex items-center justify-center text-white transition-colors 
-                  ${loading ? "bg-primary opacity-80" : "bg-primary hover:bg-indigo-700 cursor-pointer"}`}
+                  ${loading ? "bg-primary opacity-90" : "bg-primary hover:bg-indigo-700 cursor-pointer"}`}
               >
                 {loading ?
-                <div className="max-h-full">
-                     <Spinner/>
-                </div>
+                     <Spinner size="1.2em" />
+                
                 : "Sign Up"}
               </button>
               {alert.msg && <Alert alert={alert} />}

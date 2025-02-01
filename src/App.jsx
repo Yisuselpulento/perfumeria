@@ -29,7 +29,7 @@ function App() {
                     <Route path="/signup" element={<SignUp />} />
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                   </Route>
-                    <Route path="/update-password" element={<UptadePassword />} />
+                    <Route path="/update-password/:token" element={<UptadePassword />} />
                     <Route path="/verification-email" element={<EmailVerification />} />
 
                   <Route element={<ProtectedRoute />}>
