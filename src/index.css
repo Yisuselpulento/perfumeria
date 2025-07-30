@@ -1,8 +1,13 @@
 @import "tailwindcss";
+@import '@fontsource-variable/onest';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
     --color-primary: #4245ff;
     --color-secundary: oklch(0.765 0.177 163.223);
+  }
+
+  body {
+    font-family: 'Onest Variable', sans-serif;
   }

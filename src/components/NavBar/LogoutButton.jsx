@@ -2,7 +2,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import Spinner from "../Spinner/Spinner";
-import LogoutIcon from "../../icons/LogoutIcon";
+import LogoutIcon from "../../icons/template/LogoutIcon";
 import { logoutFetching } from "../../services/AuthFetching";
 
 

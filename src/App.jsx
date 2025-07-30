@@ -13,6 +13,9 @@ import GuestRoute from './components/GuestRoute';
 import EmailVerification from './pages/AuthPages/EmailVerification';
 import ForgotPassword from './pages/AuthPages/ForgotPassword';
 import UptadePassword from './pages/AuthPages/UptadePassword';
+import AdminPage from './pages/AdminPage';
+import Storage from './pages/Storage';
+import ProductId from './pages/ProductId';
 
 function App() {
   return (
@@ -31,9 +34,15 @@ function App() {
                   </Route>
                     <Route path="/update-password/:token" element={<UptadePassword />} />
                     <Route path="/verification-email" element={<EmailVerification />} />
+                   <Route path="/storage" element={<Storage />} />
+                  <Route path="/product/:id" element={<ProductId />} />
 
                   <Route element={<ProtectedRoute />}>
-                          <Route path='/profile' element={<Profile/>} />
+                          <Route path='/profile' element={<Profile/>} />   
+                  </Route>
+
+                  <Route element={<ProtectedRoute adminOnly={true} />}>
+                   <Route path="/admin-dashboard" element={<AdminPage />} />
                   </Route>
 
                   <Route path="*" element={<NotFound />} />

@@ -1,6 +1,6 @@
 import useTheme from '../../hooks/useTheme'
-import LightIcon from '../../icons/LightIcon'
-import MoonIcon from '../../icons/MoonIcon'
+import LightIcon from '../../icons/template/LightIcon'
+import MoonIcon from '../../icons/template/MoonIcon'
 
 const ButtonTheme = () => {
   const { handleChangeMode, theme } = useTheme()

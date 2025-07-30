@@ -3,11 +3,11 @@ import Footer from '../components/Footer'
 import { Toaster } from 'sonner'
 import NavBar from '../components/NavBar/NavBar'
 import { useState } from 'react'
-/* import ButtonAdmin from '../components/Admin/ButtonAdmin';
-import useAuth from '../hooks/useAuth'; */
+import ButtonAdmin from '../Admin/ButtonAdmin'
+ import useAuth from '../hooks/useAuth'; 
 
 const Layout = () => {
-  /*  const {auth } = useAuth() */
+   const {auth, loading } = useAuth()
   const [isCardVisible, setIsCardVisible] = useState(false);
 
   return (
@@ -25,7 +25,8 @@ const Layout = () => {
         <footer className='mt-20'>
             <Footer />
         </footer>
-      {/*   {auth?.user?.isAdmin && <ButtonAdmin/> } */}
+
+        {!loading && auth?.user?.isAdmin && <ButtonAdmin />} 
       
     </div>
   )

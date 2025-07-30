@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import {  Link, useLocation } from 'react-router-dom';
 import TokenVerificationCard from './TokenVerificationCard';
-import CloseIcon from '../../icons/CloseIcon';
-import BurgerIcon from '../../icons/BurgerIcon';
 import ButtonTheme from './ButtonTheme';
 import ProfileButton from './ProfileButton';
 import LogoutButton from './LogoutButton';
 import useAuth from '../../hooks/useAuth';
+import CloseIcon from '../../icons/template/CloseIcon';
+import BurgerIcon from '../../icons/template/BurgerIcon';
 
 const NavBar = ({setIsCardVisible}) => {
   const {auth } = useAuth()
@@ -24,7 +24,7 @@ const NavBar = ({setIsCardVisible}) => {
     <div className="fixed top-0 mx-auto z-30 w-full dark:bg-opacity-45 bg-opacity-45 backdrop-blur-sm rounded flex flex-col border-b dark:border-b-0 items-end  md:justify-between md:flex-row md:items-center">
       <button
       aria-label="abrir nav"
-        className="menu-button md:hidden flex items-end dark:bg-primary bg-gray-300 dark:bg-opacity-80 bg-opacity-80 shadow rounded-full p-2 m-3 dark:hover:bg-hoverPrimary hover:bg-gray-200"
+        className="menu-button md:hidden flex items-end dark:bg-primary bg-gray-300 dark:bg-opacity-80 bg-opacity-80 shadow rounded-full p-2 m-3 dark:hover:bg-indigo-700 hover:bg-gray-400 cursor-pointer"
         onClick={toggleMenu}
       >
         {isMenuOpen ? <CloseIcon /> : <BurgerIcon />}
@@ -35,8 +35,11 @@ const NavBar = ({setIsCardVisible}) => {
       >
        
         <div className="flex md:justify-between md:items-center gap-3 md:flex-row flex-col items-end pb-4 md:pb-0 ">
+          <Link
+          onClick={toggleMenu}
+          to="/storage">Tienda</Link>
         {!isLoggedIn && (
-            <div className='flex gap-5 items-center'>
+            <div className='flex gap-5 md:items-center items-end flex-col md:flex-row '>
               <Link 
               onClick={toggleMenu}
               className="hover:text-primary" to="/login">Login</Link>
@@ -46,7 +49,7 @@ const NavBar = ({setIsCardVisible}) => {
             </div>
           )}
         {isLoggedIn && (
-            <div className="flex gap-2 items-center ">
+            <div className='flex gap-5 md:items-center items-end flex-col md:flex-row '>
               <ProfileButton toggleMenu={toggleMenu}  />
               <LogoutButton toggleMenu={toggleMenu}  />
             </div>

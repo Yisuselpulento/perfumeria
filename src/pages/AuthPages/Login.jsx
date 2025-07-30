@@ -5,8 +5,8 @@ import { loginFetching } from "../../services/AuthFetching";
 import { Alert } from "../../components/Alert";
 import Spinner from "../../components/Spinner/Spinner";
 import useAuth from "../../hooks/useAuth";
-import EyeIcon from "../../icons/EyeIcon";
-import EyeLeashIcon from "../../icons/EyeLeashIcon";
+import EyeIcon from "../../icons/template/EyeIcon";
+import EyeLeashIcon from "../../icons/template/EyeLeashIcon";
 
 const Login = () => {
   const { updateAuth, clearVerificationCardOnLogin } = useAuth()
@@ -71,15 +71,17 @@ const Login = () => {
     }
   };
 
+  const styleInput = "bg-white dark:bg-stone-800 mt-1 p-2 w-full border border-gray-300 rounded-md"
+
   return (
-    <div className="md:w-[500px] mx-auto">
-      <p className="text-xl font-bold mb-4">Login</p>
-      
+    <div className="md:w-[500px] mx-auto "> 
+             <p className="text-2xl font-bold mb-4 ">Login</p>
       <Link className="hover:text-primary" to="/">
         Atras
       </Link>
 
-      <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+      <form onSubmit={handleSubmit} className="bg-gray-50 dark:bg-stone-800 p-5 rounded-lg clas
+      flex flex-col gap-4">
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -88,7 +90,7 @@ const Login = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+            className={styleInput}
           />
         </div>
 
@@ -101,7 +103,7 @@ const Login = () => {
               name="password"
               value={formData.password}
               onChange={handleChange}
-              className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+              className={styleInput}
             />
             <button
               type="button"
@@ -124,19 +126,19 @@ const Login = () => {
         </button>
 
         {alert.msg && <Alert alert={alert} />}
-      </form>
-      <div>
-        <div>
-        <p>No tienes una cuenta? Registrate 
-      <Link 
-      className="text-primary hover:text-indigo-900"
-      to="/signup"> aqui</Link></p>
+        <div className="items-center justify-center flex flex-col mt-4">
+          <div>
+          <p>No tienes una cuenta? Registrate 
+        <Link 
+        className="text-primary hover:text-indigo-900"
+        to="/signup"> aqui</Link></p>
+          </div>
+              <Link 
+              className="text-primary hover:text-indigo-900"
+              to="/forgot-password">Olvide mi password</Link>
+      
         </div>
-            <Link 
-            className="text-primary hover:text-indigo-900"
-            to="/forgot-password">Olvide mi password</Link>
-     
-      </div>
+      </form>
     </div>
   );
 };

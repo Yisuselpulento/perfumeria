@@ -4,8 +4,8 @@ import { toast } from "sonner";
 import Spinner from "../../components/Spinner/Spinner";
 import { updatePasswordFetching } from "../../services/AuthFetching";
 import { Alert } from "../../components/Alert";
-import EyeIcon from "../../icons/EyeIcon";
-import EyeLeashIcon from "../../icons/EyeLeashIcon";
+import EyeIcon from "../../icons/template/EyeIcon";
+import EyeLeashIcon from "../../icons/template/EyeLeashIcon";
 
 const UpdatePassword = () => {
   const [loading, setLoading] = useState(false);
@@ -45,9 +45,12 @@ const UpdatePassword = () => {
 
   const isFormValid = password && confirmPassword;
 
+  const styleInput = "bg-white dark:bg-stone-800 mt-1 p-2 w-full border border-gray-300 rounded-md"
+
   return (
     <div className="md:w-[500px] mx-auto">
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit}  className="bg-gray-50 dark:bg-stone-800 p-5 rounded-lg clas
+      flex flex-col gap-4">
         <p className="text-md mb-5">
           Introduce tu nueva contraseña para actualizarla.
         </p>
@@ -57,7 +60,7 @@ const UpdatePassword = () => {
           <input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="dark:bg-stone-900 p-2 w-full rounded-lg border border-stone-600 focus:ring-purple-500 focus:border-primary outline-none transition-colors"
+            className={styleInput}
             placeholder="password"
             id="password"
             type={showPassword ? "text" : "password"}
@@ -76,7 +79,7 @@ const UpdatePassword = () => {
           <input
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            className="dark:bg-stone-900 p-2 w-full rounded-lg border border-stone-600 focus:ring-purple-500 focus:border-primary outline-none transition-colors"
+            className={styleInput}
             placeholder="confirm password"
             id="confirmPassword"
             type={showConfirmPassword ? "text" : "password"}

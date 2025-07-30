@@ -37,13 +37,16 @@ const ForgotPassword = () => {
     }
   };
 
+    const styleInput = "bg-white dark:bg-stone-800 mt-1 p-2 w-full border border-gray-300 rounded-md"
+
   return (
     <div className="md:w-[500px] mx-auto">
       <p className="text-xl font-bold mb-4">Recuperar Contraseña</p>
       
       <Link className="hover:text-primary" to="/">Atrás</Link>
 
-      <form onSubmit={handleSubmit} className="space-y-4 mt-4">
+      <form onSubmit={handleSubmit}  className="bg-gray-50 dark:bg-stone-800 p-5 rounded-lg clas
+      flex flex-col gap-4">
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -52,7 +55,7 @@ const ForgotPassword = () => {
             name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+            className={styleInput}
           />
         </div>
 

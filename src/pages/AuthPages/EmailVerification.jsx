@@ -9,7 +9,7 @@ import ButtonTokenResend from "../../components/ButtonTokenResend";
 
 
 const EmailVerificationCode = () => {
-  const {  updateAuth, auth } = useAuth()
+  const {  updateAuth } = useAuth()
   const [codeToken, setCodeToken] = useState(["", "", "", "", "", ""]);
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({
@@ -60,9 +60,7 @@ const EmailVerificationCode = () => {
         setAlert({ error: false, msg: "" });
         toast.success(<div className="text-green-600">{response.message}</div>);
         navigate("/profile")
-        updateAuth({
-          isVerified: true,  
-        });
+        updateAuth(response.user);
       } else {
         setAlert({ error: true, msg: response.message });
       }
@@ -78,7 +76,7 @@ const EmailVerificationCode = () => {
 
   return (
     <div className="md:p-20 flex flex-col items-center min-h-screen justify-center p-2">
-      <div className="dark:bg-black dark:bg-opacity-20 backdrop-blur border-[1px] dark:border-stone-900 rounded-lg flex flex-col items-center p-4 md:p-6">
+      <div className=" dark:bg-opacity-20 backdrop-blur border-[1px] dark:border-stone-900 rounded-lg flex flex-col items-center p-4 md:p-6">
         <h2 className="text-2xl font-bold mb-4">Código de Verificación</h2>
         <p className="opacity-70 mb-8">
           Introduce el código que hemos enviado a tu correo electrónico.

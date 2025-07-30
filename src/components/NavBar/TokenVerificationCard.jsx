@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom"; 
 import useAuth from "../../hooks/useAuth";
-import CloseIcon from "../../icons/CloseIcon";
+import CloseIcon from "../../icons/template/CloseIcon";
 
 const TokenVerificationCard = ({setIsCardVisible}) => {
   const [isVisible, setIsVisible] = useState(false); 

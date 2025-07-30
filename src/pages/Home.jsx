@@ -6,7 +6,7 @@ const Home = () => {
    console.log(auth)
   return (
     <div>
-        <p>Template FullStack</p>
+        <p>Inicio</p>
     </div>
   )
 }
