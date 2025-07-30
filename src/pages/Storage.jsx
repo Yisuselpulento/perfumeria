@@ -23,7 +23,7 @@ const Storage = () => {
     fetchProducts();
   }, []);
 
-  if (loading) return <p>Cargando productos...</p>;
+  if (loading) return <p>Cargando los productos...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
