@@ -7,7 +7,7 @@ import { Alert } from "../components/Alert";
 const ProductForm = () => {
   const [alert, setAlert] = useState({
     msg: "",
-    error: false
+    error: false,
   });
   const [loading, setLoading] = useState(false);
 
@@ -19,18 +19,15 @@ const ProductForm = () => {
     image: null, // imagen principal - archivo
     onSale: false,
     status: "in_stock",
+    timeOfDay: "day", // nuevo campo
+    seasons: [], // nuevo campo (array)
     variants: [
       { volume: 3, price: "", stock: "" },
       { volume: 5, price: "", stock: "" },
       { volume: 10, price: "", stock: "" },
     ],
-    ingredients: [
-      { name: "", imageFile: null }, // imagen de ingrediente como archivo
-    ],
-    tags: [
-      // ahora tags es un array de objetos {name, intensity}
-      { name: "", intensity: "" }
-    ],
+    ingredients: [{ name: "", imageFile: null }],
+    tags: [{ name: "", intensity: "" }],
   });
 
   // Cambios para inputs simples
@@ -39,6 +36,15 @@ const ProductForm = () => {
     setFormData((prev) => ({
       ...prev,
       [name]: type === "checkbox" ? checked : value,
+    }));
+  };
+
+  // Cambios para seasons (selección múltiple)
+  const handleSeasonsChange = (e) => {
+    const options = Array.from(e.target.selectedOptions);
+    setFormData((prev) => ({
+      ...prev,
+      seasons: options.map((opt) => opt.value),
     }));
   };
 
@@ -126,6 +132,8 @@ const ProductForm = () => {
       form.append("category", formData.category);
       form.append("onSale", formData.onSale);
       form.append("status", formData.status);
+      form.append("timeOfDay", formData.timeOfDay);
+      form.append("seasons", JSON.stringify(formData.seasons));
       form.append("tags", JSON.stringify(formData.tags));
       form.append("variants", JSON.stringify(formattedVariants));
       form.append("ingredients", JSON.stringify(ingredientsData));
@@ -136,7 +144,7 @@ const ProductForm = () => {
       }
 
       // imágenes de ingredientes
-      formData.ingredients.forEach(({ imageFile }, i) => {
+      formData.ingredients.forEach(({ imageFile }) => {
         if (imageFile) {
           form.append("ingredientImages", imageFile);
         }
@@ -160,6 +168,8 @@ const ProductForm = () => {
           image: null,
           onSale: false,
           status: "in_stock",
+          timeOfDay: "day",
+          seasons: [],
           variants: [
             { volume: 3, price: "", stock: "" },
             { volume: 5, price: "", stock: "" },
@@ -226,6 +236,36 @@ const ProductForm = () => {
           <option value="men">Hombre</option>
           <option value="women">Mujer</option>
           <option value="unisex">Unisex</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Momento del día</label>
+        <select
+          name="timeOfDay"
+          value={formData.timeOfDay}
+          onChange={handleChange}
+          className="w-full border p-2 rounded"
+        >
+          <option value="day">Día</option>
+          <option value="night">Noche</option>
+          <option value="both">Ambos</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Temporadas</label>
+        <select
+          multiple
+          name="seasons"
+          value={formData.seasons}
+          onChange={handleSeasonsChange}
+          className="w-full border p-2 rounded h-32"
+        >
+          <option value="summer">Verano</option>
+          <option value="fall">Otoño</option>
+          <option value="winter">Invierno</option>
+          <option value="spring">Primavera</option>
         </select>
       </div>
 
