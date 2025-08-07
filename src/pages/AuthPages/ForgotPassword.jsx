@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Alert } from "../../components/Alert";
-import Spinner from "../../components/Spinner/Spinner";
 import { toast } from "sonner";
 import { forgotPasswordFetching } from "../../services/AuthFetching";
+import LoadingButton from "../../components/LoadingButton";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -43,7 +43,7 @@ const ForgotPassword = () => {
     <div className="md:w-[500px] mx-auto">
       <p className="text-xl font-bold mb-4">Recuperar Contraseña</p>
       
-      <Link className="hover:text-primary" to="/">Atrás</Link>
+      <Link className="hover:text-primary" to="/">Inicio</Link>
 
       <form onSubmit={handleSubmit}  className="backdrop-blur-md  border border-white/20 shadow-md  p-5 rounded-lg clas
       flex flex-col gap-4">
@@ -59,15 +59,13 @@ const ForgotPassword = () => {
           />
         </div>
 
-        <button
-          type="submit"
-          aria-label="recuperar contraseña"
-          disabled={loading}
-          className={`w-full mt-3 rounded-lg py-2 h-[40px] flex items-center justify-center text-white transition-colors 
-            ${loading ? "bg-primary opacity-90" : "bg-primary hover:bg-indigo-700 cursor-pointer"}`}
-        >
-          {loading ? <Spinner size="1.2em" /> : "Enviar Instrucciones"}
-        </button>
+        <LoadingButton
+            type="submit"
+            loading={loading}
+            aria-label="recuperar contraseña"
+          >
+            Enviar Instrucciones
+          </LoadingButton>
 
         {alert.msg && <Alert alert={alert} />}
       </form>

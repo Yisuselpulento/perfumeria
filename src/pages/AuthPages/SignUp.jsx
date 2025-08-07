@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom"
 import { toast } from "sonner";
 import { signUpFetching } from "../../services/AuthFetching";
 import { Alert } from "../../components/Alert";
-import Spinner from "../../components/Spinner/Spinner";
 import EyeIcon from "../../icons/template/EyeIcon";
 import EyeLeashIcon from "../../icons/template/EyeLeashIcon";
 import useAuth from "../../hooks/useAuth";
+import LoadingButton from "../../components/LoadingButton";
 
 const SignUp = () => {
   const { updateAuth } = useAuth()
@@ -84,7 +84,7 @@ const navigate = useNavigate();
         <p className="text-xl font-bold mb-4">Sign Up</p>
         
         <Link className="hover:text-primary" to="/">
-          Atras
+          Inicio
         </Link>
         <form onSubmit={handleSubmit}  className="backdrop-blur-md  border border-white/20 shadow-md  p-5 rounded-lg clas
       flex flex-col gap-4">
@@ -178,24 +178,19 @@ const navigate = useNavigate();
             </div>
 
             <div>
-              <button
-              aria-label="registrarte"
-                type="submit"
-                disabled={loading}
-                className={`w-full mt-3 rounded-lg py-2 h-[40px] flex items-center justify-center text-white transition-colors 
-                  ${loading ? "bg-primary opacity-90" : "bg-primary hover:bg-indigo-700 cursor-pointer"}`}
-              >
-                {loading ?
-                     <Spinner size="1.2em" />
-                
-                : "Sign Up"}
-              </button>
+              <LoadingButton
+            type="submit"
+            loading={loading}
+            aria-label="resgistrate"
+          >
+            Regístrate
+          </LoadingButton>
               {alert.msg && <Alert alert={alert} />}
             </div>
             <div className="items-center justify-center flex flex-col mt-4">
             <p>Ya tienes una cuenta? 
             <Link 
-            className="text-primary hover:text-indigo-900"
+           className="text-[#2E6237] hover:text-[DFC196]"
             to="/login"> inicia sesion</Link></p>
             </div>
       </form>

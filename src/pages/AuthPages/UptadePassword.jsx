@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import Spinner from "../../components/Spinner/Spinner";
 import { updatePasswordFetching } from "../../services/AuthFetching";
 import { Alert } from "../../components/Alert";
 import EyeIcon from "../../icons/template/EyeIcon";
 import EyeLeashIcon from "../../icons/template/EyeLeashIcon";
+import LoadingButton from "../../components/LoadingButton";
 
 const UpdatePassword = () => {
   const [loading, setLoading] = useState(false);
@@ -94,14 +94,14 @@ const UpdatePassword = () => {
         </div>
 
         {alert.msg && <Alert alert={alert} />}
-        <button
-          aria-label="Enviar formulario"
-          disabled={!isFormValid || loading}
+        <LoadingButton
           type="submit"
-          className={`${isFormValid ? "bg-primary hover:bg-indigo-700 cursor-pointer" : "bg-primary opacity-90"} text-white w-full py-2 rounded-lg mt-4 transition-colors flex items-center justify-center h-[40px] `}
+          loading={loading}
+          disabled={!isFormValid}
+          aria-label="Enviar formulario"
         >
-          {loading ? <Spinner size="1.2em" /> : "Actualizar contraseña"}
-        </button>
+          Actualizar contraseña
+        </LoadingButton>
       </form>
     </div>
   );

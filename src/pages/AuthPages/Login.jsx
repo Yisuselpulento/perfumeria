@@ -3,10 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { loginFetching } from "../../services/AuthFetching";
 import { Alert } from "../../components/Alert";
-import Spinner from "../../components/Spinner/Spinner";
 import useAuth from "../../hooks/useAuth";
 import EyeIcon from "../../icons/template/EyeIcon";
 import EyeLeashIcon from "../../icons/template/EyeLeashIcon";
+import LoadingButton from "../../components/LoadingButton";
 
 const Login = () => {
   const { updateAuth, clearVerificationCardOnLogin } = useAuth()
@@ -77,7 +77,7 @@ const Login = () => {
     <div className="md:w-[500px] mx-auto "> 
              <p className="text-2xl font-bold mb-4 ">Login</p>
       <Link className="hover:text-primary" to="/">
-        Atras
+        Inicio
       </Link>
 
       <form onSubmit={handleSubmit} className="backdrop-blur-md  border border-white/20 shadow-md p-5 rounded-lg flex flex-col gap-4">
@@ -114,26 +114,24 @@ const Login = () => {
           </div>
         </div>
 
-        <button
-          type="submit"
-          aria-label="iniciar sesión"
-          disabled={loading}
-          className={`w-full mt-3 rounded-lg py-2 h-[40px] flex items-center justify-center text-white transition-colors 
-            ${loading ? "bg-primary opacity-90" : "bg-primary hover:bg-indigo-700 cursor-pointer"}`}
-        >
-          {loading ? <Spinner size="1.2em" /> : "Login"}
-        </button>
+        <LoadingButton
+            type="submit"
+            loading={loading}
+            aria-label="iniciar sesión"
+          >
+            Inicia sesión
+          </LoadingButton>
 
         {alert.msg && <Alert alert={alert} />}
         <div className="items-center justify-center flex flex-col mt-4">
           <div>
           <p>No tienes una cuenta? Registrate 
         <Link 
-        className="text-primary hover:text-indigo-900"
+        className="text-[#2E6237] hover:text-[DFC196]"
         to="/signup"> aqui</Link></p>
           </div>
               <Link 
-              className="text-primary hover:text-indigo-900"
+             className="text-[#2E6237] hover:text-[DFC196]"
               to="/forgot-password">Olvide mi password</Link>
       
         </div>

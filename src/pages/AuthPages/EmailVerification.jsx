@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { emailVerificationFetching } from "../../services/AuthFetching";
 import { Alert } from "../../components/Alert";
-import Spinner from "../../components/Spinner/Spinner";
 import ButtonTokenResend from "../../components/ButtonTokenResend";
+import LoadingButton from "../../components/LoadingButton";
 
 
 const EmailVerificationCode = () => {
@@ -99,21 +99,14 @@ const EmailVerificationCode = () => {
           ))}
         </form>
         {alert.msg && <Alert alert={alert} />}
-        <button
-        aria-label="Enviar formulario"
+       <LoadingButton
           type="submit"
-          disabled={!isFormValid || loading}
-          onClick={handleSubmit}
-          className={`${
-            isFormValid ? "bg-primary hover:opacity-90 cursor-pointer" : "bg-blue-700 opacity-70"
-          } text-white w-full py-2 rounded-lg mt-4 transition-colors flex items-center justify-center h-[40px] mb-5 `}
+          loading={loading}
+          disabled={!isFormValid}
+          aria-label="Enviar formulario"
         >
-          {loading ? (
-              <Spinner />
-          ) : (
-            "Verificar"
-          )}
-        </button>
+          Verificar
+        </LoadingButton>
       <ButtonTokenResend />
       </div>
     </div>
