@@ -45,11 +45,11 @@ const UpdatePassword = () => {
 
   const isFormValid = password && confirmPassword;
 
-  const styleInput = "bg-white dark:bg-stone-800 mt-1 p-2 w-full border border-gray-300 rounded-md"
+  const styleInput = "bg-stone-800 mt-1 p-2 w-full border border-gray-300 rounded-md"
 
   return (
     <div className="md:w-[500px] mx-auto">
-      <form onSubmit={handleSubmit}  className="bg-gray-50 dark:bg-stone-800 p-5 rounded-lg clas
+      <form onSubmit={handleSubmit}  className="backdrop-blur-md  border border-white/20 shadow-md  p-5 rounded-lg clas
       flex flex-col gap-4">
         <p className="text-md mb-5">
           Introduce tu nueva contraseña para actualizarla.

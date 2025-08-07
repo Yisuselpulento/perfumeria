@@ -37,7 +37,7 @@ const ForgotPassword = () => {
     }
   };
 
-    const styleInput = "bg-white dark:bg-stone-800 mt-1 p-2 w-full border border-gray-300 rounded-md"
+    const styleInput = "bg-stone-800 mt-1 p-2 w-full border border-gray-300 rounded-md"
 
   return (
     <div className="md:w-[500px] mx-auto">

@@ -21,7 +21,7 @@ const NavBar = ({setIsCardVisible}) => {
   const isLoggedIn = auth?.success;
 
   return (
-    <div className="fixed top-0 mx-auto z-30 w-full dark:bg-opacity-45 bg-opacity-45 backdrop-blur-sm rounded flex flex-col border-b dark:border-b-0 items-end  md:justify-between md:flex-row md:items-center">
+    <div className="fixed top-0 mx-auto z-30 w-full dark:bg-opacity-45 bg-opacity-45 backdrop-blur-sm rounded flex flex-col border-b-0 items-end  md:justify-between md:flex-row md:items-center">
       <Link
             to="/"
              className="hidden md:flex ml-4 my-2 items-center"
@@ -36,7 +36,7 @@ const NavBar = ({setIsCardVisible}) => {
 
       <button
       aria-label="abrir nav"
-        className="menu-button md:hidden flex items-end dark:bg-primary bg-gray-300 dark:bg-opacity-80 bg-opacity-80 shadow rounded-full p-2 m-3 dark:hover:bg-indigo-700 hover:bg-gray-400 cursor-pointer"
+        className="menu-button md:hidden flex items-end bg-primary  bg-opacity-80 shadow rounded-full p-2 m-3 hover:bg-indigo-700 cursor-pointer"
         onClick={toggleMenu}
       >
         {isMenuOpen ? <CloseIcon /> : <BurgerIcon />}
