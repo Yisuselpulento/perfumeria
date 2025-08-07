@@ -86,7 +86,7 @@ const navigate = useNavigate();
         <Link className="hover:text-primary" to="/">
           Atras
         </Link>
-        <form onSubmit={handleSubmit}  className="bg-gray-50 dark:bg-stone-800 p-5 rounded-lg clas
+        <form onSubmit={handleSubmit}  className="backdrop-blur-md  border border-white/20 shadow-md  p-5 rounded-lg clas
       flex flex-col gap-4">
             
           <div>

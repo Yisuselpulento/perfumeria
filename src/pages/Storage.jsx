@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getProductsFetching } from "../services/ProductsFetching";
 import ProductCard from "../components/ProductCard";
+import { Link } from "react-router-dom";
 
 
 const Storage = () => {
@@ -28,6 +29,10 @@ const Storage = () => {
 
   return (
     <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+       <Link className="hover:text-primary" to="/">
+        Atras
+      </Link>
+
       {products.map((product) => (
         <ProductCard key={product._id} product={product} />
       ))}
