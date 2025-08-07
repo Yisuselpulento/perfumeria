@@ -46,7 +46,7 @@ const NavBar = ({setIsCardVisible}) => {
         className={`md:flex ${isMenuOpen ? 'block' : 'hidden'} md:justify-end md:flex-row flex-col md:items-center px-3 py-3 h-full md:h-[60px] gap-6 md:gap-0 items-end  w-full rounded dark:bg-opacity-45 bg-opacity-45 md:dark:bg-opacity-0 md:bg-opacity-0 backdrop-blur-sm`}
       >
        
-        <div className="flex md:justify-between md:items-center gap-3 md:flex-row flex-col items-end pb-4 md:pb-0 ">
+        <div className="flex md:justify-between md:items-center gap-3 md:flex-row flex-col items-end md:pb-0 ">
           <Link
           onClick={toggleMenu}
           to="/storage">Tienda</Link>
