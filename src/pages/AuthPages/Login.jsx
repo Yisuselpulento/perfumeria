@@ -127,11 +127,11 @@ const Login = () => {
           <div>
           <p>No tienes una cuenta? Registrate 
         <Link 
-        className="text-[#2E6237] hover:text-[DFC196]"
+        className="text-primary hover:text-primary/60"
         to="/signup"> aqui</Link></p>
           </div>
               <Link 
-             className="text-[#2E6237] hover:text-[DFC196]"
+             className="text-primary hover:text-primary/60"
               to="/forgot-password">Olvide mi password</Link>
       
         </div>

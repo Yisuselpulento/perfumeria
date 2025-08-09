@@ -28,14 +28,16 @@ const Storage = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="p-2 flex flex-col gap-2">
        <Link className="hover:text-primary" to="/">
         Atras
       </Link>
 
+    <div className="grid grid-cols-2 gap-2">
       {products.map((product) => (
         <ProductCard key={product._id} product={product} />
       ))}
+    </div>
     </div>
   );
 };

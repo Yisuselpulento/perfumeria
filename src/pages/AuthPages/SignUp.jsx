@@ -190,7 +190,7 @@ const navigate = useNavigate();
             <div className="items-center justify-center flex flex-col mt-4">
             <p>Ya tienes una cuenta? 
             <Link 
-           className="text-[#2E6237] hover:text-[DFC196]"
+           className="text-primary hover:text-primary/60"
             to="/login"> inicia sesion</Link></p>
             </div>
       </form>
