@@ -78,7 +78,7 @@ const ProductId = () => {
         className="w-full max-h-96 object-contain mb-4 rounded"
       />
 
-      <div className="flex justify-center items-center gap-4 mb-4">
+      <div className="flex justify-center items-center gap-4 mb-4 ">
           <img
             src={`/images/logos/${brand}_logo.webp`}
             alt={`${brand} logo`}
