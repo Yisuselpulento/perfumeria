@@ -16,11 +16,11 @@ const ProductCard = ({ product }) => {
       className="shadow-md hover:shadow-lg transition cursor-pointer text-sm"
     >
       <div className="relative aspect-square ">
-          <div className="absolute top-2 left-1 space-y-1 z-10 flex flex-row gap-1">
+          <div className="absolute top-2 left-1 z-10 flex flex-row gap-1">
             {tags?.map((tag, index) => (
               <span
                 key={index}
-                className={`bg-opacity-60 ${getTagColor(tag.name)} text-black text-xs px-2 py-0.2 rounded-sm`}
+                className={`bg-opacity-60 ${getTagColor(tag.name)} text-black text-xs px-1 py-0.5 rounded-sm`}
               >
                 {tag.name}
               </span>

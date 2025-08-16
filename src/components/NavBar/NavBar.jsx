@@ -19,7 +19,7 @@ const NavBar = ({ setIsCardVisible }) => {
   const isLoggedIn = auth?.success;
 
   return (
-    <div className="fixed top-0 mx-auto z-30 w-full dark:bg-opacity-45 bg-opacity-45 backdrop-blur-sm rounded flex flex-col border-b-0 items-end  md:justify-between md:flex-row md:items-center">
+    <div className="fixed top-0 mx-auto z-30 w-full bg-opacity-45  backdrop-blur-sm rounded flex flex-col border-b-0 items-end  md:justify-between md:flex-row md:items-center">
       <Link
         to="/"
         className="hidden md:flex ml-4 my-2 items-center"

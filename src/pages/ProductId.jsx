@@ -40,38 +40,86 @@ const ProductId = () => {
   if (error) return <p className="text-red-600">{error}</p>;
   if (!product) return null;
 
+  const {
+    name,
+    brand,
+    category,
+    status,
+    timeOfDay,
+    seasons,
+    description,
+    image,
+    variants,
+    ingredients,
+    tags,
+  } = product;
+
   return (
     <div className="max-w-4xl mx-auto text-center">
+
+      <h1 className="text-xl font-semibold mb-2">{name}</h1>
+
+      <ul className="flex justify-center flex-wrap gap-2 mb-2">
+        {tags.map((tag, i) => (
+          <li
+            key={i}
+            className={`px-1 py-0.5 rounded-sm text-xs text-black ${getTagColor(
+              tag.name
+            )}`}
+          >
+            {tag.name}
+          </li>
+        ))}
+      </ul>
+
       <img
-        src={product.image}
-        alt={product.name}
-        className="w-full  max-h-96 object-contain mb-4 rounded"
+        src={image}
+        alt={name}
+        className="w-full max-h-96 object-contain mb-4 rounded"
       />
-       <h1 className="text-xl font-bold mb-4 text-gray-700">{product.name}</h1>
-      <p><strong>Marca:</strong> {product.brand}</p>
-      <p><strong>Categoría:</strong> {product.category}</p>
-      <p><strong>Estado:</strong> {product.status}</p>
-      <p className="mt-2">{product.description}</p>
+
+      <div className="flex justify-center items-center gap-4 mb-4">
+          <img
+            src={`/images/logos/${brand}_logo.webp`}
+            alt={`${brand} logo`}
+            className="h-10 object-contain"
+          />
+        </div>
+
+      <p className="text-sm">
+      {category}
+      </p>
 
       <section className="mt-6">
-        <ul>
-          {product.variants.map((v, i) => (
-            <li key={i}>
-              {v.volume} ml - Precio: ${v.price} - Stock: {v.stock}
-            </li>
-          ))}
-        </ul>
-      </section>
+          <p className="text-lg font-semibold">
+              ${variants[0].price} - ${variants[variants.length - 1].price}
+          </p>
+        </section>
+        <section className="mt-3">
+          <p className="text-start mb-3 text-xs mx-3">Tamaños:</p> 
+          <ul className="flex flex-wrap gap-4 items-center justify-between w-[80%] mx-auto"> 
+          {variants.map((v, i) => (
+
+             <img 
+               src="/images/pote.jpg"
+                alt={v.name}
+                className="w-20 h-20 object-cover border "
+             key={i}/> 
+        
+
+            ))}
+              </ul>
+         </section>
 
       <section className="mt-6">
-        <h2 className="text-xl font-semibold mb-2">Ingredientes</h2>
+        <h2 className="mb-2">Ingredientes</h2>
         <ul className="flex flex-wrap gap-4">
-          {product.ingredients.map((ing, i) => (
+          {ingredients.map((ing, i) => (
             <li key={i} className="flex flex-col items-center">
               <img
                 src={ing.image}
                 alt={ing.name}
-                className="w-20 h-20 object-cover rounded"
+                className="w-16 h-16 object-cover rounded"
               />
               <span>{ing.name}</span>
             </li>
@@ -80,24 +128,57 @@ const ProductId = () => {
       </section>
 
       <section className="mt-6">
-  <h2 className="text-xl font-semibold mb-2">Tags</h2>
-  <ul className="flex flex-col gap-4">
-    {product.tags.map((tag, i) => (
-      <li key={i} className="flex flex-col gap-1">
-        <div className="flex justify-between">
-          <span className="font-medium">{tag.name}</span>
-          <span className="text-sm text-gray-600">{tag.intensity}/10</span>
-        </div>
+  <h2 className="mb-2">Intensidad</h2>
+  <ul className="flex flex-col gap-3">
+    {tags.map((tag, i) => (
+      <li
+        key={i}
+        className="grid grid-cols-[1fr_3fr_auto] items-center gap-4"
+      >
+        <span className="font-medium text-xs">{tag.name}</span>
+
         <div className="w-full h-4 bg-gray-200 rounded">
           <div
-           className={`h-full rounded transition-all ${getTagColor(tag.name)}`}
+            className={`h-full rounded transition-all ${getTagColor(tag.name)}`}
             style={{ width: `${(tag.intensity / 10) * 100}%` }}
           />
         </div>
+
+        <span className="text-xs text-gray-400">
+          {tag.intensity}/10
+        </span>
       </li>
     ))}
   </ul>
-</section>
+      </section>
+          <div className="w-[90%] mx-auto">
+              <button className="bg-primary hover:bg-primary/60 cursor-pointer p-3 rounded-full mt-10 w-full text-xl font-bold">Agregar al carrito</button>
+          </div>
+       <section className="mt-6 text-sm text-gray-300">
+        <h2 className="text-md font-bold mb-4">Detalles del producto</h2>
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between border-b border-gray-300 pb-1">
+            <span className="font-medium">Momento del día:</span>
+            <span>{timeOfDay}</span>
+          </div>
+          <div className="flex justify-between border-b border-gray-300 pb-1">
+            <span className="font-medium">Temporadas:</span>
+            <span>{seasons.join(", ")}</span>
+          </div>
+          <div className="flex justify-between border-b border-gray-300 pb-1">
+            <span className="font-medium">Marca:</span>
+            <span>{brand}</span>
+          </div>
+          <div className="flex justify-between border-b border-gray-300 pb-1">
+            <span className="font-medium">Categoría:</span>
+            <span>{category}</span>
+          </div>
+        </div>
+      </section>
+      <section className="my-4 ">
+      <p className="mb-2">Descripción</p>
+      <p className="text-gray-300">{description}</p>
+      </section>
     </div>
   );
 };
