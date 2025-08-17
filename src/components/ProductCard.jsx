@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { getTagColor } from "../helpers/tagscolors";
 import { capitalize } from "../helpers/capitalize.js";
+import { toCLP } from "../helpers/toClp.js";
 
 const ProductCard = ({ product }) => {
   const { _id, name, brand, price, image, tags, status } = product;
@@ -36,7 +37,7 @@ const ProductCard = ({ product }) => {
       <div className="pt-3">
         <h2 className="text-ms font-semibold">{name}</h2>
         <p className="text-gray-500">{brand}</p>
-        <p className="mt-1">Desde $<strong>{price}</strong></p>
+        <p className="mt-1">Desde <strong>{toCLP(price)}</strong></p>
       </div>
     </div>
   );

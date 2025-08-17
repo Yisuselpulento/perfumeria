@@ -5,6 +5,7 @@ import { getProductByIdFetching } from "../services/ProductsFetching";
 import Spinner from "../components/Spinner/Spinner";
 import { getTagColor } from "../helpers/tagscolors";
 import { capitalize } from "../helpers/capitalize.js";
+import { toCLP } from "../helpers/toClp.js";
 
 const formatTimeOfDay = (time) => {
   if (!time) return "";
@@ -79,7 +80,7 @@ const ProductId = () => {
         ))}
       </ul>
 
-      <div className="w-full h-72 flex justify-center items-center mb-4 rounded overflow-hidden">
+      <div className="w-full h-90 flex justify-center items-center mb-4 rounded overflow-hidden">
           <img
             src={image}
             alt={name}
@@ -87,11 +88,11 @@ const ProductId = () => {
           />
         </div>
 
-      <div className="flex justify-center items-center gap-4 mb-4 ">
+      <div className="flex justify-center items-center gap-4 mb-4">
           <img
             src={`/images/logos/${brandSlug}_logo.webp`}
             alt={`${brand} logo`}
-            className="w-40 h-20 object-contain"
+            className="w-40 h-12 object-contain"
           />
         </div>
 
@@ -101,7 +102,7 @@ const ProductId = () => {
 
       <section className="mt-6">
           <p className="text-lg font-semibold">
-              ${variants[0].price} - ${variants[variants.length - 1].price}
+              {toCLP(variants[0].price)} - {toCLP(variants[variants.length - 1].price)}
           </p>
         </section>
         <section className="mt-3">
@@ -138,7 +139,7 @@ const ProductId = () => {
 
       <section className="mt-6">
   <h2 className="mb-2">Intensidad</h2>
-  <ul className="flex flex-col gap-3">
+  <ul className="flex flex-col gap-1">
     {tags.map((tag, i) => (
       <li
         key={i}

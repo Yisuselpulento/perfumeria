@@ -260,7 +260,7 @@ const ProductForm = () => {
         </select>
       </div>
 
-      <div>
+       <div>
         <label>Imagen principal</label>
         <input
           type="file"
@@ -269,6 +269,13 @@ const ProductForm = () => {
           onChange={handleImageChange}
           className="w-full border p-2 rounded"
         />
+        {formData.image && (
+          <img
+            src={URL.createObjectURL(formData.image)}
+            alt="Preview"
+            className="mt-2 h-24 w-24 object-cover rounded border"
+          />
+        )}
       </div>
 
       <div className="flex items-center space-x-2">
@@ -324,7 +331,7 @@ const ProductForm = () => {
         ))}
       </fieldset>
 
-      <fieldset>
+     <fieldset>
         <legend className="font-semibold mb-2">Ingredientes</legend>
         {formData.ingredients.map((ingredient, i) => (
           <div key={i} className="flex gap-2 items-center mb-2">
@@ -334,15 +341,32 @@ const ProductForm = () => {
               placeholder="Nombre ingrediente"
               value={ingredient.name}
               onChange={(e) => handleIngredientChange(i, e)}
-              className="border p-1 rounded flex-1"
+              className="border p-1 rounded w-full"
             />
+
             <input
+              id={`ingredient-file-${i}`}
               type="file"
               name="imageFile"
               accept="image/*"
               onChange={(e) => handleIngredientChange(i, e)}
-              className="border p-1 rounded flex-1"
+              className="hidden"
             />
+
+            <label
+              htmlFor={`ingredient-file-${i}`}
+              className="cursor-pointer bg-blue-500 px-3 py-1 rounded text-sm hover:bg-gray-300 whitespace-nowrap"
+            >
+              Subir imagen
+            </label>
+             {ingredient.imageFile && (
+              <img
+                src={URL.createObjectURL(ingredient.imageFile)}
+                alt={`Preview ingrediente ${i}`}
+                className="h-12 w-12 object-cover rounded border"
+              />
+            )}
+
             {i > 0 && (
               <button
                 type="button"
@@ -354,10 +378,11 @@ const ProductForm = () => {
             )}
           </div>
         ))}
+
         <button
           type="button"
           onClick={addIngredient}
-          className="bg-blue-500 text-white px-3 rounded"
+          className="bg-blue-500 text-white px-3 rounded mt-2"
         >
           Añadir ingrediente
         </button>
