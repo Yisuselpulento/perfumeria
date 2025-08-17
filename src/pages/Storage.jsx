@@ -25,7 +25,7 @@ const Storage = () => {
   }, []);
 
   if (loading) return <p>Cargando los productos...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (error) return <p>{error}</p>;
 
   return (
     <div className="p-2 flex flex-col gap-2">

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { getTagColor } from "../helpers/tagscolors";
+import { capitalize } from "../helpers/capitalize.js";
 
 const ProductCard = ({ product }) => {
   const { _id, name, brand, price, image, tags, status } = product;
@@ -16,13 +17,13 @@ const ProductCard = ({ product }) => {
       className="shadow-md hover:shadow-lg transition cursor-pointer text-sm"
     >
       <div className="relative aspect-square ">
-          <div className="absolute top-2 left-1 z-10 flex flex-row gap-1">
+          <div className="absolute top-2 left-1 z-10 flex flex-wrap gap-1">
             {tags?.map((tag, index) => (
               <span
                 key={index}
                 className={`bg-opacity-60 ${getTagColor(tag.name)} text-black text-xs px-1 py-0.5 rounded-sm`}
               >
-                {tag.name}
+                {capitalize(tag.name)}
               </span>
             ))}
           </div>

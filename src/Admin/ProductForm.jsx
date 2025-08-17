@@ -3,6 +3,9 @@ import { createProductFetching } from "../services/ProductsFetching";
 import { toast } from "sonner";
 import LoadingButton from "../components/LoadingButton";
 import { Alert } from "../components/Alert";
+import { tagColors } from "../helpers/tagscolors";
+
+const availableTags = Object.keys(tagColors);
 
 const ProductForm = () => {
   const [alert, setAlert] = useState({
@@ -15,12 +18,12 @@ const ProductForm = () => {
     name: "",
     description: "",
     brand: "",
-    category: "men",
-    image: null, // imagen principal - archivo
+    category: "hombre",
+    image: null, 
     onSale: false,
-    status: "in_stock",
-    timeOfDay: "day", // nuevo campo
-    seasons: [], // nuevo campo (array)
+    status: "en_stock",
+    timeOfDay: "día", 
+    seasons: [], 
     variants: [
       { volume: 3, price: "", stock: "" },
       { volume: 5, price: "", stock: "" },
@@ -30,7 +33,6 @@ const ProductForm = () => {
     tags: [{ name: "", intensity: "" }],
   });
 
-  // Cambios para inputs simples
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -39,7 +41,6 @@ const ProductForm = () => {
     }));
   };
 
-  // Cambios para seasons (selección múltiple)
   const handleSeasonsChange = (e) => {
     const options = Array.from(e.target.selectedOptions);
     setFormData((prev) => ({
@@ -48,7 +49,6 @@ const ProductForm = () => {
     }));
   };
 
-  // Cambios para variantes
   const handleVariantChange = (index, e) => {
     const { name, value } = e.target;
     const newVariants = [...formData.variants];
@@ -56,7 +56,6 @@ const ProductForm = () => {
     setFormData((prev) => ({ ...prev, variants: newVariants }));
   };
 
-  // Cambios para ingredientes (nombre e imagen archivo)
   const handleIngredientChange = (index, e) => {
     const { name, value, files } = e.target;
     const newIngredients = [...formData.ingredients];
@@ -82,9 +81,8 @@ const ProductForm = () => {
     }));
   };
 
-  // Cambios para tags (nombre e intensidad)
   const handleTagChange = (index, e) => {
-    const { name, value } = e.target; // name será 'name' o 'intensity'
+    const { name, value } = e.target; 
     const newTags = [...formData.tags];
     newTags[index][name] = name === "intensity" ? Number(value) : value;
     setFormData((prev) => ({ ...prev, tags: newTags }));
@@ -104,25 +102,21 @@ const ProductForm = () => {
     }));
   };
 
-  // Imagen principal
   const handleImageChange = (e) => {
     setFormData((prev) => ({ ...prev, image: e.target.files[0] || null }));
   };
 
-  // Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      // formatear variantes
       const formattedVariants = formData.variants.map(({ volume, price, stock }) => ({
         volume,
         price: Number(price),
         stock: Number(stock),
       }));
 
-      // formatear ingredientes para el JSON (solo nombre)
       const ingredientsData = formData.ingredients.map(({ name }) => ({ name }));
 
       const form = new FormData();
@@ -138,12 +132,10 @@ const ProductForm = () => {
       form.append("variants", JSON.stringify(formattedVariants));
       form.append("ingredients", JSON.stringify(ingredientsData));
 
-      // imagen principal
       if (formData.image) {
         form.append("productImage", formData.image);
       }
 
-      // imágenes de ingredientes
       formData.ingredients.forEach(({ imageFile }) => {
         if (imageFile) {
           form.append("ingredientImages", imageFile);
@@ -159,16 +151,15 @@ const ProductForm = () => {
           </div>
         );
 
-        // resetear formulario
         setFormData({
           name: "",
           description: "",
           brand: "",
-          category: "men",
+          category: "hombre",
           image: null,
           onSale: false,
-          status: "in_stock",
-          timeOfDay: "day",
+          status: "en_stock",
+          timeOfDay: "día",
           seasons: [],
           variants: [
             { volume: 3, price: "", stock: "" },
@@ -233,9 +224,9 @@ const ProductForm = () => {
           onChange={handleChange}
           className="w-full border p-2 rounded"
         >
-          <option value="men">Hombre</option>
-          <option value="women">Mujer</option>
-          <option value="unisex">Unisex</option>
+           <option value="hombre" className="text-black">Hombre</option>
+          <option value="mujer" className="text-black">Mujer</option>
+          <option value="unisex" className="text-black">Unisex</option>
         </select>
       </div>
 
@@ -247,9 +238,9 @@ const ProductForm = () => {
           onChange={handleChange}
           className="w-full border p-2 rounded"
         >
-          <option value="day">Día</option>
-          <option value="night">Noche</option>
-          <option value="both">Ambos</option>
+          <option value="día" className="text-black">Día</option>
+          <option value="noche" className="text-black">Noche</option>
+          <option value="día_y_noche" className="text-black">Día y noche</option>
         </select>
       </div>
 
@@ -262,10 +253,10 @@ const ProductForm = () => {
           onChange={handleSeasonsChange}
           className="w-full border p-2 rounded h-32"
         >
-          <option value="summer">Verano</option>
-          <option value="fall">Otoño</option>
-          <option value="winter">Invierno</option>
-          <option value="spring">Primavera</option>
+         <option value="verano">Verano</option>
+          <option value="otoño">Otoño</option>
+          <option value="invierno">Invierno</option>
+          <option value="primavera">Primavera</option>
         </select>
       </div>
 
@@ -298,9 +289,9 @@ const ProductForm = () => {
           onChange={handleChange}
           className="w-full border p-2 rounded"
         >
-          <option value="in_stock">En stock</option>
-          <option value="low_stock">Quedan pocos</option>
-          <option value="out_of_stock">Agotado</option>
+         <option value="en_stock" className="text-black" >En stock</option>
+          <option value="poco_stock" className="text-black">Quedan pocos</option>
+          <option value="sin_stock" className="text-black">Agotado</option>
         </select>
       </div>
 
@@ -373,51 +364,58 @@ const ProductForm = () => {
       </fieldset>
 
       <fieldset>
-        <legend className="font-semibold mb-2">Tags (nombre e intensidad 1 a 10)</legend>
-        {formData.tags.map((tag, i) => (
-          <div key={i} className="flex gap-2 items-center mb-2">
-            <input
-              type="text"
-              name="name"
-              placeholder="Nombre tag"
-              value={tag.name}
-              onChange={(e) => handleTagChange(i, e)}
-              className="border p-1 rounded flex-1"
-            />
-            <input
-              type="number"
-              name="intensity"
-              placeholder="Intensidad (1-10)"
-              min={1}
-              max={10}
-              value={tag.intensity}
-              onChange={(e) => handleTagChange(i, e)}
-              className="border p-1 rounded w-24"
-            />
-            {i > 0 && (
-              <button
-                type="button"
-                onClick={() => removeTag(i)}
-                className="bg-red-500 text-white px-2 rounded"
+          <legend className="font-semibold mb-2">Tags (selección múltiple e intensidad 1 a 10)</legend>
+          {formData.tags.map((tag, i) => (
+            <div key={i} className="flex gap-2 items-center mb-2">
+              <select
+                name="name"
+                value={tag.name}
+                onChange={(e) => handleTagChange(i, e)}
+                className="border p-1 rounded flex-1"
               >
-                X
-              </button>
-            )}
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={addTag}
-          className="bg-blue-500 text-white px-3 rounded"
-        >
-          Añadir tag
-        </button>
-      </fieldset>
+                <option value="">Seleccione un tag</option>
+                {availableTags.map((t) => (
+                  <option key={t} value={t} className="text-black">
+                    {t.charAt(0).toUpperCase() + t.slice(1)} 
+                  </option>
+                ))}
+              </select>
+
+              <input
+                type="number"
+                name="intensity"
+                placeholder="Intensidad (1-10)"
+                min={1}
+                max={10}
+                value={tag.intensity}
+                onChange={(e) => handleTagChange(i, e)}
+                className="border p-1 rounded w-24"
+              />
+
+              {i > 0 && (
+                <button
+                  type="button"
+                  onClick={() => removeTag(i)}
+                  className="bg-red-500 text-white px-2 rounded"
+                >
+                  X
+                </button>
+              )}
+            </div>
+          ))}
+
+          <button
+            type="button"
+            onClick={addTag}
+            className="bg-blue-500 text-white px-3 rounded"
+          >
+            Añadir tag
+          </button>
+        </fieldset>
 
       <LoadingButton
         loading={loading}
         type="submit"
-        className="bg-green-600 hover:bg-green-700"
       >
         Crear producto
       </LoadingButton>

@@ -4,6 +4,12 @@ import LoadingButton from "../components/LoadingButton";
 import { getProductByIdFetching } from "../services/ProductsFetching";
 import Spinner from "../components/Spinner/Spinner";
 import { getTagColor } from "../helpers/tagscolors";
+import { capitalize } from "../helpers/capitalize.js";
+
+const formatTimeOfDay = (time) => {
+  if (!time) return "";
+  return time.replace(/_/g, " "); 
+};
 
 const ProductId = () => {
   const { id } = useParams();
@@ -48,6 +54,7 @@ const ProductId = () => {
     timeOfDay,
     seasons,
     description,
+    brandSlug,  
     image,
     variants,
     ingredients,
@@ -67,22 +74,24 @@ const ProductId = () => {
               tag.name
             )}`}
           >
-            {tag.name}
+             {capitalize(tag.name)}
           </li>
         ))}
       </ul>
 
-      <img
-        src={image}
-        alt={name}
-        className="w-full max-h-96 object-contain mb-4 rounded"
-      />
+      <div className="w-full h-72 flex justify-center items-center mb-4 rounded overflow-hidden">
+          <img
+            src={image}
+            alt={name}
+            className="object-cover w-full h-full"
+          />
+        </div>
 
       <div className="flex justify-center items-center gap-4 mb-4 ">
           <img
-            src={`/images/logos/${brand}_logo.webp`}
+            src={`/images/logos/${brandSlug}_logo.webp`}
             alt={`${brand} logo`}
-            className="h-10 object-contain"
+            className="w-40 h-20 object-contain"
           />
         </div>
 
@@ -135,7 +144,7 @@ const ProductId = () => {
         key={i}
         className="grid grid-cols-[1fr_3fr_auto] items-center gap-4"
       >
-        <span className="font-medium text-xs">{tag.name}</span>
+        <span className="font-medium text-xs"> {capitalize(tag.name)}</span>
 
         <div className="w-full h-4 bg-gray-200 rounded">
           <div
@@ -159,7 +168,7 @@ const ProductId = () => {
         <div className="flex flex-col gap-2">
           <div className="flex justify-between border-b border-gray-300 pb-1">
             <span className="font-medium">Momento del día:</span>
-            <span>{timeOfDay}</span>
+             <span>{formatTimeOfDay(timeOfDay)}</span>
           </div>
           <div className="flex justify-between border-b border-gray-300 pb-1">
             <span className="font-medium">Temporadas:</span>
