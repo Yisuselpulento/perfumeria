@@ -6,6 +6,7 @@ import LogoutButton from './LogoutButton';
 import useAuth from '../../hooks/useAuth';
 import CloseIcon from '../../icons/template/CloseIcon';
 import BurgerIcon from '../../icons/template/BurgerIcon';
+import CartDrawer from '../Cart/CartDrawer';
 
 const NavBar = ({ setIsCardVisible }) => {
   const { auth } = useAuth();
@@ -31,19 +32,26 @@ const NavBar = ({ setIsCardVisible }) => {
           className="w-10 h-10 object-contain"
         />
       </Link>
-
-      <button
-        aria-label="abrir nav"
-        className="menu-button md:hidden flex items-end bg-primary  bg-opacity-80 shadow rounded-full p-2 m-3 hover:bg-indigo-700 cursor-pointer"
-        onClick={toggleMenu}
-      >
-        {isMenuOpen ? <CloseIcon /> : <BurgerIcon />}
-      </button>
-
+      
+      <div className='flex flex-row gap-2'>
+        <div className='md:hidden flex items-center justify-center'>
+        <CartDrawer />
+        </div>
+        <button
+          aria-label="abrir nav"
+          className="menu-button md:hidden flex items-end bg-primary  bg-opacity-80 shadow rounded-full p-2 my-3 mr-3 hover:bg-indigo-700 cursor-pointer"
+          onClick={toggleMenu}
+        >
+          {isMenuOpen ? <CloseIcon /> : <BurgerIcon />}
+        </button>
+      </div>
       <nav
         className={`md:flex ${isMenuOpen ? 'block' : 'hidden'} md:justify-end md:flex-row flex-col md:items-center px-3 py-3 h-full md:h-[60px] gap-6 md:gap-0 items-end w-full rounded dark:bg-opacity-45 bg-opacity-45 md:dark:bg-opacity-0 md:bg-opacity-0 backdrop-blur-sm`}
       >
         <div className="flex md:justify-between md:items-center gap-3 md:flex-row flex-col items-end md:pb-0">
+          <div className='hidden md:flex md:items-center md:gap-2'>
+            <CartDrawer />
+          </div>
           <Link
             onClick={toggleMenu}
             to="/storage"
