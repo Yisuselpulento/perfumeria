@@ -302,31 +302,38 @@ const ProductForm = () => {
         </select>
       </div>
 
-      <fieldset>
+     <fieldset>
         <legend className="font-semibold mb-2">Variantes (ml, precio, stock)</legend>
         {formData.variants.map((variant, i) => (
-          <div key={variant.volume} className="flex gap-2 mb-2">
+          <div
+            key={variant.volume}
+            className="grid grid-cols-2 gap-4 items-center mb-2 w-[70%]"
+          >
             <div>
-              <label>Volumen: {variant.volume}ml</label>
+              <label className="font-medium">Volumen:</label>
+              <p>{variant.volume} ml</p>
             </div>
-            <input
-              type="number"
-              name="price"
-              placeholder="Precio"
-              value={variant.price}
-              onChange={(e) => handleVariantChange(i, e)}
-              min={0}
-              className="border p-1 rounded w-20"
-            />
-            <input
-              type="number"
-              name="stock"
-              placeholder="Stock"
-              value={variant.stock}
-              onChange={(e) => handleVariantChange(i, e)}
-              min={0}
-              className="border p-1 rounded w-20"
-            />
+
+            <div className="flex gap-2">
+              <input
+                type="number"
+                name="price"
+                placeholder="Precio"
+                value={variant.price}
+                onChange={(e) => handleVariantChange(i, e)}
+                min={0}
+                className="border p-1 rounded w-24"
+              />
+              <input
+                type="number"
+                name="stock"
+                placeholder="Stock"
+                value={variant.stock}
+                onChange={(e) => handleVariantChange(i, e)}
+                min={0}
+                className="border p-1 rounded w-20"
+              />
+            </div>
           </div>
         ))}
       </fieldset>

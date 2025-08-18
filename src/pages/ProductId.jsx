@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import LoadingButton from "../components/LoadingButton";
 import { getProductByIdFetching } from "../services/ProductsFetching";
 import Spinner from "../components/Spinner/Spinner";
@@ -17,6 +17,8 @@ const ProductId = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -64,7 +66,14 @@ const ProductId = () => {
 
   return (
     <div className="max-w-4xl mx-auto text-center">
-
+        <div className="w-full flex justify-start mb-2">
+            <button
+              onClick={() => navigate(-1)} 
+              className="text-primary hover:text-primary/80"
+            >
+               Atrás
+            </button>
+          </div>
       <h1 className="text-xl font-semibold mb-2">{name}</h1>
 
       <ul className="flex justify-center flex-wrap gap-2 mb-2">

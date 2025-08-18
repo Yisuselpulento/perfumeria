@@ -16,6 +16,7 @@ import UptadePassword from './pages/AuthPages/UptadePassword';
 import AdminPage from './pages/AdminPage';
 import Storage from './pages/Storage';
 import ProductId from './pages/ProductId';
+import TerminosyCondiciones from './pages/TerminosyCondiciones';
 
 function App() {
   return (
@@ -35,7 +36,8 @@ function App() {
                     <Route path="/update-password/:token" element={<UptadePassword />} />
                     <Route path="/verification-email" element={<EmailVerification />} />
                    <Route path="/storage" element={<Storage />} />
-                  <Route path="/product/:id" element={<ProductId />} />
+                   <Route path="/product/:id" element={<ProductId />} />
+                  <Route path="/terminosycondiciones" element={<TerminosyCondiciones/>} />
 
                   <Route element={<ProtectedRoute />}>
                           <Route path='/profile' element={<Profile/>} />   
