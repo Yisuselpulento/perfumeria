@@ -6,6 +6,7 @@ import Spinner from "../components/Spinner/Spinner";
 import { getTagColor } from "../helpers/tagscolors";
 import { capitalize } from "../helpers/capitalize.js";
 import { toCLP } from "../helpers/toClp.js";
+import useCart from "../hooks/useCart.jsx";
 
 const formatTimeOfDay = (time) => {
   if (!time) return "";
@@ -17,6 +18,10 @@ const ProductId = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const { addToCart  } = useCart()
+
+  const [selectedVariant, setSelectedVariant] = useState(null)
 
   const navigate = useNavigate(); 
 
@@ -63,6 +68,16 @@ const ProductId = () => {
     ingredients,
     tags,
   } = product;
+
+  const handleAddToCart = () => {
+  if (!selectedVariant) {
+    // opcional: mostrar alerta o toast
+    console.log("Debes seleccionar una variante");
+    return;
+  }
+
+  addToCart(product, selectedVariant, 1);
+};
 
   return (
     <div className="max-w-4xl mx-auto text-center">
@@ -114,21 +129,38 @@ const ProductId = () => {
               {toCLP(variants[0].price)} - {toCLP(variants[variants.length - 1].price)}
           </p>
         </section>
-        <section className="mt-3">
-          <p className="text-start mb-3 text-xs mx-3">Tamaños:</p> 
-          <ul className="flex flex-wrap gap-4 items-center justify-between w-[80%] mx-auto"> 
+
+         <section className="mt-3">
+        <p className="text-start mb-3 text-xs mx-3">Tamaños:</p>
+        <ul className="flex flex-wrap gap-4 items-center justify-between w-[80%] mx-auto">
           {variants.map((v, i) => (
+            <li key={i}>
+              <button
+                onClick={() => setSelectedVariant(v)} // 👈 Selecciona variante
+                className={`border rounded p-1 ${
+                  selectedVariant?._id === v._id
+                    ? "border-primary ring-2 ring-primary"
+                    : "border-gray-300"
+                }`}
+              >
+                <img
+                  src="/images/pote.jpg"
+                  alt={v.name}
+                  className="w-20 h-20 object-cover"
+                />
+                <p className="text-xs mt-1">{v.volume} ml</p>
+              </button>
+            </li>
+          ))}
+        </ul>
 
-             <img 
-               src="/images/pote.jpg"
-                alt={v.name}
-                className="w-20 h-20 object-cover border "
-             key={i}/> 
-        
-
-            ))}
-              </ul>
-         </section>
+        {/* Precio debajo si hay selección */}
+        {selectedVariant && (
+          <p className="mt-4 text-lg font-semibold">
+            {toCLP(selectedVariant.price)}
+          </p>
+        )}
+      </section>
 
       <section className="mt-6">
         <h2 className="mb-2">Ingredientes</h2>
@@ -171,7 +203,9 @@ const ProductId = () => {
   </ul>
       </section>
           <div className="w-[90%] mx-auto">
-              <button className="bg-primary hover:bg-primary/60 cursor-pointer p-3 rounded-full mt-10 w-full text-xl font-bold">Agregar al carrito</button>
+              <button 
+              onClick={handleAddToCart}
+              className="bg-primary hover:bg-primary/60 cursor-pointer p-3 rounded-full mt-10 w-full text-xl font-bold">Agregar al carrito</button>
           </div>
        <section className="mt-6 text-sm text-gray-300">
         <h2 className="text-md font-bold mb-4">Detalles del producto</h2>

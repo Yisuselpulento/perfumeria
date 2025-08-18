@@ -1,9 +1,14 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import CartButton from "./CartButton";
+import useCart from "../../hooks/useCart";
+import CartItem from "./CartItem";
+import { toCLP } from "../../helpers/toClp";
+
 
 const CartDrawer = () => {
   const [open, setOpen] = useState(false);
+    const {  cartItems, cartTotal, removeFromCart  } = useCart()
 
   return (
     <>
@@ -38,11 +43,15 @@ const CartDrawer = () => {
                 </button>
               </div>
 
-              <div className="flex-1 overflow-y-auto mt-4">
-                <p className="text-gray-500">Tu carrito está vacío 😢</p>
+               <div className="flex-1 overflow-y-auto mt-4 space-y-3">
+                {cartItems.length === 0 ? (
+                  <p className="text-gray-500">Tu carrito está vacío 😢</p>
+                ) : (
+                  cartItems.map((item, i) => <CartItem key={i} item={item} />)
+                )}
               </div>
               <div className="border-t pt-2 flex justify-between items-center">
-                <span className="font-bold">Total: $0</span>
+                <span className="font-bold text-black">Total: {toCLP(cartTotal)}</span>
                 <button className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/80">
                   Ir a pagar
                 </button>

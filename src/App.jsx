@@ -17,6 +17,7 @@ import AdminPage from './pages/AdminPage';
 import Storage from './pages/Storage';
 import ProductId from './pages/ProductId';
 import TerminosyCondiciones from './pages/TerminosyCondiciones';
+import { CartProvider } from './context/CartProvider';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
    <ScrollToTop/>
    <ThemeProvider>
       <AuthProvider>
+      <CartProvider>
           <Routes>
               <Route  path="/" element={<Layout />}>
                   <Route index element={<Home />} />
@@ -50,6 +52,7 @@ function App() {
                   <Route path="*" element={<NotFound />} />
               </Route>
           </Routes>
+      </CartProvider>
       </AuthProvider>
    </ThemeProvider>
    </BrowserRouter>
