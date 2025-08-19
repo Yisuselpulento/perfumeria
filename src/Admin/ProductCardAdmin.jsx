@@ -7,8 +7,7 @@ const ProductCardAdmin = ({ product, onDeleted }) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   return (
-    <div className="flex border rounded-md shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition relative">
-      {/* Imagen a la izquierda */}
+    <div className="flex  rounded-md shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition relative backdrop-blur-lg border border-black/20 ">
       <div className="w-24 h-full">
         <img
           src={image}
@@ -17,7 +16,6 @@ const ProductCardAdmin = ({ product, onDeleted }) => {
         />
       </div>
 
-      {/* Nombre y variantes en el centro */}
       <div
         className="flex-1 p-2 flex flex-col justify-center"
         onClick={() => setSelected(!selected)}
@@ -35,7 +33,6 @@ const ProductCardAdmin = ({ product, onDeleted }) => {
         </div>
       </div>
 
-      {/* Botones a la derecha */}
       {selected && (
         <div className="flex flex-col gap-2 p-2 text-xs">
           <button className="bg-yellow-400 text-white py-1 px-2 rounded-md">
@@ -50,7 +47,6 @@ const ProductCardAdmin = ({ product, onDeleted }) => {
         </div>
       )}
 
-      {/* Modal de confirmación */}
       {showConfirm && (
         <ConfirmModal
           productId={_id}

@@ -34,7 +34,7 @@ const ShippingForm = ({ onChange }) => {
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 ">
       <h3 className="text-lg font-semibold">Datos de envío</h3>
 
       {["fullName", "street", "city", "zip", "country"].map((field) => (

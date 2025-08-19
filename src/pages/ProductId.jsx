@@ -136,7 +136,7 @@ const ProductId = () => {
           {variants.map((v, i) => (
             <li key={i}>
               <button
-                onClick={() => setSelectedVariant(v)} // 👈 Selecciona variante
+                onClick={() => setSelectedVariant(v)} 
                 className={`border rounded p-1 ${
                   selectedVariant?._id === v._id
                     ? "border-primary ring-2 ring-primary"
@@ -154,7 +154,7 @@ const ProductId = () => {
           ))}
         </ul>
 
-        {/* Precio debajo si hay selección */}
+      
         {selectedVariant && (
           <p className="mt-4 text-lg font-semibold">
             {toCLP(selectedVariant.price)}
@@ -162,17 +162,17 @@ const ProductId = () => {
         )}
       </section>
 
-      <section className="mt-6">
+      <section className="mt-6 w=fu">
         <h2 className="mb-2">Ingredientes</h2>
-        <ul className="flex flex-wrap gap-4">
+        <ul className="flex flex-wrap gap-4 justify-center">
           {ingredients.map((ing, i) => (
             <li key={i} className="flex flex-col items-center">
               <img
                 src={ing.image}
                 alt={ing.name}
-                className="w-16 h-16 object-cover rounded"
+                className="w-14 h-14 object-cover rounded"
               />
-              <span>{ing.name}</span>
+              <span className="text-xs">{ing.name}</span>
             </li>
           ))}
         </ul>

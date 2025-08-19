@@ -14,7 +14,7 @@ const ProductCard = ({ product }) => {
   return (
     <div
       onClick={handleClick}
-      className="shadow-md hover:shadow-lg transition cursor-pointer text-sm relative"
+      className="hover:shadow-lg transition cursor-pointer text-sm relative backdrop-blur-lg border border-black/30 shadow-md"
     >
       <div className="relative aspect-square">
         {status === "poco_stock" && (
@@ -47,7 +47,7 @@ const ProductCard = ({ product }) => {
         />
       </div>
 
-      <div className="pt-3">
+      <div className="pt-3 p-2">
         <h2 className="text-ms font-semibold">{name}</h2>
         <p className="text-gray-500">{brand}</p>
         <p className="mt-1">Desde <strong>{toCLP(price)}</strong></p>

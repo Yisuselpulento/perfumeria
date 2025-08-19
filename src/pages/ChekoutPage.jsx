@@ -121,7 +121,7 @@ const CheckoutForm = () => {
   }
 }; */
   return (
-    <form onSubmit={handlePayment} className="max-w-md mx-auto mt-10 p-4 border rounded">
+    <form onSubmit={handlePayment} className="max-w-md mx-auto mt-10 p-4 rounded backdrop-blur-lg border border-white/20 shadow-md">
       <h2 className="text-xl font-semibold mb-4">Resumen de compra</h2>
       <ul className="mb-4">
         {cartItems.map(item => (
