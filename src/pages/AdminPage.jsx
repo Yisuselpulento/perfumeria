@@ -1,17 +1,17 @@
-import { Link } from "react-router-dom"
-import ProductForm from "../Admin/ProductForm"
+import CreateProductSection from "../Admin/components/CreateProductSection";
+import OrdersSection from "../Admin/components/OrdersSection";
+import ProductsSection from "../Admin/components/ProductsSection";
+import AdminLayout from "../Layout/AdminLayout";
+
 
 const AdminPage = () => {
   return (
-    <div>
-      <Link className="hover:text-primary" to="/">
-        Home
-      </Link>
-        <p className="text-2xl font-bold mb-4">Panel de Administración</p>
-        <ProductForm />
-      
-    </div>
-  )
-}
+    <AdminLayout
+      ProductsSection={ProductsSection}
+      CreateProductSection={CreateProductSection}
+      OrdersSection={OrdersSection}
+    />
+  );
+};
 
-export default AdminPage
+export default AdminPage;
