@@ -5,6 +5,7 @@ import { Elements, CardElement, useStripe, useElements } from "@stripe/react-str
 import useCart from "../hooks/useCart";
 import { toCLP } from "../helpers/toClp";
 import { createOrderWithPayment, createPaymentIntent } from "../services/OrdersFetching.js";
+import ShippingForm from "../components/Checkout/ShippingForm.jsx";
 
 // Inicializa Stripe con tu clave publicable
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
@@ -14,24 +15,69 @@ const CheckoutForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [shipping, setShipping] = useState(null);
 
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
 
- const handlePayment = async (e) => {
+  const handlePayment = async (e) => {
+  e.preventDefault();
+
+  if (!shipping) {
+    setError("Por favor completa los datos de envío");
+    return;
+  }
+
+  setLoading(true);
+  setError("");
+
+  try {
+    // Armamos el orderData sin pasar por Stripe
+    const orderData = {
+      items: cartItems.map(item => ({
+        id: item.id,
+        variant: { _id: item.variant._id },
+        quantity: item.quantity
+      })),
+      shippingAddress: shipping,
+      paymentInfo: {
+        method: "manual",           // Método de pago "fake"
+        transactionId: "debug",     // Puedes poner cualquier string
+        paidAt: new Date()           // Marcamos como pagado directamente
+      }
+    };
+
+    const orderResponse = await createOrderWithPayment(orderData);
+
+    if (!orderResponse.success) throw new Error(orderResponse.message);
+
+    clearCart();
+    setSuccess(true);
+    navigate("/my-orders");
+
+  } catch (err) {
+    setError(err.message || "Error creando la orden");
+  } finally {
+    setLoading(false);
+  }
+};
+
+/*  const handlePayment = async (e) => {
   e.preventDefault();
   if (!stripe || !elements) return;
+
+   if (!shipping) {
+      setError("Por favor completa los datos de envío");
+      return;
+    }
 
   setLoading(true);
   setError("");
 
   try {
     const clientData = await createPaymentIntent(cartTotal * 100);
-    if (!clientData.clientSecret) {
-      console.error("❌ clientSecret no llegó:", clientData);
-      throw new Error(clientData.message);
-    }
+     if (!clientData.clientSecret) throw new Error(clientData.message);
 
     const cardElement = elements.getElement(CardElement);
 
@@ -40,50 +86,40 @@ const CheckoutForm = () => {
       { payment_method: { card: cardElement } }
     );
 
-    if (stripeError) {
-      console.error("❌ StripeError:", stripeError);
-      setError(stripeError.message);
-      return;
-    }
+     if (stripeError) {
+        setError(stripeError.message);
+        return;
+      }
 
     if (paymentIntent.status === "succeeded") {
-      const orderData = {
-        items: cartItems.map(item => ({
-          id: item.id,
-          variant: { _id: item.variant._id },
-          quantity: item.quantity
-        })),
-        shippingAddress: {
-          street: "Calle Falsa 123",
-          city: "Santiago",
-          country: "Chile",
-          zip: "8320000"
-        },
-        paymentInfo: {
-          method: "card",
-          transactionId: paymentIntent.id,
-          paidAt: new Date()
-        }
-      };
+        const orderData = {
+          items: cartItems.map(item => ({
+            id: item.id,
+            variant: { _id: item.variant._id },
+            quantity: item.quantity
+          })),
+          shippingAddress: shipping,
+          paymentInfo: {
+            method: "card",
+            transactionId: paymentIntent.id,
+            paidAt: new Date()
+          }
+        };
       
       const orderResponse = await createOrderWithPayment(orderData);
 
-      if (!orderResponse.success) {
-        console.error("❌ Backend respondió con error:", orderResponse);
-        throw new Error(orderResponse.message);
-      }
+       if (!orderResponse.success) throw new Error(orderResponse.message);
 
       clearCart();
       setSuccess(true);
       navigate("/my-orders");
     }
   } catch (err) {
-    console.error("🔥 Error en handlePayment:", err);
-    setError(err.message || "Error procesando el pago");
+     setError(err.message || "Error procesando el pago");
   } finally {
     setLoading(false);
   }
-};
+}; */
   return (
     <form onSubmit={handlePayment} className="max-w-md mx-auto mt-10 p-4 border rounded">
       <h2 className="text-xl font-semibold mb-4">Resumen de compra</h2>
@@ -96,6 +132,8 @@ const CheckoutForm = () => {
         ))}
       </ul>
       <div className="font-bold mb-4">Total: {toCLP(cartTotal)}</div>
+
+       <ShippingForm onChange={setShipping} />
 
       <h3 className="mb-2 font-semibold">Datos de tarjeta</h3>
       <div className="mb-4 p-2 border rounded">
