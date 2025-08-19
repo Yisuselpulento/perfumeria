@@ -14,6 +14,8 @@ const ProductForm = () => {
   });
   const [loading, setLoading] = useState(false);
 
+  console.log("holi")
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
