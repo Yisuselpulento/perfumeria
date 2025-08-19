@@ -4,11 +4,20 @@ import CartButton from "./CartButton";
 import useCart from "../../hooks/useCart";
 import CartItem from "./CartItem";
 import { toCLP } from "../../helpers/toClp";
+import { useNavigate } from "react-router-dom";
 
 
 const CartDrawer = () => {
   const [open, setOpen] = useState(false);
-    const {  cartItems, cartTotal, removeFromCart  } = useCart()
+    const {  cartItems, cartTotal  } = useCart()
+
+    const navigate = useNavigate();
+
+    const handleCheckout = () => {
+    if (cartItems.length === 0) return; 
+    setOpen(false); 
+    navigate("/checkout");
+  };
 
   return (
     <>
@@ -52,7 +61,9 @@ const CartDrawer = () => {
               </div>
               <div className="border-t pt-2 flex justify-between items-center">
                 <span className="font-bold text-black">Total: {toCLP(cartTotal)}</span>
-                <button className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/80">
+                <button 
+                onClick={handleCheckout}
+                className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary/80">
                   Ir a pagar
                 </button>
               </div>

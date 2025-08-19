@@ -83,6 +83,12 @@ const NavBar = ({ setIsCardVisible }) => {
             <div className="flex gap-5 md:items-center items-end flex-col md:flex-row">
               <ProfileButton toggleMenu={toggleMenu} />
               <LogoutButton toggleMenu={toggleMenu} />
+              <Link
+                to="/my-orders"
+                className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/80"
+              >
+                Mis Órdenes
+              </Link>
             </div>
           )}
 

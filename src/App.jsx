@@ -18,6 +18,8 @@ import Storage from './pages/Storage';
 import ProductId from './pages/ProductId';
 import TerminosyCondiciones from './pages/TerminosyCondiciones';
 import { CartProvider } from './context/CartProvider';
+import MyOrders from './pages/MyOrders';
+import CheckoutPage from './pages/ChekoutPage';
 
 function App() {
   return (
@@ -43,6 +45,8 @@ function App() {
 
                   <Route element={<ProtectedRoute />}>
                           <Route path='/profile' element={<Profile/>} />   
+                          <Route path="/my-orders" element={<MyOrders />} />
+                          <Route path="/checkout" element={<CheckoutPage />} />
                   </Route>
 
                   <Route element={<ProtectedRoute adminOnly={true} />}>
