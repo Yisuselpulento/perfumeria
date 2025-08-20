@@ -6,6 +6,7 @@ import useCart from "../hooks/useCart";
 import { toCLP } from "../helpers/toClp";
 import { createOrderWithPayment, createPaymentIntent } from "../services/OrdersFetching.js";
 import ShippingForm from "../components/Checkout/ShippingForm.jsx";
+import { toast } from "sonner";
 
 // Inicializa Stripe con tu clave publicable
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
@@ -49,11 +50,11 @@ const CheckoutForm = () => {
     };
 
     const orderResponse = await createOrderWithPayment(orderData);
-
     if (!orderResponse.success) throw new Error(orderResponse.message);
 
     clearCart();
     setSuccess(true);
+     toast.success(<div className="text-green-600">{orderResponse.message}</div>); 
     navigate("/my-orders");
 
   } catch (err) {

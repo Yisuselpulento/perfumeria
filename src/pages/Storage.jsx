@@ -29,7 +29,7 @@ const Storage = () => {
 
   return (
     <div className="p-2 flex flex-col gap-2">
-       <Link className="hover:text-primary" to="/">
+       <Link className="text-primary hover:text-primary/80" to="/">
         Atras
       </Link>
 

@@ -33,7 +33,7 @@ const MyOrders = () => {
   <h1 className="text-2xl font-semibold mb-4">Mis Órdenes</h1>
   <ul className="flex flex-col gap-4">
     {orders.map((order) => (
-      <li key={order._id} className="border p-4 rounded shadow-sm">
+      <li key={order._id} className="p-4 rounded backdrop-blur-lg border border-white/20 shadow-md">
         <div className="flex justify-between items-center mb-2">
           <span className="font-semibold">Orden ID: {order._id}</span>
           <span
