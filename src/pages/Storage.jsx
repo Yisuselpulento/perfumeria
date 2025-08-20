@@ -37,7 +37,7 @@ const Storage = () => {
     <div className="grid grid-cols-2 gap-2">
       {products.map((product) => (
         <ProductCard 
-         isTopSeller={product.sold >= 2}
+         isTopSeller={product.isTopSeller}
         key={product._id} product={product} />
       ))}
     </div>

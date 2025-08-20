@@ -5,16 +5,24 @@ import useCart from "../../hooks/useCart";
 import CartItem from "./CartItem";
 import { toCLP } from "../../helpers/toClp";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 
 const CartDrawer = () => {
   const [open, setOpen] = useState(false);
     const {  cartItems, cartTotal  } = useCart()
+  const { auth } = useAuth();
 
     const navigate = useNavigate();
 
     const handleCheckout = () => {
     if (cartItems.length === 0) return; 
+
+    if (!auth?.success) {
+    setOpen(false);
+    navigate("/login");
+    return;
+  }
     setOpen(false); 
     navigate("/checkout");
   };

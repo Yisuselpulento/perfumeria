@@ -7,6 +7,7 @@ import { toCLP } from "../helpers/toClp";
 import { createOrderWithPayment, createPaymentIntent } from "../services/OrdersFetching.js";
 import ShippingForm from "../components/Checkout/ShippingForm.jsx";
 import { toast } from "sonner";
+import useAuth from "../hooks/useAuth.jsx";
 
 // Inicializa Stripe con tu clave publicable
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
@@ -18,12 +19,20 @@ const CheckoutForm = () => {
   const [success, setSuccess] = useState(false);
   const [shipping, setShipping] = useState(null);
 
+  const { auth } = useAuth();
+
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
 
   const handlePayment = async (e) => {
   e.preventDefault();
+
+  if (!auth?.success) {
+    setOpen(false);
+    navigate("/login");
+    return;
+  }
 
   if (!shipping) {
     setError("Por favor completa los datos de envío");
