@@ -14,6 +14,7 @@ const Storage = () => {
       setLoading(true);
       const res = await getProductsFetching();
       if (res.success) {
+        console.log(res.data);
         setProducts(res.data);
       } else {
         setError(res.message);
@@ -35,7 +36,9 @@ const Storage = () => {
 
     <div className="grid grid-cols-2 gap-2">
       {products.map((product) => (
-        <ProductCard key={product._id} product={product} />
+        <ProductCard 
+         isTopSeller={product.sold >= 2}
+        key={product._id} product={product} />
       ))}
     </div>
     </div>

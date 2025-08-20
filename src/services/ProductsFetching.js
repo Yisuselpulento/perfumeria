@@ -54,3 +54,14 @@ export const deleteProductFetching = async (productId) => {
     return { success: false, message: errorMessage };
   }
 };
+
+export const getBestSellingProductsFetching = async () => {
+  try {
+    const { data } = await axiosInstance.get("/api/products/bestsellers");
+    return data;
+  } catch (error) {
+    console.error("Error al obtener productos más vendidos:", error.response?.data?.message);
+    const errorMessage = error.response?.data?.message || "Error al obtener productos más vendidos";
+    return { success: false, message: errorMessage };
+  }
+};

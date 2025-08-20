@@ -33,6 +33,7 @@ const ProductId = () => {
       try {
         const res = await getProductByIdFetching(id);
         if (res.success) {
+          console.log(res.data);
           setProduct(res.data);
           setError("");
         } else {
@@ -99,6 +100,14 @@ const ProductId = () => {
       </div>
 
       <h1 className="text-xl font-semibold mb-2">{name}</h1>
+      <div className="flex justify-center mb-2">
+
+       {product.isTopSeller && (
+              <li className="px-1 py-0.5 rounded-sm text-xs text-white bg-yellow-400">
+                Mas vendidos
+              </li>
+            )}
+      </div>
 
       <ul className="flex justify-center flex-wrap gap-2 mb-2">
         {tags.map((tag, i) => (
