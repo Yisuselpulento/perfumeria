@@ -3,10 +3,11 @@ import { getTagColor } from "../helpers/tagscolors";
 import { capitalize } from "../helpers/capitalize.js";
 import { toCLP } from "../helpers/toClp.js";
 
-const ProductCard = ({ product, isTopSeller = false }) => {
-  const { _id, name, brand, price, image, tags, status } = product;
+const ProductCard = ({ product }) => {
+  const { _id, name, brand, price, image, tags, status, isTopSeller } = product;
   const navigate = useNavigate();
 
+  console.log(product);
   const handleClick = () => {
     navigate(`/product/${_id}`);
   };
@@ -39,11 +40,11 @@ const ProductCard = ({ product, isTopSeller = false }) => {
             </span>
           ))}
         </div>
-           {isTopSeller && (
+          {isTopSeller && (
           <div className="absolute top-0 right-0 bg-yellow-400 text-white text-xs px-1 py-1 z-20 shadow-md">
             Top Ventas
           </div>
-        )}
+        )} 
 
         <img
           src={image}
