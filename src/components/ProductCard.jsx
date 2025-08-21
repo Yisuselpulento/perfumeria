@@ -7,7 +7,6 @@ const ProductCard = ({ product }) => {
   const { _id, name, brand, price, image, tags, status, isTopSeller } = product;
   const navigate = useNavigate();
 
-  console.log(product);
   const handleClick = () => {
     navigate(`/product/${_id}`);
   };

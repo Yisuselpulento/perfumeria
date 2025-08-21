@@ -50,8 +50,8 @@ const Home = () => {
         )}
       </div>
 
-      <div className="mt-10 w-full">
-        <Link className="bg-yellow-500 hover:bg-yellow-500/80 p-3 w-full rounded-full text-center" to="/products">
+      <div className="mt-10 w-[80%] flex flex-col items-center">
+        <Link className="bg-yellow-500 hover:bg-yellow-500/80 p-3 w-full rounded-full text-center" to="/storage">
           Ver todos los productos
         </Link>
       </div>

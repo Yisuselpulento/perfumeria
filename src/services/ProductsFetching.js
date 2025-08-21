@@ -11,9 +11,10 @@ export const createProductFetching = async (productData) => {
   }
 };
 
-export const getProductsFetching = async () => {
+export const getProductsFetching = async (query = "") => {
   try {
-    const { data } = await axiosInstance.get("/api/products");
+    const url = query ? `/api/products?${query}` : "/api/products";
+    const { data } = await axiosInstance.get(url);
     return data;
   } catch (error) {
     console.error("Error al obtener productos:", error.response?.data?.message);

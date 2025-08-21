@@ -1,45 +1,32 @@
-import { useEffect, useState } from "react";
-import { getProductsFetching } from "../services/ProductsFetching";
-import ProductCard from "../components/ProductCard";
+import { useState } from "react";
 import { Link } from "react-router-dom";
-
+import SearchBar from "../components/SearchBar";
+import FiltersDrawer from "../components/FiltersDrawer";
+import ProductList from "../components/ProductList";
+import FilterIcon from "../icons/FilterIcon";
 
 const Storage = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setLoading(true);
-      const res = await getProductsFetching();
-      if (res.success) {
-        console.log(res.data);
-        setProducts(res.data);
-      } else {
-        setError(res.message);
-      }
-      setLoading(false);
-    };
-
-    fetchProducts();
-  }, []);
-
-  if (loading) return <p>Cargando los productos...</p>;
-  if (error) return <p>{error}</p>;
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <div className="p-2 flex flex-col gap-2">
-       <Link className="text-primary hover:text-primary/80" to="/">
-        Atras
+    <div className="p-2 flex flex-col gap-4">
+      <Link className="text-primary hover:text-primary/80" to="/">
+        Atrás
       </Link>
 
-    <div className="grid grid-cols-2 gap-2">
-      {products.map((product) => (
-        <ProductCard 
-        key={product._id} product={product} />
-      ))}
-    </div>
+      <SearchBar />
+
+      <button
+        className="bg-primary hover:bg-primary/80 w-[100px] text-white p-1 rounded flex items-center justify-center gap-2"
+        onClick={() => setDrawerOpen(true)}
+      >
+        <FilterIcon width={20} height={20} />
+        Filtros
+      </button>
+
+      <FiltersDrawer isOpen={drawerOpen} onClose={() => setDrawerOpen(false)} />
+
+      <ProductList />
     </div>
   );
 };

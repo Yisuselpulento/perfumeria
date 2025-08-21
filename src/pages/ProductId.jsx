@@ -33,7 +33,6 @@ const ProductId = () => {
       try {
         const res = await getProductByIdFetching(id);
         if (res.success) {
-          console.log(res.data);
           setProduct(res.data);
           setError("");
         } else {
