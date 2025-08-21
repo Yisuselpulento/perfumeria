@@ -45,7 +45,7 @@ const FiltersDrawer = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className={`fixed top-0 left-0 h-full bg-white shadow-lg transform transition-transform z-50
+      className={`fixed top-0 -left-1 h-full bg-white shadow-lg transform transition-transform z-50
         ${isOpen ? "translate-x-0" : "-translate-x-full"} w-[65%] text-gray-600 md:w-1/3`}
     >
       <div className="flex justify-between items-center p-4 border-b ">

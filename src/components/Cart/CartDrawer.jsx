@@ -68,7 +68,7 @@ const CartDrawer = () => {
                 )}
               </div>
               <div className="border-t pt-2 flex justify-between items-center">
-                <span className="font-bold text-black">Total: {toCLP(cartTotal)}</span>
+                <span className="font-bold text-gray-800">Total: {toCLP(cartTotal)}</span>
                 <button 
                 onClick={handleCheckout}
                 className="bg-primary text-white px-7 py-3 rounded-lg hover:bg-primary/80 border-2 border-gray-200">
