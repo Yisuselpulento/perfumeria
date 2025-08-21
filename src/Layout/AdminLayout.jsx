@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SearchBar from "../components/SearchBar";
 
 
 const AdminLayout = ({ ProductsSection, CreateProductSection, OrdersSection }) => {
@@ -26,8 +27,8 @@ const AdminLayout = ({ ProductsSection, CreateProductSection, OrdersSection }) =
           Órdenes
         </button>
       </div>
+      <SearchBar />
 
-      {/* Contenido de la sección */}
       <div className="flex-1 overflow-auto">
         {activeSection === "products" && <ProductsSection />}
         {activeSection === "create" && <CreateProductSection />}

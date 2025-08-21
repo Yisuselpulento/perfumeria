@@ -6,11 +6,13 @@ import AdminLayout from "../Layout/AdminLayout";
 
 const AdminPage = () => {
   return (
+    <>
     <AdminLayout
       ProductsSection={ProductsSection}
       CreateProductSection={CreateProductSection}
       OrdersSection={OrdersSection}
     />
+    </>
   );
 };
 

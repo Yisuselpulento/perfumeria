@@ -10,8 +10,6 @@ const Home = () => {
   const [loadingBest, setLoadingBest] = useState(true);
   const [errorBest, setErrorBest] = useState("");
 
-  console.log("Auth:", auth);
-
   useEffect(() => {
     const fetchBestSellers = async () => {
       setLoadingBest(true);

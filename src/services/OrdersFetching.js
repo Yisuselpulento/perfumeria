@@ -36,7 +36,7 @@ export const createOrderWithPayment = async (orderData) => {
   }
 };
 
-// Obtener todas las órdenes (solo admin)
+
 export const getOrdersFetching = async () => {
   try {
     const { data } = await axiosInstance.get("/api/orders");
