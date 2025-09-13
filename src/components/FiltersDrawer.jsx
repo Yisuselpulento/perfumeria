@@ -1,14 +1,19 @@
 import { useSearchParams } from "react-router-dom";
 import { tagColors } from "../helpers/tagscolors";
+import { useState, useEffect } from "react";
 
 const FiltersDrawer = ({ isOpen, onClose }) => {
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "");
+  const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
 
   const selectedGenero = searchParams.get("filter_genero")?.split(",") || [];
   const selectedTemporada = searchParams.get("filter_temporada")?.split(",") || [];
    const selectedTags = searchParams.get("filter_tags")?.split(",") || [];
   const selectedTiempo = searchParams.get("filter_tiempo")?.split(",") || [];
   const selectedOrder = searchParams.get("orderby") || "";
+  
 
   const generos = ["hombre", "mujer", "unisex"];
   const temporadas = ["verano", "otoño", "invierno", "primavera"];
@@ -45,6 +50,20 @@ const FiltersDrawer = ({ isOpen, onClose }) => {
     }
     setSearchParams(newParams);
   };
+
+  const applyPriceFilter = () => {
+    const newParams = new URLSearchParams(searchParams);
+    if (minPrice) newParams.set("minPrice", minPrice);
+    else newParams.delete("minPrice");
+    if (maxPrice) newParams.set("maxPrice", maxPrice);
+    else newParams.delete("maxPrice");
+    setSearchParams(newParams);
+  };
+
+  useEffect(() => {
+    setMinPrice(searchParams.get("minPrice") || "");
+    setMaxPrice(searchParams.get("maxPrice") || "");
+  }, [searchParams]);
 
  return (
     <div
@@ -123,6 +142,32 @@ const FiltersDrawer = ({ isOpen, onClose }) => {
                 {tag.charAt(0).toUpperCase() + tag.slice(1)}
               </label>
             ))}
+          </div>
+        </div>
+        {/* Precio */}
+         <div>
+          <h3 className="font-semibold mb-2 text-gray-800">Precio</h3>
+          <div className="flex gap-2 items-center">
+            <input
+              type="number"
+              placeholder="Mínimo"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="w-1/2 p-2 border rounded"
+            />
+            <input
+              type="number"
+              placeholder="Máximo"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="w-1/2 p-2 border rounded"
+            />
+            <button
+              onClick={applyPriceFilter}
+              className="bg-gray-200 px-3 py-1 rounded hover:bg-gray-300"
+            >
+              Aplicar
+            </button>
           </div>
         </div>
 
