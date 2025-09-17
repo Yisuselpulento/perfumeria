@@ -74,13 +74,13 @@ const UpdatePassword = () => {
           </button>
         </div>
 
-        <label htmlFor="confirmPassword" className="block mb-2 mt-4">Repeat password</label>
+        <label htmlFor="confirmPassword" className="block mb-2 mt-4">Repetir password</label>
         <div className="relative">
           <input
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             className={styleInput}
-            placeholder="confirm password"
+            placeholder="confirmar password"
             id="confirmPassword"
             type={showConfirmPassword ? "text" : "password"}
           />

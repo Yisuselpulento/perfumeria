@@ -15,13 +15,11 @@ const LogoutButton = ({toggleMenu}) => {
         try {
           const response = await logoutFetching();
           if (response.success) {
-            toast.success(<div className="text-green-600">{response.message}</div>);
             setAuth({});
           } else {
             toast.error(<div className="text-red-800">{response.message}</div>);
           }
         } catch (error) {
-          toast.error("Hubo un error. Por favor, intenta de nuevo.");
           console.error("Error:", error);
         } finally {
           setLoading(false); 
@@ -37,10 +35,10 @@ const LogoutButton = ({toggleMenu}) => {
   }}
   disabled={loading}
   className={`flex items-center gap-2 p-2 rounded-md w-[100px] justify-center
-    ${loading ? "bg-primary opacity-80" : " hover:bg-indigo-700 cursor-pointer hover:text-white"}`}
+    ${loading ? "bg-primary/80" : " hover:bg-primary cursor-pointer hover:text-white"}`}
 >
   {loading ? 
-      <Spinner size="1.2em" />
+      <Spinner size="1.3em" />
     : (
     <>
       <LogoutIcon />

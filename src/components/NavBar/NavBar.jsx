@@ -55,13 +55,13 @@ const NavBar = ({ setIsCardVisible }) => {
           <Link
             onClick={toggleMenu}
             to="/storage"
-            className={`${pathname === '/storage' ? 'text-primary' : ''}`}
+            className={`${pathname === '/storage' ? 'text-primary' : 'hover:text-primary'}`}
           >
             Tienda
           </Link>
 
           {!isLoggedIn && (
-            <div className="flex gap-5 md:items-center items-end flex-col md:flex-row">
+            <div className="flex gap-3 md:items-center items-end flex-col md:flex-row">
               <Link
                 onClick={toggleMenu}
                 to="/login"

@@ -4,12 +4,10 @@ import { ThemeProvider } from "./context/ThemeProvider";
 import { AuthProvider } from './context/AuthProvider';
 import Layout from "./Layout/Layout";
 import Home from "./pages/Home";
-import ProtectedRoute from "./components/ProtectedRoute"; 
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 import Login from './pages/AuthPages/Login';
 import SignUp from './pages/AuthPages/SignUp';
-import GuestRoute from './components/GuestRoute';
 import EmailVerification from './pages/AuthPages/EmailVerification';
 import ForgotPassword from './pages/AuthPages/ForgotPassword';
 import UptadePassword from './pages/AuthPages/UptadePassword';
@@ -20,6 +18,9 @@ import TerminosyCondiciones from './pages/TerminosyCondiciones';
 import { CartProvider } from './context/CartProvider';
 import MyOrders from './pages/MyOrders';
 import CheckoutPage from './pages/ChekoutPage';
+import UnverifiedRoute from './pages/ProtectRoutes/UnverifiedRoute';
+import GuestRoute from './pages/ProtectRoutes/GuestRoute';
+import ProtectedRoute from './pages/ProtectRoutes/ProtectedRoute';
 
 function App() {
   return (
@@ -38,7 +39,9 @@ function App() {
                     <Route path="/forgot-password" element={<ForgotPassword />} />
                   </Route>
                     <Route path="/update-password/:token" element={<UptadePassword />} />
+                  <Route element={<UnverifiedRoute />}>
                     <Route path="/verification-email" element={<EmailVerification />} />
+                 </Route>
                    <Route path="/storage" element={<Storage />} />
                    <Route path="/product/:id" element={<ProductId />} />
                   <Route path="/terminosycondiciones" element={<TerminosyCondiciones/>} />

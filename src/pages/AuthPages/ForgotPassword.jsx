@@ -26,6 +26,7 @@ const ForgotPassword = () => {
       const response = await forgotPasswordFetching({email});
       if (response.success) {
         toast.success(<div className="text-green-600">{response.message}</div>);
+        setEmail("")
       } else {
         setAlert({ error: true, msg: response.message });
       }

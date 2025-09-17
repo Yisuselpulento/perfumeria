@@ -15,7 +15,13 @@ const AuthProvider = ({ children }) => {
 
 /*   const [ codeEmail, setCodeEmail ] = useState("") */
 
-  const updateAuth = (updatedUser) => {
+  const updateAuth = (updatedUser, replace = false) => {
+  if (replace) {
+    setAuth({
+      success: true,
+      user: updatedUser,
+    });
+  } else {
     setAuth((prevAuth) => ({
       ...prevAuth,
       success: true,
@@ -24,7 +30,8 @@ const AuthProvider = ({ children }) => {
         ...updatedUser,
       },
     }));
-  }; 
+  }
+};
 
 
   const hideVerificationMessage = () => {

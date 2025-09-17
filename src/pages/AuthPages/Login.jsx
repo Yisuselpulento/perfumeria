@@ -56,15 +56,14 @@ const Login = () => {
     try {
       const response = await loginFetching(formData);
       if (response.success) {
-        updateAuth(response.user);
+        updateAuth(response.user, true);
         clearVerificationCardOnLogin();
         navigate("/profile"); 
-        toast.success(<div className="text-green-600">{response.message}</div>);
       } else {
         setAlert({ error: true, msg: response.message });
       }
     } catch (error) {
-      toast.error("Hubo un error. Por favor, intenta de nuevo.");
+      setAlert({ error: true, msg: "Hubo un error. Por favor, intenta de nuevo." });
       console.error("Error:", error);
     } finally {
       setLoading(false);
@@ -120,7 +119,7 @@ const Login = () => {
             aria-label="iniciar sesión"
           >
             Inicia sesión
-          </LoadingButton>
+        </LoadingButton>
 
         {alert.msg && <Alert alert={alert} />}
         <div className="items-center justify-center flex flex-col mt-4">

@@ -10,7 +10,7 @@ import LoadingButton from "../../components/LoadingButton";
 
 const EmailVerificationCode = () => {
   const {  updateAuth } = useAuth()
-  const [codeToken, setCodeToken] = useState(["", "", "", "", "", ""]);
+  const [codeToken, setCodeToken] = useState(Array(6).fill(""));
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({
     msg: "",
@@ -59,7 +59,7 @@ const EmailVerificationCode = () => {
       if (response.success) {
         setAlert({ error: false, msg: "" });
         toast.success(<div className="text-green-600">{response.message}</div>);
-        navigate("/profile")
+        navigate("/login")
         updateAuth(response.user);
       } else {
         setAlert({ error: true, msg: response.message });
@@ -72,7 +72,7 @@ const EmailVerificationCode = () => {
     }
   };
 
-  const isFormValid = codeToken.every((char) => char !== "");
+   const isFormValid = codeToken.join("").length === 6
 
   return (
     <div className="md:p-20 flex flex-col items-center min-h-screen justify-center p-2">
@@ -82,7 +82,8 @@ const EmailVerificationCode = () => {
           Introduce el código que hemos enviado a tu correo electrónico.
         </p>
 
-        <form onSubmit={handleSubmit} className="flex gap-2 mb-6 ">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2 mb-6 ">
+          <div className="flex gap-2">
           {codeToken.map((num, index) => (
             <input
               key={index}
@@ -97,16 +98,20 @@ const EmailVerificationCode = () => {
               className="md:w-12 md:h-12 w-10 h-10 text-center text-lg font-bold border border-gray-300 rounded-md focus:ring-2 focus:ring-primary outline-none dark:bg-stone-900"
             />
           ))}
-        </form>
-        {alert.msg && <Alert alert={alert} />}
-       <LoadingButton
+          </div>
+          <div>
+            <LoadingButton
           type="submit"
           loading={loading}
-          disabled={!isFormValid}
+          disabled={loading || !isFormValid} 
           aria-label="Enviar formulario"
         >
           Verificar
         </LoadingButton>
+          </div>
+        </form>
+        {alert.msg && <Alert alert={alert} />}
+     
       <ButtonTokenResend />
       </div>
     </div>
