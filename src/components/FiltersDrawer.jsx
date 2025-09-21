@@ -75,7 +75,7 @@ const FiltersDrawer = ({ isOpen, onClose }) => {
       `}
     >
       {/* Header solo para móvil */}
-      <div className="flex justify-between items-center p-4 border-b md:hidden flex-shrink-0">
+      <div className="flex justify-between items-center p-2 border-b md:hidden flex-shrink-0">
         <h2 className="text-lg font-bold">Filtros</h2>
         <button onClick={onClose} className="text-xl font-bold cursor-pointer hover:text-white hover:bg-primary rounded-full p-1">&times;</button>
       </div>

@@ -3,6 +3,7 @@ import { getBestSellingProductsFetching } from "../services/ProductsFetching";
 import ProductCard from "../components/ProductCard";
 import { Link } from "react-router-dom";
 import useAuth from "../hooks/useAuth";
+import Spinner from "../components/Spinner/Spinner";
 
 const Home = () => {
   const { auth } = useAuth();
@@ -41,7 +42,9 @@ const Home = () => {
 
           <div className="grid grid-cols-2 md:flex  gap-4 w-full">
             {loadingBest ? (
-              <p className="col-span-2 text-center">Cargando los productos más vendidos...</p>
+              <div className="col-span-2 flex justify-center items-center h-60 w-full">
+              <Spinner size="2em" /> 
+            </div>
             ) : errorBest ? (
               <p className="col-span-2 text-red-600">{errorBest}</p>
             ) : (
