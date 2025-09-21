@@ -30,28 +30,30 @@ const Home = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <p className="mb-4 text-sm text-gray-500">Bienvenido {auth?.user?.fullName || "invitado"}</p>
+      <p className="mb-4 text-sm text-gray-500">Bienvenido {auth?.user?.fullName || ""}</p>
       <img 
-        className="w-full h-60 object-cover mb-4 rounded-lg"
+        className="w-full h-60 object-cover mb-4 rounded-lg md:rounded-xs md:h-[600px]"
         src="images/perfumes.webp" 
       />
 
-      <h2 className="text-xl font-semibold mb-2 w-full text-left">Top Ventas</h2>
+      <section className="md:w-full md:px-20" >
+          <h2 className="text-xl md:text-2xl font-semibold mb-2 w-full text-left">Top Ventas</h2>
 
-      <div className="grid grid-cols-2 gap-4 w-full">
-        {loadingBest ? (
-          <p className="col-span-2 text-center">Cargando los productos más vendidos...</p>
-        ) : errorBest ? (
-          <p className="col-span-2 text-red-600">{errorBest}</p>
-        ) : (
-          bestSellers.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))
-        )}
-      </div>
+          <div className="grid grid-cols-2 md:flex  gap-4 w-full">
+            {loadingBest ? (
+              <p className="col-span-2 text-center">Cargando los productos más vendidos...</p>
+            ) : errorBest ? (
+              <p className="col-span-2 text-red-600">{errorBest}</p>
+            ) : (
+              bestSellers.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))
+            )}
+          </div>
+      </section>
 
       <div className="mt-10 w-[80%] flex flex-col items-center">
-        <Link className="bg-yellow-500 hover:bg-yellow-500/80 p-3 w-full rounded-full text-center" to="/storage">
+        <Link className="bg-yellow-500 hover:bg-yellow-500/80 p-3 w-full md:w-90 rounded-full text-center" to="/storage">
           Ver todos los productos
         </Link>
       </div>

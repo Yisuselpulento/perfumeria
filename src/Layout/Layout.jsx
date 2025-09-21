@@ -16,7 +16,7 @@ const Layout = () => {
         <header>
            <NavBar setIsCardVisible={setIsCardVisible}/>
         </header>
-        <main   className={`min-h-screen md:px-10 px-1  ${
+        <main   className={`min-h-screen md:px-2 px-1  ${
           isCardVisible ? "md:mt-30 mt-29" : "md:mt-24 mt-20"
             }`}
           >

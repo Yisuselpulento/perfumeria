@@ -14,7 +14,7 @@ const ProductCard = ({ product }) => {
   return (
     <div
       onClick={handleClick}
-      className="hover:shadow-lg transition cursor-pointer text-sm relative backdrop-blur-lg border border-black/30 shadow-md"
+      className="hover:shadow-lg transition cursor-pointer text-sm relative backdrop-blur-lg border border-black/30 shadow-md md:w-80"
     >
       <div className="relative aspect-square">
         {status === "poco_stock" && (
