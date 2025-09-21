@@ -59,8 +59,8 @@ const EmailVerificationCode = () => {
       if (response.success) {
         setAlert({ error: false, msg: "" });
         toast.success(<div className="text-green-600">{response.message}</div>);
-        navigate("/login")
         updateAuth(response.user);
+        navigate('/profile')
       } else {
         setAlert({ error: true, msg: response.message });
       }

@@ -1,14 +1,23 @@
 import { Navigate, Outlet } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import Spinner from "../../components/Spinner/Spinner";
 
 const GuestRoute = () => {
-  const { auth } = useAuth()
+  const { auth, loading } = useAuth();
 
-  if (auth?.success) {
-    return <Navigate to="/profile" />;
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <Spinner size="3em" /> 
+      </div>
+    );
   }
 
-  return <Outlet />; 
+  if (auth?.success) {
+    return <Navigate to="/profile" replace />;
+  }
+
+  return <Outlet />;
 };
 
 export default GuestRoute;
