@@ -5,42 +5,59 @@ const ShippingForm = ({ onChange }) => {
     fullName: "",
     street: "",
     city: "",
-    country: "Chile",
-    zip: ""
+    state: "",
+    zip: "",
+    phone: "",
+    country: "Chile"
   });
 
-   const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({});
 
-    const validate = (field, value) => {
+  const validate = (field, value) => {
     let message = "";
 
-    if (!value.trim()) message = "Este campo es obligatorio";
+    if (!value.trim()) {
+      message = "Este campo es obligatorio";
+    }
 
     if (field === "zip" && !/^\d{4,10}$/.test(value)) {
       message = "Código postal inválido";
     }
 
+    if (field === "phone" && !/^\+?\d{8,15}$/.test(value)) {
+      message = "Número de teléfono inválido";
+    }
+
     return message;
   };
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     const updated = { ...form, [name]: value };
 
     setForm(updated);
-    setErrors({ ...errors, [name]: validate(name, value) });
-    onChange(updated, Object.values(errors).some((err) => err));
+    const newErrors = { ...errors, [name]: validate(name, value) };
+    setErrors(newErrors);
+
+    onChange(updated, Object.values(newErrors).some((err) => err));
   };
 
   return (
-    <div className="space-y-2 ">
+    <div className="space-y-2">
       <h3 className="text-lg font-semibold">Datos de envío</h3>
 
-      {["fullName", "street", "city", "zip", "country"].map((field) => (
+      {[
+        "fullName",
+        "street",
+        "city",
+        "state",
+        "zip",
+        "phone",
+        "country"
+      ].map((field) => (
         <div key={field}>
           <input
-            type="text"
+            type={field === "phone" ? "tel" : "text"}
             name={field}
             placeholder={
               field === "fullName"
@@ -49,8 +66,12 @@ const ShippingForm = ({ onChange }) => {
                 ? "Dirección"
                 : field === "city"
                 ? "Ciudad"
+                : field === "state"
+                ? "Región / Estado"
                 : field === "zip"
                 ? "Código postal"
+                : field === "phone"
+                ? "Teléfono"
                 : "País"
             }
             value={form[field]}

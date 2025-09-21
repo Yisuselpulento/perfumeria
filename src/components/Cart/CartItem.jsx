@@ -22,7 +22,7 @@ const CartItem = ({ item }) => {
               onClick={() =>
                 updateQuantity(item.id, item.variant._id, item.quantity - 1)
               }
-              className="px-2 py-1 text-white rounded hover:bg-blue-500 bg-blue-600"
+              className="px-2 cursor-pointer py-1 text-white rounded hover:bg-blue-500 bg-blue-600"
             >
               -
             </button>
@@ -31,7 +31,7 @@ const CartItem = ({ item }) => {
               onClick={() =>
                 updateQuantity(item.id, item.variant._id, item.quantity + 1)
               }
-              className="px-2 py-1 text-white rounded hover:bg-blue-500 bg-blue-600"
+              className="px-2 py-1 cursor-pointer  text-white rounded hover:bg-blue-500 bg-blue-600"
             >
               +
             </button>
@@ -41,7 +41,7 @@ const CartItem = ({ item }) => {
 
       <button
         onClick={() => removeFromCart(item.id, item.variant._id)}
-        className="text-red-500 hover:underline"
+        className="text-red-500 hover:underline cursor-pointer"
       >
         Eliminar
       </button>

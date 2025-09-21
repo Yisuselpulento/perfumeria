@@ -8,7 +8,7 @@ const ProfileButton = ({toggleMenu }) => {
       to="/profile"
       className="hover:text-primary cursor-pointer"
     >
-      Profile
+      Perfil
     </Link>
   );
 };

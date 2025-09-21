@@ -82,7 +82,7 @@ const navigate = useNavigate();
 
   return (
     <div className="md:w-[500px] mx-auto">
-        <p className="text-xl font-bold mb-4">Sign Up</p>
+        <p className="text-xl font-bold mb-4">Registrate</p>
         
         <Link className="hover:text-primary" to="/">
           Inicio

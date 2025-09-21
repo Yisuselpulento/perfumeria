@@ -4,7 +4,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import useCart from "../hooks/useCart";
 import { toCLP } from "../helpers/toClp";
-import { createOrderWithPayment, createPaymentIntent } from "../services/OrdersFetching.js";
+import { createOrderWithPayment, createPaymentIntent } from "../services/CheckoutFetching.js";
 import ShippingForm from "../components/Checkout/ShippingForm.jsx";
 import { toast } from "sonner";
 import useAuth from "../hooks/useAuth.jsx";

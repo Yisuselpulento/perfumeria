@@ -54,7 +54,7 @@ const CartDrawer = () => {
                 <h2 className="text-lg font-semibold text-gray-700">Tu Carrito</h2>
                 <button
                   onClick={() => setOpen(false)}
-                  className="text-gray-500 hover:text-black"
+                  className="text-gray-500 cursor-pointer hover:text-primary"
                 >
                   ✕
                 </button>
@@ -68,10 +68,10 @@ const CartDrawer = () => {
                 )}
               </div>
               <div className="border-t pt-2 flex justify-between items-center">
-                <span className="font-bold text-gray-800">Total: {toCLP(cartTotal)}</span>
+                <span className="text-gray-800">Total: {toCLP(cartTotal)}</span>
                 <button 
                 onClick={handleCheckout}
-                className="bg-primary text-white px-7 py-3 rounded-lg hover:bg-primary/80 border-2 border-gray-200">
+                className="bg-primary text-white px-7 py-3 rounded-lg hover:bg-primary/80 border-2 border-gray-200 cursor-pointer">
                   IR A PAGAR
                 </button>
               </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { getProductsFetching } from "../../services/ProductsFetching";
 import ProductCardAdmin from "../ProductCardAdmin";
+import SearchBar from "../../components/SearchBar";
 
 const ProductsSection = () => {
   const [products, setProducts] = useState([]);
@@ -41,7 +42,7 @@ useEffect(() => {
 
   return (
     <div className="p-2 flex flex-col gap-2">
-
+      <SearchBar />
       <div className="flex flex-col gap-4">
         {products.map((product) => (
           <ProductCardAdmin

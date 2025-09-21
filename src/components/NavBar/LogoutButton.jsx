@@ -42,7 +42,7 @@ const LogoutButton = ({toggleMenu}) => {
     : (
     <>
       <LogoutIcon />
-      LogOut
+      Salir
     </>
   )}
 </button>

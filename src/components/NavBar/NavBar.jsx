@@ -67,14 +67,14 @@ const NavBar = ({ setIsCardVisible }) => {
                 to="/login"
                 className={`${pathname === '/login' ? 'text-primary' : 'hover:text-primary'}`}
               >
-                Login
+                Inicio Sesión
               </Link>
               <Link
                 onClick={toggleMenu}
                 to="/signup"
                 className={`${pathname === '/signup' ? 'text-primary' : 'hover:text-primary'}`}
               >
-                Sign Up
+                Registrarse
               </Link>
             </div>
           )}

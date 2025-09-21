@@ -74,7 +74,7 @@ const Login = () => {
 
   return (
     <div className="md:w-[500px] mx-auto "> 
-             <p className="text-2xl font-bold mb-4 ">Login</p>
+             <p className="text-2xl font-bold mb-4 ">Inicia sesión</p>
       <Link className="hover:text-primary" to="/">
         Inicio
       </Link>

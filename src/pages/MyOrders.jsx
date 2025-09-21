@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getUserOrdersFetching } from "../services/OrdersFetching";
+import { getUserOrdersFetching } from "../services/OrderFetching.js";
 import Spinner from "../components/Spinner/Spinner";
 import { toCLP } from "../helpers/toClp";
 
@@ -29,49 +29,64 @@ const MyOrders = () => {
   if (orders.length === 0) return <p className="text-center mt-6">No tienes órdenes aún 😢</p>;
 
   return (
-    <div className="">
-  <h1 className="text-2xl font-semibold mb-4">Mis Órdenes</h1>
-  <ul className="flex flex-col gap-4">
-    {orders.map((order) => (
-      <li key={order._id} className="p-4 rounded backdrop-blur-lg border border-white/20 shadow-md">
-        <div className="flex justify-between items-center mb-2">
-          <span className="font-semibold">Orden ID: {order._id}</span>
-          <span
-            className={`font-bold capitalize ${
-              order.status === "pending"
-                ? "text-yellow-500"
-                : order.status === "paid"
-                ? "text-green-500"
-                : "text-gray-500"
-            }`}
-          >
-            {order.status}
-          </span>
-        </div>
-
-        <div className="flex flex-col gap-2">
-          {order.items.map((item) => (
-            <div key={item._id} className="flex items-center gap-3 border-b pb-2">
-              <img src={item.image} alt={item.name} className="w-16 h-16 object-cover rounded" />
-              <div>
-                <h3 className="font-semibold">{item.name}</h3>
-                <p className="text-sm text-gray-600">
-                  {item.volume}ml - {toCLP(item.price)}
-                </p>
-                <p className="text-sm">Cantidad: {item.quantity}</p>
-              </div>
+   <div className="max-w-4xl mx-auto px-4 py-6">
+      <h1 className="text-2xl font-semibold mb-6">Mis Órdenes</h1>
+      <ul className="flex flex-col gap-6">
+        {orders.map((order) => (
+          <li key={order._id} className="p-4 rounded backdrop-blur-lg border border-white/20 shadow-md">
+            
+            {/* Header Orden */}
+            <div className="flex justify-between items-center mb-3">
+              <span className="font-semibold">Orden ID: {order._id}</span>
+              <span
+                className={`font-bold capitalize ${
+                  order.status === "pending"
+                    ? "text-yellow-500"
+                    : order.status === "paid"
+                    ? "text-green-500"
+                    : order.status === "shipped"
+                    ? "text-blue-500"
+                    : order.status === "delivered"
+                    ? "text-purple-500"
+                    : "text-gray-500"
+                }`}
+              >
+                {order.status}
+              </span>
             </div>
-          ))}
-        </div>
 
-        <div className="mt-2 flex justify-between items-center font-bold">
-          <span>Total: {toCLP(order.total)}</span>
-          <span>Creada: {new Date(order.createdAt).toLocaleDateString()}</span>
-        </div>
-      </li>
-    ))}
-  </ul>
-</div>
+            {/* Items */}
+            <div className="flex flex-col gap-3 border-t border-b py-3">
+              {order.items.map((item) => {
+                const product = item.productId || {};
+                const variant = item.variant || {};
+                return (
+                  <div key={item._id} className="flex items-center gap-4">
+                    <img
+                      src={product.image || "/placeholder.png"}
+                      alt={product.name || "Producto"}
+                      className="w-16 h-16 object-cover rounded"
+                    />
+                    <div>
+                      <h3 >{product.name || "Producto desconocido"}</h3>
+                      {variant.volume && <p className="text-sm text-gray-200">{variant.volume}ml</p>}
+                      <p className="text-sm text-gray-400">Precio: {toCLP(item.price)}</p>
+                      <p className="text-sm">Cantidad: {item.quantity}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Footer orden */}
+            <div className="mt-3 flex justify-between items-center">
+              <span>Total: {toCLP(order.total)}</span>
+              <span>Creada: {new Date(order.createdAt).toLocaleDateString()}</span>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };
 

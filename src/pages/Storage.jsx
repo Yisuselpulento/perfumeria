@@ -9,7 +9,7 @@ const Storage = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <div className="p-2 md:px-26">
+    <div className="p-2 md:px-36">
       <Link className="text-primary hover:text-primary/80 " to="/">
         Atrás
       </Link>
