@@ -46,7 +46,7 @@ const ProductList = () => {
   if (products.length === 0) return <p>No se encontraron productos.</p>;
 
   return (
-    <div className="grid grid-cols-2 md:flex gap-2 ">
+    <div className="grid grid-cols-2 gap-4 md:flex md:flex-wrap md:gap-4 items-start justify-start">
       {products.map((product) => (
         <ProductCard key={product._id} product={product} />
       ))}

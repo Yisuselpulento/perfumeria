@@ -68,19 +68,19 @@ const FiltersDrawer = ({ isOpen, onClose }) => {
  return (
     <div
       className={`
-        fixed top-0 -left-1 h-full bg-white md:bg-transparent text-gray-600 md:text-gray-400 z-50 w-[65%] shadow-lg
+        fixed top-0 -left-1 h-full bg-white md:bg-transparent text-gray-600 md:z-auto md:text-gray-400 z-50 w-[65%] shadow-lg
         transform transition-transform
         ${isOpen ? "translate-x-0" : "-translate-x-full"} 
-        md:relative md:translate-x-0 md:w-full md:max-w-[280px] md:shadow-none
+        md:relative md:translate-x-0 md:w-full md:max-w-[280px] md:shadow-none flex flex-col
       `}
     >
       {/* Header solo para móvil */}
-      <div className="flex justify-between items-center p-4 border-b md:hidden">
+      <div className="flex justify-between items-center p-4 border-b md:hidden flex-shrink-0">
         <h2 className="text-lg font-bold">Filtros</h2>
         <button onClick={onClose} className="text-xl font-bold cursor-pointer hover:text-white hover:bg-primary rounded-full p-1">&times;</button>
       </div>
 
-      <div className="p-4 flex flex-col gap-4 overflow-y-auto h-full md:h-auto">
+       <div className="flex-1 p-4 flex flex-col gap-4 overflow-y-auto">
         {/* Género */}
         <div>
           <h3 className="font-semibold mb-2 text-gray-800 md:text-gray-300">Género</h3>

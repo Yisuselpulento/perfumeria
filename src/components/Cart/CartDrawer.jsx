@@ -35,7 +35,7 @@ const CartDrawer = () => {
         {open && (
           <>
             <motion.div
-              className="fixed inset-0 bg-black/50 z-40"
+              className="fixed inset-0 bg-black/50 z-55"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -47,7 +47,7 @@ const CartDrawer = () => {
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ type: "tween", duration: 0.1 }}
-             className="fixed top-0 left-0 h-screen bg-white z-50 w-full sm:w-[400px] md:w-[500px] lg:w-[35%] shadow-xl p-4 flex flex-col"
+             className="fixed top-0 left-0 h-screen bg-white z-60 w-full sm:w-[400px] md:w-[500px] lg:w-[35%] shadow-xl p-4 flex flex-col"
             >
 
               <div className="flex justify-between items-center border-b pb-2 ">

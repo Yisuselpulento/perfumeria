@@ -4,7 +4,8 @@ import { capitalize } from "../helpers/capitalize.js";
 import { toCLP } from "../helpers/toClp.js";
 
 const ProductCard = ({ product }) => {
-  const { _id, name, brand, price, image, tags, status, isTopSeller } = product;
+  console.log(product);
+  const { _id, name, brand, price, image, tags, status, isTopSeller, onSale } = product;
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -14,7 +15,7 @@ const ProductCard = ({ product }) => {
   return (
     <div
       onClick={handleClick}
-      className="hover:shadow-lg transition cursor-pointer text-sm relative backdrop-blur-lg border border-black/30 shadow-md md:w-80"
+      className="hover:shadow-lg transition cursor-pointer text-sm relative backdrop-blur-lg border border-black/30 shadow-md md:w-76"
     >
       <div className="relative aspect-square">
         {status === "poco_stock" && (
@@ -23,13 +24,19 @@ const ProductCard = ({ product }) => {
           </div>
         )}
 
+        {onSale && (
+    <div className="absolute bottom-0 left-0 bg-red-500 text-white text-xs font-bold px-2 py-0.5 z-20 shadow-md">
+      OFERTA
+    </div>
+  )}
+
         {status === "sin_stock" && (
           <div className="absolute bottom-0 right-0 bg-white text-black text-sm font-bold px-3 py-1 z-20 shadow-lg">
             AGOTADO
           </div>
         )}
 
-        <div className="absolute top-2 left-1 z-10 flex flex-wrap gap-1">
+        <div className="absolute top-1 left-1 z-10 flex flex-wrap gap-1">
           {tags?.slice(0, 2).map((tag, index) => (
             <span
               key={index}

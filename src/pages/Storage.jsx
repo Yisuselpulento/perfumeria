@@ -10,12 +10,12 @@ const Storage = () => {
 
   return (
     <div className="p-2 md:px-26">
-      <Link className="text-primary hover:text-primary/80 md:hidden" to="/">
+      <Link className="text-primary hover:text-primary/80 " to="/">
         Atrás
       </Link>
 
       <div className="flex flex-col md:flex-row gap-4">
-        <div className="hidden md:block md:w-1/4">
+        <div className="hidden md:block md:w-1/6">
           <FiltersDrawer isOpen={true} onClose={() => {}} />
         </div>
 

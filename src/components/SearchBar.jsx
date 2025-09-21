@@ -32,7 +32,7 @@ const SearchBar = () => {
       value={query}
       onChange={(e) => setQuery(e.target.value)}
       placeholder="Buscar productos..."
-      className="w-full p-2 border rounded focus:outline-none"
+      className="md:w-[500px] w-full p-2 border rounded focus:outline-none"
     />
   );
 };

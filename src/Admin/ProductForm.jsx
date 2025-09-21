@@ -112,6 +112,15 @@ const ProductForm = () => {
     e.preventDefault();
     setLoading(true);
 
+    for (let i = 0; i < formData.ingredients.length; i++) {
+    const ing = formData.ingredients[i];
+    if (!ing.name || !ing.imageFile) {
+      setAlert({ error: true, msg: `El ingrediente ${i + 1} debe tener nombre e imagen.` });
+      setLoading(false);
+      return;
+    }
+  }
+
     try {
       const formattedVariants = formData.variants.map(({ volume, price, stock }) => ({
         volume,
