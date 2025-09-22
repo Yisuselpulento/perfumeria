@@ -7,11 +7,14 @@ import useAuth from '../../hooks/useAuth';
 import CloseIcon from '../../icons/template/CloseIcon';
 import BurgerIcon from '../../icons/template/BurgerIcon';
 import CartDrawer from '../Cart/CartDrawer';
+import NotificationButton from '../Notifications/NotificationButton';
+import NotificationDropdown from '../Notifications/NotificationDropdown';
 
 const NavBar = ({ setIsCardVisible }) => {
   const { auth } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { pathname } = useLocation(); 
+   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -81,6 +84,10 @@ const NavBar = ({ setIsCardVisible }) => {
 
           {isLoggedIn && (
             <div className="flex gap-5 md:items-center items-end flex-col md:flex-row">
+              <NotificationButton onClick={() => setIsNotificationsOpen((prev) => !prev)} />
+                {isNotificationsOpen && (
+                  <NotificationDropdown onClose={() => setIsNotificationsOpen(false)} />
+                )}
               <ProfileButton toggleMenu={toggleMenu} />
               <LogoutButton toggleMenu={toggleMenu} />
               <Link
@@ -91,7 +98,6 @@ const NavBar = ({ setIsCardVisible }) => {
               </Link>
             </div>
           )}
-
           <Link
             to="/"
             className="flex md:hidden ml-4 my-2 items-center"

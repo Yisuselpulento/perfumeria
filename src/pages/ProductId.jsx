@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import LoadingButton from "../components/LoadingButton";
 import { getProductByIdFetching } from "../services/ProductsFetching";
 import Spinner from "../components/Spinner/Spinner";
 import { getTagColor } from "../helpers/tagscolors";
@@ -8,6 +7,7 @@ import { capitalize } from "../helpers/capitalize.js";
 import { toCLP } from "../helpers/toClp.js";
 import useCart from "../hooks/useCart.jsx";
 import { toast } from "sonner";
+import ReviewUserSection from "../components/Reviews/ReviewUserSection.jsx";
 
 const formatTimeOfDay = (time) => {
   if (!time) return "";
@@ -274,6 +274,10 @@ const ProductId = () => {
       <section className="my-4 ">
         <p className="mb-2">Descripción</p>
         <p className="text-gray-300">{description}</p>
+      </section>
+
+      <section>
+        <ReviewUserSection productId={id} />
       </section>
     </div>
   );
