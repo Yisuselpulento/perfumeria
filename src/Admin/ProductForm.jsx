@@ -193,7 +193,7 @@ const ProductForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-xl mx-auto p-4 backdrop-blur-lg border border-black/20 shadow-md mt-3">
-      <h2 className="text-xl font-bold mb-4">Crear Producto</h2>
+      <h2 className="text-lg mb-4">Crear Producto</h2>
 
       <div>
         <label>Nombre</label>

@@ -23,13 +23,13 @@ const ConfirmModal = ({ productId, onCancel, onDeleted }) => {
         <p className="mb-4">¿Estás seguro de eliminar este producto?</p>
         <div className="flex justify-around">
           <button
-            className="bg-gray-300 px-3 py-1 rounded-md"
+            className="bg-gray-300 px-3 py-1 rounded-md cursor-pointer"
             onClick={onCancel}
           >
             Cancelar
           </button>
           <button
-            className="bg-red-500 text-white px-3 py-1 rounded-md"
+            className="bg-red-500 text-white px-3 py-1 rounded-md cursor-pointer"
             onClick={handleDelete}
             disabled={loading}
           >

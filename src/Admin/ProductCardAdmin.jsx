@@ -7,8 +7,8 @@ const ProductCardAdmin = ({ product, onDeleted }) => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   return (
-    <div className="flex  rounded-md shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition relative backdrop-blur-lg border border-black/20 ">
-      <div className="w-24 h-full">
+    <div className="flex  rounded-md shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition relative backdrop-blur-lg border border-black/20 md:w-[500px]">
+      <div className="w-20 h-20">
         <img
           src={image}
           alt={name}
@@ -21,11 +21,11 @@ const ProductCardAdmin = ({ product, onDeleted }) => {
         onClick={() => setSelected(!selected)}
       >
         <h2 className="text-sm font-semibold mb-2">{name}</h2>
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-col flex-wrap">
           {variants.map((variant) => (
             <span
               key={variant._id}
-              className="bg-gray-200 text-gray-800 px-1 py-1 rounded-md text-xs"
+              className="rounded-md text-xs"
             >
               {variant.volume}ml - Stock: {variant.stock}
             </span>
@@ -35,11 +35,11 @@ const ProductCardAdmin = ({ product, onDeleted }) => {
 
       {selected && (
         <div className="flex flex-col gap-2 p-2 text-xs">
-          <button className="bg-yellow-400 text-white py-1 px-2 rounded-md">
+          <button className="bg-yellow-400 text-white py-1 px-2 rounded-md cursor-pointer">
             Editar
           </button>
           <button
-            className="bg-red-500 text-white py-1 px-2 rounded-md"
+            className="bg-red-500 text-white py-1 px-2 rounded-md cursor-pointer"
             onClick={() => setShowConfirm(true)}
           >
             Eliminar

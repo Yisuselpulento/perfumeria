@@ -4,7 +4,7 @@ const AdminLayout = ({ ProductsSection, CreateProductSection, OrdersSection, Not
   const [activeSection, setActiveSection] = useState("products");
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen text-sm">
       <div className="flex justify-around items-center h-16 backdrop-blur-lg border border-white/20 shadow-md  mb-4">
         <button
           onClick={() => setActiveSection("products")}

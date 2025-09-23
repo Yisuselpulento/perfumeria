@@ -27,7 +27,7 @@ const CreateNotificationForm = ({ onCreate }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="p-4 border rounded shadow-md space-y-3">
+    <form onSubmit={handleSubmit} className="p-4 rounded shadow-md space-y-3">
       <h2 className="text-lg font-semibold">Crear Notificación</h2>
       <input type="text" name="title" placeholder="Título" value={form.title} onChange={handleChange} className="w-full p-2 border rounded" required />
       <textarea name="message" placeholder="Mensaje" value={form.message} onChange={handleChange} className="w-full p-2 border rounded" required />
@@ -39,7 +39,7 @@ const CreateNotificationForm = ({ onCreate }) => {
         <option value="medium">Media</option>
         <option value="high">Alta</option>
       </select>
-      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Crear</button>
+      <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 cursor-pointer">Crear</button>
     </form>
   );
 };
