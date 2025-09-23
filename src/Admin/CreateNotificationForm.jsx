@@ -2,7 +2,6 @@ import { useState } from "react";
 
 const CreateNotificationForm = ({ onCreate }) => {
   const [form, setForm] = useState({
-    userId: "",
     type: "promo",
     title: "",
     message: "",

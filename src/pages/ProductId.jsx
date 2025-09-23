@@ -131,6 +131,18 @@ const ProductId = () => {
               <div className="w-full h-90 md:h-[650px] md:w-[650px] flex justify-center items-center mb-4 rounded overflow-hidden">
                 <img src={image} alt={name} className="object-cover w-full h-full" />
               </div>
+              <div className="flex flex-col items-center mb-4">
+                  <div className="flex items-center gap-1">
+                    {[1,2,3,4,5].map((n) => (
+                      <span key={n} className={`text-xl ${n <= product.averageRating ? "text-yellow-400" : "text-gray-400"}`}>
+                        ★
+                      </span>
+                    ))}
+                  </div>
+                  <p className="text-sm text-gray-500">
+                    {product.numReviews} reseña{product.numReviews !== 1 ? "s" : ""} | {product.averageRating.toFixed(1)} de 5
+                  </p>
+                </div>
           </div>
         {/*  <div className="flex justify-center items-center gap-4 mb-4">
             <img

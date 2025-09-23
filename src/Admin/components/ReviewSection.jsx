@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { approveReviewFetching, deleteReviewFetching, getPendingReviewsFetching } from "../../services/ReviewFetching";
+import ReviewCardAdmin from "../ReviewCardAdmin";
 
 const ReviewSection = () => {
   const [reviews, setReviews] = useState([]);
@@ -36,7 +37,7 @@ const ReviewSection = () => {
   return (
     <div className="p-4 flex flex-col gap-3">
       {reviews.map((review) => (
-        <ReviewSection key={review._id} review={review} onApprove={handleApprove} onDelete={handleDelete} />
+        <ReviewCardAdmin key={review._id} review={review} onApprove={handleApprove} onDelete={handleDelete} />
       ))}
     </div>
   );

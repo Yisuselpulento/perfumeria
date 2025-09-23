@@ -5,7 +5,7 @@ const CardReviewUser = ({ review }) => {
         <strong>{review.userId?.fullName || "Usuario"}</strong>
         <span>{review.rating} ⭐</span>
       </div>
-      <p className="mt-1 text-sm">{review.message}</p>
+      <p className="mt-1 text-sm">{review.comment}</p>
       <small className="text-gray-400 text-xs">{new Date(review.createdAt).toLocaleDateString()}</small>
     </div>
   );

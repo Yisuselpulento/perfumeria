@@ -9,7 +9,7 @@ const ReviewUserSection = ({ productId }) => {
 
   const [form, setForm] = useState({
     rating: 5,
-    message: "",
+    comment: "",
   });
 
   const fetchReviews = async () => {
@@ -30,7 +30,7 @@ const ReviewUserSection = ({ productId }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!form.message.trim()) return toast.error("Debes escribir un mensaje.");
+    if (!form.comment.trim()) return toast.error("Debes escribir un mensaje.");
 
     const reviewData = { ...form, productId };
     const res = await addReviewFetching(reviewData);
@@ -66,7 +66,7 @@ const ReviewUserSection = ({ productId }) => {
         <label className="flex flex-col">
           Comentario:
           <textarea
-            name="message"
+            name="comment"
             value={form.message}
             onChange={handleChange}
             placeholder="Escribe tu reseña..."
@@ -77,7 +77,7 @@ const ReviewUserSection = ({ productId }) => {
 
         <button
           type="submit"
-          className="bg-primary hover:bg-primary/80 px-4 py-2 rounded font-semibold"
+          className="bg-primary hover:bg-primary/80 px-4 py-2 rounded font-semibold cursor-pointer"
         >
           Enviar Reseña
         </button>
