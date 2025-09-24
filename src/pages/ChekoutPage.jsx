@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
@@ -8,6 +8,7 @@ import { createOrderWithPayment, createPaymentIntent } from "../services/Checkou
 import ShippingForm from "../components/Checkout/ShippingForm.jsx";
 import { toast } from "sonner";
 import useAuth from "../hooks/useAuth.jsx";
+import { getAddressesFetching } from "../services/AddressFetching.js";
 
 // Inicializa Stripe con tu clave publicable
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
@@ -18,12 +19,24 @@ const CheckoutForm = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [shipping, setShipping] = useState(null);
+   const [defaultAddress, setDefaultAddress] = useState(null);
 
   const { auth } = useAuth();
 
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
+
+   useEffect(() => {
+    const fetchAddresses = async () => {
+      const res = await getAddressesFetching();
+      if (res.success) {
+        const def = res.addresses.find((a) => a.isDefault); // 👉 busca la default
+        setDefaultAddress(def || null);
+      }
+    };
+    fetchAddresses();
+  }, []);
 
   const handlePayment = async (e) => {
   e.preventDefault();
@@ -143,7 +156,7 @@ const CheckoutForm = () => {
       </ul>
       <div className="font-bold mb-4">Total: {toCLP(cartTotal)}</div>
 
-       <ShippingForm onChange={setShipping} />
+       <ShippingForm  defaultAddress={defaultAddress} onChange={setShipping} />
 
       <h3 className="mb-2 font-semibold">Datos de tarjeta</h3>
       <div className="mb-4 p-2 border rounded">

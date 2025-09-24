@@ -23,6 +23,15 @@ const Profile = () => {
       <div className="md:w-[600px] mx-auto">
         <p className="border border-yellow-300 p-2 text-xs">NOTA: Las estampas se irán agregando por cada producto que compres. Puedes obtener un producto gratis al tener 10.</p>
       </div>
+
+       <div className="mt-4 flex justify-center">
+        <Link 
+          to="/edit-profile" 
+          className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/80"
+        >
+          Editar Perfil
+        </Link>
+      </div>
     </div>
   )
 }

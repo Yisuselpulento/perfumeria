@@ -21,6 +21,7 @@ import CheckoutPage from './pages/ChekoutPage';
 import UnverifiedRoute from './pages/ProtectRoutes/UnverifiedRoute';
 import GuestRoute from './pages/ProtectRoutes/GuestRoute';
 import ProtectedRoute from './pages/ProtectRoutes/ProtectedRoute';
+import EditProfile from './pages/EditProfile';
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
 
                   <Route element={<ProtectedRoute />}>
                           <Route path='/profile' element={<Profile/>} />   
+                          <Route path="/edit-profile" element={<EditProfile />} />
                           <Route path="/my-orders" element={<MyOrders />} />
                           <Route path="/checkout" element={<CheckoutPage />} />
                   </Route>

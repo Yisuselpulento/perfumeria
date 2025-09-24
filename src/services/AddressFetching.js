@@ -3,7 +3,7 @@ import axiosInstance from "../helpers/axiosConfig.js";
 // ➕ Agregar una nueva dirección
 export const addAddressFetching = async (addressData) => {
   try {
-    const { data } = await axiosInstance.post("/api/address", addressData);
+    const { data } = await axiosInstance.post("/api/user/address", addressData);
     return data;
   } catch (error) {
     console.error("Error al agregar dirección:", error.response?.data?.message);
@@ -17,7 +17,7 @@ export const addAddressFetching = async (addressData) => {
 // 📦 Obtener todas las direcciones del usuario
 export const getAddressesFetching = async () => {
   try {
-    const { data } = await axiosInstance.get("/api/address");
+    const { data } = await axiosInstance.get("/api/user/address");
     return data;
   } catch (error) {
     console.error("Error al obtener direcciones:", error.response?.data?.message);
@@ -31,7 +31,7 @@ export const getAddressesFetching = async () => {
 // ✏️ Actualizar una dirección
 export const updateAddressFetching = async (addressId, updatedData) => {
   try {
-    const { data } = await axiosInstance.put(`/api/address/${addressId}`, updatedData);
+    const { data } = await axiosInstance.put(`/api/user/address/${addressId}`, updatedData);
     return data;
   } catch (error) {
     console.error("Error al actualizar dirección:", error.response?.data?.message);
@@ -45,7 +45,7 @@ export const updateAddressFetching = async (addressId, updatedData) => {
 // 🗑️ Eliminar una dirección
 export const deleteAddressFetching = async (addressId) => {
   try {
-    const { data } = await axiosInstance.delete(`/api/address/${addressId}`);
+    const { data } = await axiosInstance.delete(`/api/user/address/${addressId}`);
     return data;
   } catch (error) {
     console.error("Error al eliminar dirección:", error.response?.data?.message);

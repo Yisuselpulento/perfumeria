@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const ShippingForm = ({ onChange }) => {
+const ShippingForm = ({ onChange, defaultAddress }) => {
   const [form, setForm] = useState({
     fullName: "",
     street: "",
@@ -12,6 +12,21 @@ const ShippingForm = ({ onChange }) => {
   });
 
   const [errors, setErrors] = useState({});
+
+  // 👉 cuando recibimos una dirección por defecto, precargamos el formulario
+  useEffect(() => {
+    if (defaultAddress) {
+      setForm({
+        fullName: defaultAddress.fullName || "",
+        street: defaultAddress.street || "",
+        city: defaultAddress.city || "",
+        state: defaultAddress.state || "",
+        zip: defaultAddress.zip || "",
+        phone: defaultAddress.phone || "",
+        country: defaultAddress.country || "Chile"
+      });
+    }
+  }, [defaultAddress]);
 
   const validate = (field, value) => {
     let message = "";
