@@ -37,7 +37,7 @@ const ProductList = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-60 w-full">
-        <Spinner size="2em" />
+        <img src="/narutogif.gif" alt="Cargando..." className="h-40 w-40" />
       </div>
     );
   }
