@@ -43,7 +43,7 @@ const Home = () => {
           <div className="grid grid-cols-2 md:flex  gap-4 w-full">
             {loadingBest ? (
               <div className="col-span-2 flex justify-center items-center h-60 w-full">
-              <img src="/narutogif.gif" alt="Cargando..." className="h-20 w-20" />
+              <img src="/narutogif.gif" alt="Cargando..." className="h-40 w-40" />
             </div>
             ) : errorBest ? (
               <p className="col-span-2 text-red-600">{errorBest}</p>
