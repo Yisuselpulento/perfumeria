@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import UserIcon from "../../icons/UserIcon";
 
 const ProfileButton = ({toggleMenu }) => {
     
@@ -8,7 +9,7 @@ const ProfileButton = ({toggleMenu }) => {
       to="/profile"
       className="hover:text-primary cursor-pointer"
     >
-      Perfil
+      <UserIcon />
     </Link>
   );
 };

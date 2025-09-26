@@ -5,7 +5,7 @@ const CartItem = ({ item }) => {
 
   return (
     <div className="flex items-center justify-between border-b pb-3 border-gray-200 shadow-sm p-2">
-      <div className="flex items-center gap-3 text-black">
+      <div className="flex items-center gap-3 text-gray-300">
         <img
           src={item.image}
           alt={item.name}
@@ -13,7 +13,7 @@ const CartItem = ({ item }) => {
         />
         <div>
           <h3 className="font-semibold text-sm">{item.name}</h3>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-400">
             {item.variant.volume}ml - ${item.price}
           </p>
 

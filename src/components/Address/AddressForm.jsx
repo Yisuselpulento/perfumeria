@@ -59,10 +59,10 @@ const AddressForm = ({ initialData, onSubmit, onCancel }) => {
       </label>
 
       <div className="flex justify-end gap-2 mt-2">
-        <button type="button" onClick={onCancel} className="px-3 py-2 border rounded">
+        <button type="button" onClick={onCancel} className="px-3 py-2 border rounded cursor-pointer">
           Cancelar
         </button>
-        <button type="submit" className="px-3 py-2 bg-primary text-white rounded">
+        <button type="submit" className="px-3 py-2 bg-primary text-white rounded cursor-pointer">
           {initialData ? "Actualizar" : "Guardar"}
         </button>
       </div>

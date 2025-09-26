@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getUserOrdersFetching } from "../services/OrderFetching.js";
 import Spinner from "../components/Spinner/Spinner";
 import { toCLP } from "../helpers/toClp";
+import { Link } from "react-router-dom";
 
 const MyOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -26,7 +27,19 @@ const MyOrders = () => {
 
   if (loading) return <div className="flex justify-center items-center h-full"><Spinner /></div>;
   if (error) return <p className="text-red-600 text-center mt-6">{error}</p>;
-  if (orders.length === 0) return <p className="text-center mt-6">No tienes órdenes aún 😢</p>;
+ if (orders.length === 0)
+    return (
+      <div className="text-center mt-6 flex flex-col items-center gap-4">
+        <p>No tienes órdenes aún 😢</p>
+        <p>Ve a nuestra tienda.</p>
+        <Link
+          to="/store"
+          className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/80 transition-colors"
+        >
+          Ir a la tienda
+        </Link>
+      </div>
+    );
 
   return (
    <div className="max-w-4xl mx-auto px-4 py-6">

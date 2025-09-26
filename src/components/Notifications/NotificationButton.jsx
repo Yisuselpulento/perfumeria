@@ -28,7 +28,7 @@ const NotificationButton = ({ onClick }) => {
   return (
     <button
       onClick={onClick}
-      className="relative p-2 rounded-full cursor-pointer"
+      className="relative rounded-full cursor-pointer"
     >
       <NotificationIcon width={23} height={23} className="hover:text-primary" />
       {unreadCount > 0 && (

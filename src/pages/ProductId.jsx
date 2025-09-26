@@ -92,7 +92,7 @@ const ProductId = () => {
       <div className="w-full flex justify-start mb-2">
         <button
           onClick={() => navigate(-1)}
-          className="text-primary hover:text-primary/80"
+          className="text-primary hover:text-primary/80 cursor-pointer"
         >
           Atrás
         </button>
@@ -162,7 +162,7 @@ const ProductId = () => {
               </section>
 
               <section className="mt-3">
-                <p className="text-xl font-bold mt-4 mb-2">Selecciona un volumen</p>
+                <p className="text-xl font-bold mt-4 mb-2">Selecciona un volumen:</p>
                 <p className="text-start md:text-center mb-3 text-xs mx-3">Tamaños:</p>
                 <ul className="flex flex-wrap gap-4 md:w-full items-center justify-between w-[80%] mx-auto">
                   {variants.map((v, i) => (

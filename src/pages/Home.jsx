@@ -32,11 +32,12 @@ const Home = () => {
   return (
     <div className="flex flex-col items-center">
       <p className="mb-4 text-sm text-gray-500">Bienvenido {auth?.user?.fullName || ""}</p>
-      <img 
-        className="w-full h-60 object-cover mb-4 rounded-lg md:rounded-xs md:h-[600px]"
-        src="images/perfumes.webp" 
-      />
-
+      <div className="relative left-0 right-0 w-screen">
+        <img 
+          className="w-full h-60 object-cover mb-4 rounded-lg md:rounded-none md:h-[600px]"
+          src="images/perfumes.webp" 
+        />
+    </div>
       <section className="md:w-full md:px-20" >
           <h2 className="text-xl md:text-2xl font-semibold mb-2 w-full text-left">Top Ventas</h2>
 
