@@ -47,19 +47,18 @@ const NotificationDropdown = ({ onClose }) => {
   }, []);
 
   return (
-    <div className="absolute top-full mt-1 left-0 md:w-80 w-full bg-white rounded-lg shadow-lg border z-50"
->
-      <div className="flex justify-between items-center p-3 border-b">
-        <h3 className="font-semibold text-gray-800">Notificaciones</h3>
-        <button onClick={onClose} className="text-sm text-gray-500 hover:text-gray-700  cursor-pointer">
+    <div className="absolute top-full right-0 mt-2 md:w-92 w-80 p-1 text-gray-200 bg-neutral-950 rounded-lg shadow-lg z-50">
+      <div className="flex justify-between items-center p-2 border-b">
+        <h3 className="font-semibold0">Notificaciones</h3>
+        <button onClick={onClose} className="text-sm text-gray-400 hover:text-gray-500 pr-2  cursor-pointer">
           Cerrar
         </button>
       </div>
-      <div className="max-h-96 overflow-y-auto p-3">
+      <div className="max-h-96 overflow-y-auto">
         {loading ? (
           <p>Cargando...</p>
         ) : notifications.length === 0 ? (
-          <p className="text-gray-500">No tienes notificaciones</p>
+          <p className="text-gray-400">No tienes notificaciones</p>
         ) : (
           notifications.map((n) => (
             <NotificationCard

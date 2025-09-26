@@ -32,7 +32,7 @@ const NotificationButton = ({ onClick }) => {
     >
       <NotificationIcon width={23} height={23} className="hover:text-primary" />
       {unreadCount > 0 && (
-        <span className="absolute -top-0.5 -right-0.5 bg-red-600 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
+        <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
           {unreadCount}
         </span>
       )}

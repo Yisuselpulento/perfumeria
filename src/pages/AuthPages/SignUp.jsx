@@ -89,6 +89,11 @@ const navigate = useNavigate();
         </Link>
         <form onSubmit={handleSubmit}  className="backdrop-blur-md  border border-white/20 shadow-md  p-5 rounded-lg clas
       flex flex-col gap-4">
+        <img
+          src="/images/iconoIsitipo.png"
+          alt="Logo"
+          className="w-20 h-18 object-contain mx-auto mb-2"
+        />
             
           <div>
               <label htmlFor="fullName" >

@@ -85,10 +85,12 @@ const NavBar = ({ setIsCardVisible }) => {
           {isLoggedIn && (
             <div className="flex gap-3 md:items-center items-end flex-col md:flex-row">           
               <ProfileButton toggleMenu={toggleMenu} />
-              <NotificationButton onClick={() => setIsNotificationsOpen((prev) => !prev)} />
-                {isNotificationsOpen && (
-                  <NotificationDropdown onClose={() => setIsNotificationsOpen(false)} />
-                )}
+              <div className="relative flex items-center justify-center">
+                  <NotificationButton onClick={() => setIsNotificationsOpen((prev) => !prev)} />
+                  {isNotificationsOpen && (
+                    <NotificationDropdown onClose={() => setIsNotificationsOpen(false)} />
+                  )}
+                </div>
               <LogoutButton toggleMenu={toggleMenu} />
               <Link
                 to="/my-orders"
