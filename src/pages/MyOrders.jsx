@@ -33,7 +33,7 @@ const MyOrders = () => {
         <p>No tienes órdenes aún 😢</p>
         <p>Ve a nuestra tienda.</p>
         <Link
-          to="/store"
+          to="/storage"
           className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/80 transition-colors"
         >
           Ir a la tienda

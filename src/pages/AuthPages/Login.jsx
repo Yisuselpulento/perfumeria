@@ -58,7 +58,7 @@ const Login = () => {
       if (response.success) {
         updateAuth(response.user, true);
         clearVerificationCardOnLogin();
-        navigate("/profile"); 
+        navigate("/storage"); 
       } else {
         setAlert({ error: true, msg: response.message });
       }

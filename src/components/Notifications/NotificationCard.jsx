@@ -2,7 +2,7 @@ const NotificationCard = ({ notification, onMarkAsRead }) => {
   return (
     <div
       className={`rounded-lg p-2 mb-2 shadow-sm flex justify-between items-center ${
-        notification.read ? "bg-neutral-900" : "bg-neutral-950"
+        notification.read ? "bg-neutral-950" : "bg-neutral-900"
       }`}
     >
       <div>

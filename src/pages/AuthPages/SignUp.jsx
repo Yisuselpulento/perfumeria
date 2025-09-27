@@ -62,10 +62,10 @@ const navigate = useNavigate();
       try {
         const response = await signUpFetching(formData );
         if (response.success) {
-          toast.success(<div className="text-green-600">{response.message}, Te hemos mandado un Codigo al Email para verificar tu cuenta</div>);
+         /*  toast.success(<div className="text-green-600">{response.message}, Te hemos mandado un Codigo al Email para verificar tu cuenta</div>); */
           console.log(response.user);
           updateAuth(response.user, true);
-         navigate("/verification-email") 
+         navigate("/storage") 
         } else {
           setAlert({error: true, msg: response.message })
         }

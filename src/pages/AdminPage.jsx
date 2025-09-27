@@ -1,4 +1,3 @@
-import CreateProductSection from "../Admin/components/CreateProductSection";
 import OrdersSection from "../Admin/components/OrdersSection";
 import ProductsSection from "../Admin/components/ProductsSection";
 import NotificationsSection from "../Admin/components/NotificationsSection";
@@ -11,7 +10,6 @@ const AdminPage = () => {
     <>
     <AdminLayout
       ProductsSection={ProductsSection}
-      CreateProductSection={CreateProductSection}
       OrdersSection={OrdersSection}
       NotificationsSection={NotificationsSection}
       ReviewSection={ReviewSection}

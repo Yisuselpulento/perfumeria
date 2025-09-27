@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { createProductFetching } from "../services/ProductsFetching";
+import { useEffect, useState } from "react";
+import { createProductFetching, updateProductFetching } from "../services/ProductsFetching";
 import { toast } from "sonner";
 import LoadingButton from "../components/LoadingButton";
 import { Alert } from "../components/Alert";
@@ -7,25 +7,19 @@ import { tagColors } from "../helpers/tagscolors";
 
 const availableTags = Object.keys(tagColors);
 
-const ProductForm = () => {
-  const [alert, setAlert] = useState({
-    msg: "",
-    error: false,
-  });
+const ProductForm = ({ initialValues = null, onCreate, onUpdate, onCancel }) => {
+  const [alert, setAlert] = useState({ msg: "", error: false });
   const [loading, setLoading] = useState(false);
-
-  console.log("holi")
-
   const [formData, setFormData] = useState({
     name: "",
     description: "",
     brand: "",
     category: "hombre",
-    image: null, 
+    image: null,
     onSale: false,
     status: "en_stock",
-    timeOfDay: "día", 
-    seasons: [], 
+    timeOfDay: "día",
+    seasons: [],
     variants: [
       { volume: 3, price: "", stock: "" },
       { volume: 5, price: "", stock: "" },
@@ -34,6 +28,38 @@ const ProductForm = () => {
     ingredients: [{ name: "", imageFile: null }],
     tags: [{ name: "", intensity: "" }],
   });
+
+  // Inicializar si viene initialValues (editar)
+  useEffect(() => {
+    if (initialValues) {
+      setFormData({
+        name: initialValues.name || "",
+        description: initialValues.description || "",
+        brand: initialValues.brand || "",
+        category: initialValues.category || "hombre",
+        image: null, // null para subir nueva imagen si se quiere
+        onSale: initialValues.onSale || false,
+        status: initialValues.status || "en_stock",
+        timeOfDay: initialValues.timeOfDay || "día",
+        seasons: initialValues.seasons || [],
+        variants: initialValues.variants || [
+          { volume: 3, price: "", stock: "" },
+          { volume: 5, price: "", stock: "" },
+          { volume: 10, price: "", stock: "" },
+        ],
+        ingredients:
+          (initialValues.ingredients || []).map((ing) => ({
+            name: ing.name || "",
+            imageFile: null,
+          })) || [{ name: "", imageFile: null }],
+        tags:
+          (initialValues.tags || []).map((tag) => ({
+            name: tag.name || "",
+            intensity: tag.intensity || "",
+          })) || [{ name: "", intensity: "" }],
+      });
+    }
+  }, [initialValues]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -84,7 +110,7 @@ const ProductForm = () => {
   };
 
   const handleTagChange = (index, e) => {
-    const { name, value } = e.target; 
+    const { name, value } = e.target;
     const newTags = [...formData.tags];
     newTags[index][name] = name === "intensity" ? Number(value) : value;
     setFormData((prev) => ({ ...prev, tags: newTags }));
@@ -112,23 +138,24 @@ const ProductForm = () => {
     e.preventDefault();
     setLoading(true);
 
+    // Validación básica ingredientes
     for (let i = 0; i < formData.ingredients.length; i++) {
-    const ing = formData.ingredients[i];
-    if (!ing.name || !ing.imageFile) {
-      setAlert({ error: true, msg: `El ingrediente ${i + 1} debe tener nombre e imagen.` });
-      setLoading(false);
-      return;
+      const ing = formData.ingredients[i];
+      if (!ing.name) {
+        setAlert({ error: true, msg: `El ingrediente ${i + 1} debe tener nombre.` });
+        setLoading(false);
+        return;
+      }
     }
-  }
 
     try {
-      const formattedVariants = formData.variants.map(({ volume, price, stock }) => ({
+      const formattedVariants = (formData.variants || []).map(({ volume, price, stock }) => ({
         volume,
         price: Number(price),
         stock: Number(stock),
       }));
 
-      const ingredientsData = formData.ingredients.map(({ name }) => ({ name }));
+      const ingredientsData = (formData.ingredients || []).map(({ name }) => ({ name }));
 
       const form = new FormData();
       form.append("name", formData.name);
@@ -143,325 +170,183 @@ const ProductForm = () => {
       form.append("variants", JSON.stringify(formattedVariants));
       form.append("ingredients", JSON.stringify(ingredientsData));
 
-      if (formData.image) {
-        form.append("productImage", formData.image);
-      }
-
+      if (formData.image) form.append("productImage", formData.image);
       formData.ingredients.forEach(({ imageFile }) => {
-        if (imageFile) {
-          form.append("ingredientImages", imageFile);
-        }
+        if (imageFile) form.append("ingredientImages", imageFile);
       });
 
-      const response = await createProductFetching(form);
-
-      if (response.success) {
-        toast.success(
-          <div className="text-green-600">
-            {response.message || "Producto creado con éxito"}
-          </div>
-        );
-
-        setFormData({
-          name: "",
-          description: "",
-          brand: "",
-          category: "hombre",
-          image: null,
-          onSale: false,
-          status: "en_stock",
-          timeOfDay: "día",
-          seasons: [],
-          variants: [
-            { volume: 3, price: "", stock: "" },
-            { volume: 5, price: "", stock: "" },
-            { volume: 10, price: "", stock: "" },
-          ],
-          ingredients: [{ name: "", imageFile: null }],
-          tags: [{ name: "", intensity: "" }],
-        });
+      let response;
+      if (initialValues && initialValues._id && onUpdate) {
+        // Editar
+        response = await updateProductFetching(initialValues._id, form);
+        if (response.success) {
+          toast.success("Producto actualizado correctamente");
+          onUpdate(response.data);
+        } else {
+          setAlert({ error: true, msg: response.message || "Error al actualizar" });
+        }
       } else {
-        setAlert({ error: true, msg: response.message || "Error al crear producto" });
+        // Crear
+        response = await createProductFetching(form);
+        if (response.success) {
+          toast.success("Producto creado correctamente");
+          if (onCreate) onCreate(response.data);
+          setFormData({
+            name: "",
+            description: "",
+            brand: "",
+            category: "hombre",
+            image: null,
+            onSale: false,
+            status: "en_stock",
+            timeOfDay: "día",
+            seasons: [],
+            variants: [
+              { volume: 3, price: "", stock: "" },
+              { volume: 5, price: "", stock: "" },
+              { volume: 10, price: "", stock: "" },
+            ],
+            ingredients: [{ name: "", imageFile: null }],
+            tags: [{ name: "", intensity: "" }],
+          });
+        } else {
+          setAlert({ error: true, msg: response.message || "Error al crear producto" });
+        }
       }
     } catch (error) {
-      toast.error("Hubo un error al crear el producto.");
-      console.error("Error:", error);
+      console.error(error);
+      toast.error("Ocurrió un error al guardar el producto.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4 max-w-xl mx-auto p-4 backdrop-blur-lg border border-black/20 shadow-md mt-3">
-      <h2 className="text-lg mb-4">Crear Producto</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4 max-w-xl mx-auto p-4 backdrop-blur-lg border border-black/20 shadow-md mt-3 max-h-[90vh] overflow-y-auto"
+    >
+      <h2 className="text-lg mb-4">{initialValues ? "Editar Producto" : "Crear Producto"}</h2>
 
       <div>
         <label>Nombre</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        />
+        <input type="text" name="name" value={formData.name} onChange={handleChange} className="w-full border p-2 rounded" />
       </div>
 
       <div>
         <label>Descripción</label>
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        />
+        <textarea name="description" value={formData.description} onChange={handleChange} className="w-full border p-2 rounded" />
       </div>
 
       <div>
         <label>Marca</label>
-        <input
-          type="text"
-          name="brand"
-          value={formData.brand}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        />
+        <input type="text" name="brand" value={formData.brand} onChange={handleChange} className="w-full border p-2 rounded" />
       </div>
 
       <div>
         <label>Categoría</label>
-        <select
-          name="category"
-          value={formData.category}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        >
-           <option value="hombre" className="text-black">Hombre</option>
-          <option value="mujer" className="text-black">Mujer</option>
-          <option value="unisex" className="text-black">Unisex</option>
+        <select name="category" value={formData.category} onChange={handleChange} className="w-full border p-2 rounded">
+          <option value="hombre">Hombre</option>
+          <option value="mujer">Mujer</option>
+          <option value="unisex">Unisex</option>
         </select>
       </div>
 
       <div>
         <label>Momento del día</label>
-        <select
-          name="timeOfDay"
-          value={formData.timeOfDay}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        >
-          <option value="día" className="text-black">Día</option>
-          <option value="noche" className="text-black">Noche</option>
-          <option value="día_y_noche" className="text-black">Día y noche</option>
+        <select name="timeOfDay" value={formData.timeOfDay} onChange={handleChange} className="w-full border p-2 rounded">
+          <option value="día">Día</option>
+          <option value="noche">Noche</option>
+          <option value="día_y_noche">Día y noche</option>
         </select>
       </div>
 
       <div>
         <label>Temporadas</label>
-        <select
-          multiple
-          name="seasons"
-          value={formData.seasons}
-          onChange={handleSeasonsChange}
-          className="w-full border p-2 rounded h-32"
-        >
-         <option value="verano">Verano</option>
+        <select multiple value={formData.seasons || []} onChange={handleSeasonsChange} className="w-full border p-2 rounded h-32">
+          <option value="verano">Verano</option>
           <option value="otoño">Otoño</option>
           <option value="invierno">Invierno</option>
           <option value="primavera">Primavera</option>
         </select>
       </div>
 
-       <div>
+      <div>
         <label>Imagen principal</label>
-        <input
-          type="file"
-          name="image"
-          accept="image/*"
-          onChange={handleImageChange}
-          className="w-full border p-2 rounded"
-        />
-        {formData.image && (
-          <img
-            src={URL.createObjectURL(formData.image)}
-            alt="Preview"
-            className="mt-2 h-24 w-24 object-cover rounded border"
-          />
-        )}
+        <input type="file" name="image" accept="image/*" onChange={handleImageChange} className="w-full border p-2 rounded" />
+        {formData.image && <img src={URL.createObjectURL(formData.image)} alt="Preview" className="mt-2 h-24 w-24 object-cover rounded border" />}
       </div>
 
       <div className="flex items-center space-x-2">
         <label>Oferta</label>
-        <input
-          type="checkbox"
-          name="onSale"
-          checked={formData.onSale}
-          onChange={handleChange}
-        />
+        <input type="checkbox" name="onSale" checked={formData.onSale} onChange={handleChange} />
       </div>
 
       <div>
         <label>Estado</label>
-        <select
-          name="status"
-          value={formData.status}
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        >
-         <option value="en_stock" className="text-black" >En stock</option>
-          <option value="poco_stock" className="text-black">Quedan pocos</option>
-          <option value="sin_stock" className="text-black">Agotado</option>
+        <select name="status" value={formData.status} onChange={handleChange} className="w-full border p-2 rounded">
+          <option value="en_stock">En stock</option>
+          <option value="poco_stock">Quedan pocos</option>
+          <option value="sin_stock">Agotado</option>
         </select>
       </div>
 
-     <fieldset>
+      {/* Variantes */}
+      <fieldset>
         <legend className="font-semibold mb-2">Variantes (ml, precio, stock)</legend>
-        {formData.variants.map((variant, i) => (
-          <div
-            key={variant.volume}
-            className="grid grid-cols-2 gap-4 items-center mb-2 w-[70%]"
-          >
+        {(formData.variants || []).map((variant, i) => (
+          <div key={i} className="grid grid-cols-2 gap-4 items-center mb-2 w-[70%]">
             <div>
-              <label className="font-medium">Volumen:</label>
+              <label>Volumen:</label>
               <p>{variant.volume} ml</p>
             </div>
-
             <div className="flex gap-2">
-              <input
-                type="number"
-                name="price"
-                placeholder="Precio"
-                value={variant.price}
-                onChange={(e) => handleVariantChange(i, e)}
-                min={0}
-                className="border p-1 rounded w-24"
-              />
-              <input
-                type="number"
-                name="stock"
-                placeholder="Stock"
-                value={variant.stock}
-                onChange={(e) => handleVariantChange(i, e)}
-                min={0}
-                className="border p-1 rounded w-20"
-              />
+              <input type="number" name="price" placeholder="Precio" value={variant.price} onChange={(e) => handleVariantChange(i, e)} min={0} className="border p-1 rounded w-24" />
+              <input type="number" name="stock" placeholder="Stock" value={variant.stock} onChange={(e) => handleVariantChange(i, e)} min={0} className="border p-1 rounded w-20" />
             </div>
           </div>
         ))}
       </fieldset>
 
-     <fieldset>
-        <legend className="font-semibold mb-2">Ingredientes</legend>
-        {formData.ingredients.map((ingredient, i) => (
-          <div key={i} className="flex gap-2 items-center mb-2">
-            <input
-              type="text"
-              name="name"
-              placeholder="Nombre ingrediente"
-              value={ingredient.name}
-              onChange={(e) => handleIngredientChange(i, e)}
-              className="border p-1 rounded w-full"
-            />
-
-            <input
-              id={`ingredient-file-${i}`}
-              type="file"
-              name="imageFile"
-              accept="image/*"
-              onChange={(e) => handleIngredientChange(i, e)}
-              className="hidden"
-            />
-
-            <label
-              htmlFor={`ingredient-file-${i}`}
-              className="cursor-pointer bg-blue-500 px-3 py-1 rounded text-sm hover:bg-gray-300 whitespace-nowrap"
-            >
-              Subir imagen
-            </label>
-             {ingredient.imageFile && (
-              <img
-                src={URL.createObjectURL(ingredient.imageFile)}
-                alt={`Preview ingrediente ${i}`}
-                className="h-12 w-12 object-cover rounded border"
-              />
-            )}
-
-            {i > 0 && (
-              <button
-                type="button"
-                onClick={() => removeIngredient(i)}
-                className="bg-red-500 text-white px-2 rounded"
-              >
-                X
-              </button>
-            )}
-          </div>
-        ))}
-
-        <button
-          type="button"
-          onClick={addIngredient}
-          className="bg-blue-500 text-white px-3 rounded mt-2"
-        >
-          Añadir ingrediente
-        </button>
-      </fieldset>
-
+      {/* Ingredientes */}
       <fieldset>
-          <legend className="font-semibold mb-2">Tags (selección múltiple e intensidad 1 a 10)</legend>
-          {formData.tags.map((tag, i) => (
-            <div key={i} className="flex gap-2 items-center mb-2">
-              <select
-                name="name"
-                value={tag.name}
-                onChange={(e) => handleTagChange(i, e)}
-                className="border p-1 rounded flex-1"
-              >
-                <option value="">Seleccione un tag</option>
-                {availableTags.map((t) => (
-                  <option key={t} value={t} className="text-black">
-                    {t.charAt(0).toUpperCase() + t.slice(1)} 
-                  </option>
-                ))}
-              </select>
+        <legend className="font-semibold mb-2">Ingredientes</legend>
+        {(formData.ingredients || []).map((ingredient, i) => (
+          <div key={i} className="flex gap-2 items-center mb-2">
+            <input type="text" name="name" placeholder="Nombre ingrediente" value={ingredient.name} onChange={(e) => handleIngredientChange(i, e)} className="border p-1 rounded w-full" />
+            <input id={`ingredient-file-${i}`} type="file" name="imageFile" accept="image/*" onChange={(e) => handleIngredientChange(i, e)} className="hidden" />
+            <label htmlFor={`ingredient-file-${i}`} className="cursor-pointer bg-blue-500 px-3 py-1 rounded text-sm hover:bg-gray-300">Subir imagen</label>
+            {ingredient.imageFile && <img src={URL.createObjectURL(ingredient.imageFile)} alt={`Preview ingrediente ${i}`} className="h-12 w-12 object-cover rounded border" />}
+            {i > 0 && <button type="button" onClick={() => removeIngredient(i)} className="bg-red-500 text-white px-2 rounded">X</button>}
+          </div>
+        ))}
+        <button type="button" onClick={addIngredient} className="bg-blue-500 text-white px-3 rounded mt-2">Añadir ingrediente</button>
+      </fieldset>
 
-              <input
-                type="number"
-                name="intensity"
-                placeholder="Intensidad (1-10)"
-                min={1}
-                max={10}
-                value={tag.intensity}
-                onChange={(e) => handleTagChange(i, e)}
-                className="border p-1 rounded w-24"
-              />
+      {/* Tags */}
+      <fieldset>
+        <legend className="font-semibold mb-2">Tags (selección múltiple e intensidad 1 a 10)</legend>
+        {(formData.tags || []).map((tag, i) => (
+          <div key={i} className="flex gap-2 items-center mb-2">
+            <select name="name" value={tag.name} onChange={(e) => handleTagChange(i, e)} className="border p-1 rounded flex-1">
+              <option value="">Seleccione un tag</option>
+              {availableTags.map((t) => (
+                <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>
+              ))}
+            </select>
+            <input type="number" name="intensity" placeholder="Intensidad (1-10)" min={1} max={10} value={tag.intensity} onChange={(e) => handleTagChange(i, e)} className="border p-1 rounded w-24" />
+            {i > 0 && <button type="button" onClick={() => removeTag(i)} className="bg-red-500 text-white px-2 rounded">X</button>}
+          </div>
+        ))}
+        <button type="button" onClick={addTag} className="bg-blue-500 text-white px-3 rounded">Añadir tag</button>
+      </fieldset>
 
-              {i > 0 && (
-                <button
-                  type="button"
-                  onClick={() => removeTag(i)}
-                  className="bg-red-500 text-white px-2 rounded"
-                >
-                  X
-                </button>
-              )}
-            </div>
-          ))}
-
-          <button
-            type="button"
-            onClick={addTag}
-            className="bg-blue-500 text-white px-3 rounded"
-          >
-            Añadir tag
-          </button>
-        </fieldset>
-
-      <LoadingButton
-        loading={loading}
-        type="submit"
-      >
-        Crear producto
-      </LoadingButton>
+      <div className="flex gap-2">
+        <LoadingButton loading={loading} type="submit">{initialValues ? "Actualizar producto" : "Crear producto"}</LoadingButton>
+        {onCancel && (
+          <button type="button" onClick={onCancel} className="px-3 py-1 rounded border border-gray-400">Cancelar</button>
+        )}
+      </div>
 
       {alert.msg && <Alert alert={alert} />}
     </form>

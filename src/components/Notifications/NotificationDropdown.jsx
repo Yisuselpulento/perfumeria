@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getUserNotificationsFetching, markNotificationAsReadFetching } from "../../services/NotificationFetching";
 import NotificationCard from "./NotificationCard";
 import useAuth from "../../hooks/useAuth";
+import Spinner from "../Spinner/Spinner";
 
 const NotificationDropdown = ({ onClose }) => {
   const [notifications, setNotifications] = useState([]);
@@ -54,9 +55,11 @@ const NotificationDropdown = ({ onClose }) => {
           Cerrar
         </button>
       </div>
-      <div className="max-h-96 overflow-y-auto">
+      <div className="max-h-96 overflow-y-auto mt-1">
         {loading ? (
-          <p>Cargando...</p>
+         <div className="min-h-[100px] flex justify-center items-center w-full">
+           <Spinner size="2em" />
+           </div>
         ) : notifications.length === 0 ? (
           <p className="text-gray-400">No tienes notificaciones</p>
         ) : (
