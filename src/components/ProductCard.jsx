@@ -53,7 +53,7 @@ const ProductCard = ({ product }) => {
         )} 
 
         <img
-          src={image}
+          src={image.url}
           alt={name}
           className="w-full h-full object-cover"
         />

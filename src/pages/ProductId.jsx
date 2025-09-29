@@ -129,7 +129,7 @@ const ProductId = () => {
               </ul>
 
               <div className="w-full h-90 md:h-[650px] md:w-[650px] flex justify-center items-center mb-4 rounded overflow-hidden">
-                <img src={image} alt={name} className="object-cover w-full h-full" />
+                <img src={image.url} alt={name} className="object-cover w-full h-full" />
               </div>
               <div className="flex flex-col items-center mb-4">
                   <div className="flex items-center gap-1">
@@ -206,7 +206,7 @@ const ProductId = () => {
                   {ingredients.map((ing, i) => (
                     <li key={i} className="flex flex-col items-center">
                       <img
-                        src={ing.image}
+                        src={ing.image.url}
                         alt={ing.name}
                         className="w-14 h-14 object-cover rounded"
                       />

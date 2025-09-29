@@ -46,17 +46,11 @@ const ProductsSection = () => {
     }
   };
 
-  const handleUpdated = async (id) => {
-    const newName = prompt("Nuevo nombre del producto:");
-    if (newName) {
-      const res = await updateProductFetching(id, { name: newName });
-      if (res.success) {
-        setProducts((prev) =>
-          prev.map((p) => (p._id === id ? { ...p, ...res.data } : p))
-        );
-      }
-    }
-  };
+  const handleUpdated = (updatedProduct) => {
+  setProducts((prev) =>
+    prev.map((p) => (p._id === updatedProduct._id ? updatedProduct : p))
+  );
+};
 
   return (
     <div className="flex flex-col md:flex-row gap-4 p-4">

@@ -14,7 +14,7 @@ const ProductCardAdmin = ({ product, onDeleted, onUpdated }) => {
         {/* Imagen */}
         <div className="w-20 h-20">
           <img
-            src={image}
+            src={image.url}
             alt={name}
             className="w-full h-full object-cover"
           />
@@ -79,14 +79,14 @@ const ProductCardAdmin = ({ product, onDeleted, onUpdated }) => {
             </button>
 
             {/* Formulario */}
-            <ProductForm
-              initialValues={product}
-              onSubmit={(updatedProduct) => {
-                if (onUpdated) onUpdated(updatedProduct);
-                setShowForm(false);
-              }}
-              onCancel={() => setShowForm(false)} 
-            />
+           <ProductForm
+                initialValues={product}
+                onUpdate={(updatedProduct) => {
+                  if (onUpdated) onUpdated(updatedProduct);
+                  setShowForm(false);
+                }}
+                onCancel={() => setShowForm(false)}
+              />
           </div>
         </div>
       )}
