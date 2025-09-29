@@ -76,7 +76,7 @@ const MyOrders = () => {
                 return (
                   <div key={item._id} className="flex items-center gap-4">
                     <img
-                      src={product.image || "/placeholder.png"}
+                      src={product.image.url || "/placeholder.png"}
                       alt={product.name || "Producto"}
                       className="w-16 h-16 object-cover rounded"
                     />

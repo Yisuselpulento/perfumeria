@@ -7,7 +7,7 @@ const CartItem = ({ item }) => {
     <div className="flex items-center justify-between border-b pb-3 border-gray-200 shadow-sm p-2">
       <div className="flex items-center gap-3 text-gray-300">
         <img
-          src={item.image}
+          src={item.image.url}
           alt={item.name}
           className="w-16 h-16 object-cover rounded-lg border"
         />

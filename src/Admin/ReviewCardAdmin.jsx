@@ -9,10 +9,10 @@ const ReviewCardAdmin = ({ review, onApprove, onDelete }) => {
         </small>
       </div>
       <div className="flex flex-col gap-2 ml-4">
-        <button onClick={() => onApprove(review._id)} className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">
+        <button onClick={() => onApprove(review._id)} className="bg-green-600 cursor-pointer hover:bg-green-700 text-white px-3 py-1 rounded">
           Aprobar
         </button>
-        <button onClick={() => onDelete(review._id)} className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">
+        <button onClick={() => onDelete(review._id)} className="bg-red-600  cursor-pointer hover:bg-red-700 text-white px-3 py-1 rounded">
           Eliminar
         </button>
       </div>
