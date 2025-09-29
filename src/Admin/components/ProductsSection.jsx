@@ -10,6 +10,7 @@ const ProductsSection = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [showFormMobile, setShowFormMobile] = useState(false);
+  const [editingProduct, setEditingProduct] = useState(null);
 
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") || "";
@@ -22,6 +23,8 @@ const ProductsSection = () => {
 
       const formattedQuery = query ? `q=${query}` : "";
       const res = await getProductsFetching(formattedQuery);
+
+         console.log("Respuesta fetch:", res);
 
       if (res.success) {
         setProducts(res.data);
@@ -52,6 +55,7 @@ const ProductsSection = () => {
   );
 };
 
+
   return (
     <div className="flex flex-col md:flex-row gap-4 p-4">
       {/* Columna izquierda → lista de productos */}
@@ -63,6 +67,7 @@ const ProductsSection = () => {
           <p>{error}</p>
         ) : (
           <div className="flex flex-col gap-4">
+            
             {products.map((product) => (
               <ProductCardAdmin
                 key={product._id}
