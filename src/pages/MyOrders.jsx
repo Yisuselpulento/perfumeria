@@ -13,6 +13,7 @@ const MyOrders = () => {
     const fetchOrders = async () => {
       setLoading(true);
       const res = await getUserOrdersFetching();
+      console.log(res)
       if (res.success) {
         setOrders(res.data);
         setError("");
@@ -27,7 +28,7 @@ const MyOrders = () => {
 
   if (loading) return <div className="flex justify-center items-center h-full"><Spinner /></div>;
   if (error) return <p className="text-red-600 text-center mt-6">{error}</p>;
- if (orders.length === 0)
+ if (orders?.length === 0)
     return (
       <div className="text-center mt-6 flex flex-col items-center gap-4">
         <p>No tienes órdenes aún 😢</p>
@@ -45,12 +46,12 @@ const MyOrders = () => {
    <div className="max-w-4xl mx-auto px-4 py-6">
       <h1 className="text-2xl font-semibold mb-6">Mis Órdenes</h1>
       <ul className="flex flex-col gap-6">
-        {orders.map((order) => (
-          <li key={order._id} className="p-4 rounded backdrop-blur-lg border border-white/20 shadow-md">
+        {orders?.map((order) => (
+          <li key={order?._id} className="p-4 rounded backdrop-blur-lg border border-white/20 shadow-md">
             
             {/* Header Orden */}
             <div className="flex justify-between items-center mb-3">
-              <span className="font-semibold">Orden ID: {order._id}</span>
+              <span className="font-semibold">Orden ID: {order?._id}</span>
               <span
                 className={`font-bold capitalize ${
                   order.status === "pending"
@@ -64,32 +65,30 @@ const MyOrders = () => {
                     : "text-gray-500"
                 }`}
               >
-                {order.status}
+                {order?.status}
               </span>
             </div>
 
             {/* Items */}
             <div className="flex flex-col gap-3 border-t border-b py-3">
-              {order.items.map((item) => {
-                const product = item.productId || {};
-                const variant = item.variant || {};
-                return (
+                {order?.items.map((item) => (
                   <div key={item._id} className="flex items-center gap-4">
                     <img
-                      src={product.image.url || "/placeholder.png"}
-                      alt={product.name || "Producto"}
+                      src={item?.image?.url || "/placeholder.png"}
+                      alt={item?.name || "Producto"}
                       className="w-16 h-16 object-cover rounded"
                     />
                     <div>
-                      <h3 >{product.name || "Producto desconocido"}</h3>
-                      {variant.volume && <p className="text-sm text-gray-200">{variant.volume}ml</p>}
+                      <h3>{item?.name || "Producto desconocido"}</h3>
+                      {item?.volume && (
+                        <p className="text-sm text-gray-200">{item.volume}ml</p>
+                      )}
                       <p className="text-sm text-gray-400">Precio: {toCLP(item.price)}</p>
                       <p className="text-sm">Cantidad: {item.quantity}</p>
                     </div>
                   </div>
-                );
-              })}
-            </div>
+                ))}
+              </div>
 
             {/* Footer orden */}
             <div className="mt-3 flex justify-between items-center">
