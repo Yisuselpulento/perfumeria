@@ -12,6 +12,7 @@ const NotificationsSection = () => {
     setLoading(true);
     const res = await getAllNotificationsFetching();
     if (res.success) setNotifications(res.data);
+    console.log(res.data)
     setLoading(false);
   };
 

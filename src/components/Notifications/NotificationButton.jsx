@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getUserNotificationsFetching } from "../../services/NotificationFetching";
 import NotificationIcon from "../../icons/NotificationIcon";
 import useAuth from "../../hooks/useAuth";
+import BadgeCounter from "../BadgeCounter";
 
 const NotificationButton = ({ onClick }) => {
   const [unreadCount, setUnreadCount] = useState(0);
@@ -28,14 +29,15 @@ const NotificationButton = ({ onClick }) => {
   return (
     <button
       onClick={onClick}
-      className="relative rounded-full cursor-pointer"
+      className="relative rounded-full cursor-pointer flex"
     >
-      <NotificationIcon width={23} height={23} className="hover:text-primary" />
-      {unreadCount > 0 && (
-        <span className="absolute -top-2 -right-2 bg-red-600 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center">
-          {unreadCount}
-        </span>
-      )}
+      <BadgeCounter count={unreadCount}>
+        <NotificationIcon
+          width={23}
+          height={23}
+          className="hover:text-primary"
+        />
+      </BadgeCounter>
     </button>
   );
 };

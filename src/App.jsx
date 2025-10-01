@@ -22,6 +22,7 @@ import UnverifiedRoute from './pages/ProtectRoutes/UnverifiedRoute';
 import GuestRoute from './pages/ProtectRoutes/GuestRoute';
 import ProtectedRoute from './pages/ProtectRoutes/ProtectedRoute';
 import EditProfile from './pages/EditProfile';
+import NotificationsPage from './pages/NotificationsPage';
 
 function App() {
   return (
@@ -52,6 +53,7 @@ function App() {
                           <Route path="/edit-profile" element={<EditProfile />} />
                           <Route path="/my-orders" element={<MyOrders />} />
                           <Route path="/checkout" element={<CheckoutPage />} />
+                          <Route path="/notifications" element={<NotificationsPage />} />
                   </Route>
 
                   <Route element={<ProtectedRoute adminOnly={true} />}>

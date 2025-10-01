@@ -3,6 +3,7 @@ import { getUserNotificationsFetching, markNotificationAsReadFetching } from "..
 import NotificationCard from "./NotificationCard";
 import useAuth from "../../hooks/useAuth";
 import Spinner from "../Spinner/Spinner";
+import { Link } from "react-router-dom";
 
 const NotificationDropdown = ({ onClose }) => {
   const [notifications, setNotifications] = useState([]);
@@ -71,6 +72,15 @@ const NotificationDropdown = ({ onClose }) => {
             />
           ))
         )}
+      </div>
+        <div className="text-center mt-2">
+        <Link
+          to="/notifications"
+          className="text-blue-500 hover:underline text-sm my-2"
+          onClick={onClose}
+        >
+          Ver todas las notificaciones
+        </Link>
       </div>
     </div>
   );
