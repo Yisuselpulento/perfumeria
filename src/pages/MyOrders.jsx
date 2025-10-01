@@ -45,7 +45,7 @@ const MyOrders = () => {
   return (
    <div className="max-w-4xl mx-auto px-4 py-6">
       <h1 className="text-2xl font-semibold mb-6">Mis Órdenes</h1>
-      <ul className="flex flex-col gap-6">
+      <ul className="flex flex-col gap-2">
         {orders?.map((order) => (
           <li key={order?._id} className="p-4 rounded backdrop-blur-lg border border-white/20 shadow-md">
             
@@ -71,25 +71,26 @@ const MyOrders = () => {
 
             {/* Items */}
             <div className="flex flex-col gap-3 border-t border-b py-3">
-                {order?.items.map((item) => (
-                  <div key={item._id} className="flex items-center gap-4">
-                    <img
-                      src={item?.image?.url || "/placeholder.png"}
-                      alt={item?.name || "Producto"}
-                      className="w-16 h-16 object-cover rounded"
-                    />
-                    <div>
-                      <h3>{item?.name || "Producto desconocido"}</h3>
-                      {item?.volume && (
-                        <p className="text-sm text-gray-200">{item.volume}ml</p>
-                      )}
-                      <p className="text-sm text-gray-400">Precio: {toCLP(item.price)}</p>
-                      <p className="text-sm">Cantidad: {item.quantity}</p>
-                    </div>
+              {order?.items.map((item) => (
+                <div key={item._id} className="flex items-center gap-4">
+                  <img
+                    src={item?.productId?.image?.url || "/placeholder.png"}
+                    alt={item?.productId?.name || "Producto"}
+                    className="w-16 h-16 object-cover rounded"
+                  />
+                  <div>
+                    <h3>{item?.productId?.name || "Producto desconocido"}</h3>
+                    {item?.volume && (
+                      <p className="text-sm text-gray-200">{item.volume}ml</p>
+                    )}
+                    <p className="text-sm text-gray-400">
+                      Precio: {toCLP(item.price)}
+                    </p>
+                    <p className="text-sm">Cantidad: {item.quantity}</p>
                   </div>
-                ))}
-              </div>
-
+                </div>
+              ))}
+            </div>
             {/* Footer orden */}
             <div className="mt-3 flex justify-between items-center">
               <span>Total: {toCLP(order.total)}</span>
