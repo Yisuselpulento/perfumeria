@@ -1,17 +1,5 @@
 import axiosInstance from "../helpers/axiosConfig.js";
 
-// Crear una nueva orden
-/* export const createOrderFetching = async (orderData) => {
-  try {
-    const { data } = await axiosInstance.post("/api/orders", orderData);
-    return data;
-  } catch (error) {
-    console.error("Error al crear orden:", error.response?.data?.message);
-    const errorMessage = error.response?.data?.message || "Error al crear orden";
-    return { success: false, message: errorMessage };
-  }
-}; */
-
 export const createPaymentIntent = async (total) => {
   try {
     const { data } = await axiosInstance.post("/api/payments/create-intent", {

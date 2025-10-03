@@ -24,8 +24,8 @@ const ProductForm = ({ initialValues = null, onCreate, onUpdate, onCancel }) => 
     timeOfDay: "día",
     seasons: [],
     variants: [
-      { volume: 3, price: "", stock: "" },
-      { volume: 5, price: "", stock: "" },
+      { volume: 4, price: "", stock: "" },
+      { volume: 7, price: "", stock: "" },
       { volume: 10, price: "", stock: "" },
     ],
     ingredients: [{ name: "", imageFile: null, currentImageUrl: "" }],
@@ -47,8 +47,8 @@ const ProductForm = ({ initialValues = null, onCreate, onUpdate, onCancel }) => 
         timeOfDay: initialValues.timeOfDay || "día",
         seasons: initialValues.seasons || [],
         variants: initialValues.variants || [
-          { volume: 3, price: "", stock: "" },
-          { volume: 5, price: "", stock: "" },
+          { volume: 4, price: "", stock: "" },
+          { volume: 7, price: "", stock: "" },
           { volume: 10, price: "", stock: "" },
         ],
         ingredients: (initialValues.ingredients || []).map((ing) => ({
@@ -192,8 +192,8 @@ const ProductForm = ({ initialValues = null, onCreate, onUpdate, onCancel }) => 
             timeOfDay: "día",
             seasons: [],
             variants: [
-              { volume: 3, price: "", stock: "" },
-              { volume: 5, price: "", stock: "" },
+              { volume: 4, price: "", stock: "" },
+              { volume: 7, price: "", stock: "" },
               { volume: 10, price: "", stock: "" },
             ],
             ingredients: [{ name: "", imageFile: null, currentImageUrl: "" }],

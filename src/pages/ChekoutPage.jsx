@@ -38,7 +38,7 @@ const CheckoutForm = () => {
     fetchAddresses();
   }, []);
 
-  const handlePayment = async (e) => {
+/*   const handlePayment = async (e) => {
   e.preventDefault();
 
   if (!auth?.success) {
@@ -84,9 +84,9 @@ const CheckoutForm = () => {
   } finally {
     setLoading(false);
   }
-};
+}; */
 
-/*  const handlePayment = async (e) => {
+ const handlePayment = async (e) => {
   e.preventDefault();
   if (!stripe || !elements) return;
 
@@ -135,6 +135,7 @@ const CheckoutForm = () => {
 
       clearCart();
       setSuccess(true);
+      toast.success("Pago exitoso 🎉");
       navigate("/my-orders");
     }
   } catch (err) {
@@ -142,7 +143,7 @@ const CheckoutForm = () => {
   } finally {
     setLoading(false);
   }
-}; */
+}; 
   return (
     <form onSubmit={handlePayment} className="max-w-md mx-auto mt-10 p-4 rounded backdrop-blur-lg border border-white/20 shadow-md">
       <h2 className="text-xl font-semibold mb-4">Resumen de compra</h2>

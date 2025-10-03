@@ -194,10 +194,15 @@ const ProductId = () => {
                 </ul>
 
                 {selectedVariant && (
-                  <p className="mt-4 text-lg font-semibold">
-                    {toCLP(selectedVariant.price)}
-                  </p>
-                )}
+                      <>
+                        <p className="mt-2 text-sm text-gray-400">
+                          {selectedVariant.volume === 4 && "De 60 a 70 atomizaciones"}
+                          {selectedVariant.volume === 7 && "De 100 a 120 atomizaciones"}
+                          {selectedVariant.volume === 10 && "De 140 a 160 atomizaciones"}
+                        </p>
+                        <p className="mt-1 text-lg font-semibold">{toCLP(selectedVariant.price)}</p>
+                      </>
+                    )}
               </section>
 
               <section className="mt-6 w=fu">
