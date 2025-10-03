@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { updateOrderStatusFetching, deleteOrderFetching, failPaymentFetching, refundPaymentFetching } from "../../services/OrderFetching.js";
+import { updateOrderStatusFetching, deleteOrderFetching } from "../../services/OrderFetching.js";
+import { failPaymentFetching, refundPaymentFetching } from "../../services/CheckoutFetching.js";
 import { toast } from "sonner";
 import { toCLP } from "../../helpers/toClp";
 
