@@ -205,21 +205,35 @@ const ProductId = () => {
                     )}
               </section>
 
-              <section className="mt-6 w=fu">
-                <h2 className="mb-2">Ingredientes</h2>
-                <ul className="flex flex-wrap gap-4 justify-center">
-                  {ingredients.map((ing, i) => (
-                    <li key={i} className="flex flex-col items-center">
-                      <img
-                        src={ing.image.url}
-                        alt={ing.name}
-                        className="w-14 h-14 object-cover rounded"
-                      />
-                      <span className="text-xs">{ing.name}</span>
-                    </li>
-                  ))}
-                </ul>
-              </section>
+              <section className="mt-6">
+                    <h2 className="mb-2">Ingredientes</h2>
+                    <ul className="flex flex-wrap gap-4 justify-center">
+                      {ingredients.map((ing, i) => {
+                        // Crear nombre de archivo a partir del nombre del ingrediente
+                        const imageName = ing.name
+                          .toLowerCase()
+                          .replace(/\s+/g, "_") // espacios -> guiones bajos
+                          .replace(/[áéíóúñ]/g, (char) =>
+                            ({ á: "a", é: "e", í: "i", ó: "o", ú: "u", ñ: "n" }[char])
+                          ); // quitar acentos
+                        const imagePath = `/ingredients/${imageName}.jpg`;
+
+                        return (
+                          <li key={i} className="flex flex-col items-center">
+                            <img
+                              src={imagePath}
+                              alt={ing.name}
+                              className="w-14 h-14 object-cover rounded"
+                              onError={(e) => {
+                                e.target.src = "/images/ingredientes/default.webp"; // por si no existe la imagen
+                              }}
+                            />
+                            <span className="text-xs">{ing.name}</span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </section>
 
               <section className="mt-6 ">
                 <h2 className="mb-2">Intensidad</h2>

@@ -4,6 +4,7 @@ import { toast } from "sonner";
 import LoadingButton from "../components/LoadingButton";
 import { Alert } from "../components/Alert";
 import { tagColors } from "../helpers/tagscolors";
+import { availableIngredients } from "../helpers/ingredients.js";
 
 const availableTags = Object.keys(tagColors);
 
@@ -28,7 +29,7 @@ const ProductForm = ({ initialValues = null, onCreate, onUpdate, onCancel }) => 
       { volume: 7, price: "", stock: "" },
       { volume: 10, price: "", stock: "" },
     ],
-    ingredients: [{ name: "", imageFile: null, currentImageUrl: "" }],
+    ingredients: [{ name: "" }],
     tags: [{ name: "", intensity: "" }],
   });
 
@@ -52,10 +53,8 @@ const ProductForm = ({ initialValues = null, onCreate, onUpdate, onCancel }) => 
           { volume: 10, price: "", stock: "" },
         ],
         ingredients: (initialValues.ingredients || []).map((ing) => ({
-          name: ing.name || "",
-          imageFile: null,
-          currentImageUrl: ing.image?.url || "",
-        })),
+              name: ing.name || "",
+            })),
         tags: (initialValues.tags || []).map((tag) => ({
           name: tag.name || "",
           intensity: tag.intensity || "",
@@ -83,21 +82,17 @@ const ProductForm = ({ initialValues = null, onCreate, onUpdate, onCancel }) => 
   };
 
   const handleIngredientChange = (index, e) => {
-    const { name, value, files } = e.target;
-    const newIngredients = [...formData.ingredients];
-    if (name === "imageFile") {
-      newIngredients[index].imageFile = files[0] || null;
-    } else {
-      newIngredients[index][name] = value;
-    }
-    setFormData((prev) => ({ ...prev, ingredients: newIngredients }));
-  };
+  const { name, value } = e.target;
+  const newIngredients = [...formData.ingredients];
+  newIngredients[index][name] = value;
+  setFormData((prev) => ({ ...prev, ingredients: newIngredients }));
+};
 
   const addIngredient = () =>
-    setFormData((prev) => ({
-      ...prev,
-      ingredients: [...prev.ingredients, { name: "", imageFile: null, currentImageUrl: "" }],
-    }));
+  setFormData((prev) => ({
+    ...prev,
+    ingredients: [...prev.ingredients, { name: "" }],
+  }));
 
   const removeIngredient = (index) =>
     setFormData((prev) => ({
@@ -158,11 +153,6 @@ const ProductForm = ({ initialValues = null, onCreate, onUpdate, onCancel }) => 
 
       // Imagen principal
       if (formData.image) form.append("productImage", formData.image);
-
-      // Imágenes de ingredientes en orden
-      formData.ingredients.forEach((ing) => {
-        if (ing.imageFile) form.append("ingredientImages", ing.imageFile);
-      });
 
       // ------------------- LÓGICA DE CREAR O ACTUALIZAR -------------------
       let response;
@@ -239,7 +229,7 @@ const ProductForm = ({ initialValues = null, onCreate, onUpdate, onCancel }) => 
       {/* Categoría */}
       <div>
         <label>Categoría</label>
-        <select name="category" value={formData.category} onChange={handleChange} className="w-full border p-2 rounded">
+        <select name="category" value={formData.category} onChange={handleChange} className="bg-stone-900 w-full border p-2 rounded">
           <option value="hombre">Hombre</option>
           <option value="mujer">Mujer</option>
           <option value="unisex">Unisex</option>
@@ -249,7 +239,7 @@ const ProductForm = ({ initialValues = null, onCreate, onUpdate, onCancel }) => 
       {/* Momento del día */}
       <div>
         <label>Momento del día</label>
-        <select name="timeOfDay" value={formData.timeOfDay} onChange={handleChange} className="w-full border p-2 rounded">
+        <select name="timeOfDay" value={formData.timeOfDay} onChange={handleChange} className="w-full border p-2 rounded bg-stone-900">
           <option value="día">Día</option>
           <option value="noche">Noche</option>
           <option value="día_y_noche">Día y noche</option>
@@ -312,30 +302,48 @@ const ProductForm = ({ initialValues = null, onCreate, onUpdate, onCancel }) => 
       </fieldset>
 
       {/* Ingredientes */}
-      <fieldset>
-        <legend className="font-semibold mb-2">Ingredientes</legend>
-        {formData.ingredients.map((ingredient, i) => (
-          <div key={i} className="flex gap-2 items-center mb-2">
-            <input type="text" name="name" placeholder="Nombre ingrediente" value={ingredient.name} onChange={(e) => handleIngredientChange(i, e)} className="border p-1 rounded w-full" />
-            <input id={`ingredient-file-${i}`} type="file" name="imageFile" accept="image/*" onChange={(e) => handleIngredientChange(i, e)} className="hidden" />
-            <label htmlFor={`ingredient-file-${i}`} className="cursor-pointer bg-blue-500 px-3 py-1 rounded text-sm hover:bg-gray-300">Subir imagen</label>
-            {ingredient.imageFile ? (
-              <img src={URL.createObjectURL(ingredient.imageFile)} alt={`Preview ingrediente ${i}`} className="h-12 w-12 object-cover rounded border" />
-            ) : ingredient.currentImageUrl ? (
-              <img src={ingredient.currentImageUrl} alt={`Ingrediente actual ${i}`} className="h-12 w-12 object-cover rounded border" />
-            ) : null}
-            {i > 0 && <button type="button" onClick={() => removeIngredient(i)} className="bg-red-500 text-white px-2 rounded">X</button>}
-          </div>
-        ))}
-        <button type="button" onClick={addIngredient} className="bg-blue-500 text-white px-3 rounded mt-2">Añadir ingrediente</button>
-      </fieldset>
-
+          <fieldset>
+            <legend className="font-semibold mb-2">Ingredientes</legend>
+            {formData.ingredients.map((ingredient, i) => (
+              <div key={i} className="flex gap-2 items-center mb-2">
+                <select
+                  name="name"
+                  value={ingredient.name}
+                  onChange={(e) => handleIngredientChange(i, e)}
+                  className="border p-1 rounded flex-1 bg-stone-900"
+                >
+                  <option value="">Seleccione un ingrediente</option>
+                  {availableIngredients.map((ing) => (
+                    <option key={ing} value={ing}>
+                      {ing.charAt(0).toUpperCase() + ing.slice(1)}
+                    </option>
+                  ))}
+                </select>
+                {i > 0 && (
+                  <button
+                    type="button"
+                    onClick={() => removeIngredient(i)}
+                    className="bg-red-500 text-white px-2 rounded"
+                  >
+                    X
+                  </button>
+                )}
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addIngredient}
+              className="bg-blue-500 text-white px-3 rounded mt-2"
+            >
+              Añadir ingrediente
+            </button>
+          </fieldset>
       {/* Tags */}
       <fieldset>
         <legend className="font-semibold mb-2">Tags</legend>
         {formData.tags.map((tag, i) => (
           <div key={i} className="flex gap-2 items-center mb-2">
-            <select name="name" value={tag.name} onChange={(e) => handleTagChange(i, e)} className="border p-1 rounded flex-1">
+            <select name="name" value={tag.name} onChange={(e) => handleTagChange(i, e)} className="border p-1 rounded flex-1 bg-stone-900">
               <option value="">Seleccione un tag</option>
               {availableTags.map((t) => (
                 <option key={t} value={t}>{t.charAt(0).toUpperCase() + t.slice(1)}</option>
