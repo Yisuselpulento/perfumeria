@@ -28,23 +28,23 @@ const ShippingForm = ({ onChange, defaultAddress }) => {
     }
   }, [defaultAddress]);
 
-  const validate = (field, value) => {
-    let message = "";
+const REQUIRED_FIELDS = ["street", "city", "state", "zip", "phone"];
 
-    if (!value.trim()) {
-      message = "Este campo es obligatorio";
-    }
+const validate = (field, value) => {
+  if (REQUIRED_FIELDS.includes(field) && !value.trim()) {
+    return "Este campo es obligatorio";
+  }
 
-    if (field === "zip" && !/^\d{4,10}$/.test(value)) {
-      message = "Código postal inválido";
-    }
+  if (field === "zip" && value && !/^\d{4,10}$/.test(value)) {
+    return "Código postal inválido";
+  }
 
-    if (field === "phone" && !/^\+?\d{8,15}$/.test(value)) {
-      message = "Número de teléfono inválido";
-    }
+  if (field === "phone" && value && !/^\+?\d{8,15}$/.test(value)) {
+    return "Número de teléfono inválido";
+  }
 
-    return message;
-  };
+  return "";
+};
 
   const handleChange = (e) => {
     const { name, value } = e.target;

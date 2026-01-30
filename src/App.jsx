@@ -23,6 +23,8 @@ import GuestRoute from './pages/ProtectRoutes/GuestRoute';
 import ProtectedRoute from './pages/ProtectRoutes/ProtectedRoute';
 import EditProfile from './pages/EditProfile';
 import NotificationsPage from './pages/NotificationsPage';
+import CheckoutSuccess from './pages/CheckoutSuccess';
+import CheckoutFailure from './pages/CheckoutFailure';
 
 function App() {
   return (
@@ -54,6 +56,8 @@ function App() {
                           <Route path="/my-orders" element={<MyOrders />} />
                           <Route path="/checkout" element={<CheckoutPage />} />
                           <Route path="/notifications" element={<NotificationsPage />} />
+                           <Route path="/checkout/success" element={<CheckoutSuccess />} />
+                          <Route path="/checkout/failure" element={<CheckoutFailure />} />
                   </Route>
 
                   <Route element={<ProtectedRoute adminOnly={true} />}>

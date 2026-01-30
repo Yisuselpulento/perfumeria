@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { updateOrderStatusFetching, deleteOrderFetching } from "../../services/OrderFetching.js";
-import { failPaymentFetching, refundPaymentFetching } from "../../services/CheckoutFetching.js";
+import {
+  updateOrderStatusFetching,
+  deleteOrderFetching,
+} from "../../services/OrderFetching.js";
 import { toast } from "sonner";
 import { toCLP } from "../../helpers/toClp";
 
@@ -8,21 +10,16 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
   const [status, setStatus] = useState(order.status);
   const [loading, setLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [showRefundModal, setShowRefundModal] = useState(false);
 
-  // ✅ Cambiar estado o marcar como fallida
+  // ✅ Cambiar estado de la orden
   const handleStatusChange = async (e) => {
     const newStatus = e.target.value;
+
+    if (newStatus === status) return;
+
     setLoading(true);
     try {
-      let res;
-
-      // Si pasa de pending -> cancelled => failPayment
-      if (status === "pending" && newStatus === "cancelled") {
-        res = await failPaymentFetching(order._id);
-      } else {
-        res = await updateOrderStatusFetching(order._id, newStatus);
-      }
+      const res = await updateOrderStatusFetching(order._id, newStatus);
 
       if (res.success) {
         setStatus(newStatus);
@@ -38,31 +35,12 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
     }
   };
 
-  // ✅ Reembolsar pago
-  const handleRefund = async () => {
-    setLoading(true);
-    try {
-      const res = await refundPaymentFetching(order.paymentId);
-      if (res.success) {
-        toast.success("Pago reembolsado");
-        setStatus("refunded");
-        if (onUpdate) onUpdate(order._id, "refunded");
-      } else {
-        toast.error(res.message || "Error procesando reembolso");
-      }
-    } catch (err) {
-      toast.error(err.message || "Error procesando reembolso");
-    } finally {
-      setLoading(false);
-      setShowRefundModal(false); // cerrar modal
-    }
-  };
-
   // ✅ Eliminar orden
   const handleDelete = async () => {
     setLoading(true);
     try {
       const res = await deleteOrderFetching(order._id);
+
       if (res.success) {
         toast.success("Orden eliminada");
         if (onDelete) onDelete(order._id);
@@ -73,7 +51,7 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
       toast.error(err.message || "Error eliminando orden");
     } finally {
       setLoading(false);
-      setShowDeleteModal(false); // cerrar modal
+      setShowDeleteModal(false);
     }
   };
 
@@ -86,6 +64,7 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
         <span className="font-semibold">
           Usuario: {user.fullName || "Desconocido"} ({user.email || "N/A"})
         </span>
+
         <select
           className={`font-bold capitalize border rounded px-2 py-1 cursor-pointer ${
             status === "pending"
@@ -96,9 +75,9 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
               ? "text-blue-500"
               : status === "delivered"
               ? "text-purple-500"
-              : status === "refunded"
-              ? "text-orange-500"
-              : "text-gray-500"
+              : status === "cancelled"
+              ? "text-gray-500"
+              : ""
           }`}
           value={status}
           onChange={handleStatusChange}
@@ -109,12 +88,18 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
           <option value="shipped">shipped</option>
           <option value="delivered">delivered</option>
           <option value="cancelled">cancelled</option>
-          <option value="refunded">refunded</option>
         </select>
       </div>
 
-      <p><strong>Fecha:</strong> {new Date(order.createdAt).toLocaleString()}</p>
-      <p><strong>Total:</strong> {toCLP(order.total)}</p>
+      <p>
+        <strong>Fecha:</strong>{" "}
+        {new Date(order.createdAt).toLocaleString()}
+      </p>
+
+      <p>
+        <strong>Total:</strong> {toCLP(order.total)}
+      </p>
+
       <p>
         <strong>Dirección:</strong>{" "}
         {shipping.street || "-"}, {shipping.city || "-"},{" "}
@@ -124,20 +109,16 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
       <div className="mt-2">
         <strong>Productos:</strong>
         <ul className="ml-4 list-disc">
-          {order.items.map((item) => {
-            const variant = item.variant || {};
-            return (
-              <li key={item.variantId || item._id}>
-                {item.name || "Producto desconocido"} - {variant.volume || "-"}ml - 
-                Cantidad: {item.quantity} - Precio: {toCLP(item.price)}
-              </li>
-            );
-          })}
+          {order.items.map((item) => (
+            <li key={item.variantId || item._id}>
+              {item.name} ({item.volume}ml) — Cantidad: {item.quantity} —{" "}
+              {toCLP(item.price)}
+            </li>
+          ))}
         </ul>
       </div>
 
       <div className="mt-3 flex gap-2">
-        {/* ✅ Botón eliminar */}
         <button
           onClick={() => setShowDeleteModal(true)}
           disabled={loading}
@@ -145,24 +126,15 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
         >
           Eliminar
         </button>
-
-        {/* ✅ Botón reembolso (solo si está pagada) */}
-        {status === "paid" && (
-          <button
-            onClick={() => setShowRefundModal(true)}
-            disabled={loading}
-            className="bg-orange-600 hover:bg-orange-700 text-white px-3 py-1 rounded cursor-pointer"
-          >
-            Reembolsar
-          </button>
-        )}
       </div>
 
-      {/* Modal confirmación eliminación */}
+      {/* Modal eliminar */}
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
           <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-md w-80 text-center">
-            <p className="mb-4">¿Estás seguro que deseas eliminar esta orden?</p>
+            <p className="mb-4">
+              ¿Estás seguro que deseas eliminar esta orden?
+            </p>
             <div className="flex justify-around gap-4">
               <button
                 onClick={handleDelete}
@@ -172,33 +144,6 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
               </button>
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded cursor-pointer"
-              >
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Modal confirmación reembolso */}
-      {showRefundModal && (
-        <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-md w-96 text-center">
-            <p className="mb-4">
-              ⚠️ Estás a punto de <strong>reembolsar</strong> esta orden.  
-              Esto devolverá el dinero al cliente en su método de pago original.  
-              ¿Quieres continuar?
-            </p>
-            <div className="flex justify-around gap-4">
-              <button
-                onClick={handleRefund}
-                className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded cursor-pointer"
-              >
-                Sí, reembolsar
-              </button>
-              <button
-                onClick={() => setShowRefundModal(false)}
                 className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded cursor-pointer"
               >
                 Cancelar
