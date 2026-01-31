@@ -51,3 +51,8 @@ export const getBestSellingProductsFetching = async () =>
   handleRequest(
     axiosInstance.get("/api/products/bestsellers")
   );
+
+  export const getRandomProductsFetching = async () =>
+  handleRequest(
+    axiosInstance.get("/api/products/random")
+  );

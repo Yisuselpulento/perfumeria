@@ -11,5 +11,12 @@ export const availableIngredients = [
   "cardamomo",
   "piña",
   "jengibre",
-  "iris"
+  "iris",
+  "lavanda",
+  "menta",
+  "vainilla",
+  "notas minerales",
+  "sal",
+  "hojas de violeta",
+  "mandarina"
 ];
