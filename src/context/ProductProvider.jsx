@@ -4,11 +4,11 @@ const ProductsContext = createContext();
 
 export const ProductsProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
-  const [loaded, setLoaded] = useState(false);
+  const [lastQuery, setLastQuery] = useState(null); // 🔑
 
   return (
     <ProductsContext.Provider
-      value={{ products, setProducts, loaded, setLoaded }}
+      value={{ products, setProducts, lastQuery, setLastQuery }}
     >
       {children}
     </ProductsContext.Provider>

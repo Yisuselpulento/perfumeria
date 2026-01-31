@@ -1,32 +1,34 @@
 import { useEffect, useState } from "react";
-import { getProductsFetching } from "../services/ProductsFetching";
-import ProductCard from "./ProductCard";
 import { useSearchParams } from "react-router-dom";
-import Spinner from "./Spinner/Spinner";
+import { getProductsFetching } from "../services/ProductsFetching";
 import { useProducts } from "../context/ProductProvider";
+import Spinner from "./Spinner/Spinner";
+import ProductCard from "./ProductCard";
 
 const ProductList = () => {
-  const { products, setProducts, loaded, setLoaded } = useProducts();
+  const { products, setProducts, lastQuery, setLastQuery } = useProducts();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      // ✅ si ya cargó una vez y NO hay filtros, no vuelve a fetchear
-      if (loaded && !searchParams.toString()) return;
+    const query = searchParams.toString();
 
+    // ✅ si ya tenemos data para ESTE query, no refetch
+    if (lastQuery === query && products.length) return;
+
+    const fetchProducts = async () => {
       setLoading(true);
       setError("");
 
-      const query = searchParams.toString();
       const res = await getProductsFetching(query);
 
       if (res.success) {
         setProducts(res.data);
-        if (!query) setLoaded(true); // solo marcar loaded para la carga inicial
+        setLastQuery(query);
       } else {
         setError(res.message);
+        setProducts([]);
       }
 
       setLoading(false);
@@ -44,7 +46,7 @@ const ProductList = () => {
   }
 
   if (error) return <p>{error}</p>;
-  if (products.length === 0) return <p>No se encontraron productos.</p>;
+  if (!products.length) return <p>No se encontraron productos.</p>;
 
   return (
     <div className="grid grid-cols-2 gap-4 md:flex md:flex-wrap md:gap-4">
