@@ -55,14 +55,14 @@ const LogoutButton = ({ toggleMenu }) => {
               toggleMenu();
               handleLogout();
             }}
-            className="w-full px-3 py-2 text-sm text-red-500 hover:bg-red-50 rounded-t-md cursor-pointer"
+            className="w-full px-3 py-2 text-sm text-red-500 hover:bg-stone-700 rounded-t-md cursor-pointer"
           >
             Salir
           </button>
 
           <button
             onClick={() => setShowConfirm(false)}
-            className="w-full px-3 py-2 text-sm text-gray-200 hover:bg-gray-100 rounded-b-md cursor-pointer"
+            className="w-full px-3 py-2 text-sm text-gray-200 hover:bg-stone-700 rounded-b-md cursor-pointer"
           >
             Cancelar
           </button>
