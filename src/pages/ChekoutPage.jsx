@@ -110,7 +110,7 @@ const CheckoutPage = () => {
         disabled={loading}
         className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/80 w-full cursor-pointer mt-4 disabled:opacity-60"
       >
-        {loading ? "Redirigiendo a Mercado Pago..." : "Pagar"}
+        {loading ? "Cargando..." : "Pagar"}
       </button>
     </form>
   );

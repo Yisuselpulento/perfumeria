@@ -68,7 +68,7 @@ const FiltersDrawer = ({ isOpen, onClose }) => {
  return (
     <div
       className={`
-        fixed top-0 -left-1 h-full bg-white md:bg-transparent text-gray-600 md:z-auto md:text-gray-400 z-50 w-[65%] shadow-lg
+        fixed top-0 -left-1 h-full bg-stone-900 md:bg-transparent text-gray-200 md:z-auto md:text-gray-400 z-50 w-[65%] shadow-lg
         transform transition-transform
         ${isOpen ? "translate-x-0" : "-translate-x-full"} 
         md:relative md:translate-x-0 md:w-full md:max-w-[280px] md:shadow-none flex flex-col
@@ -83,7 +83,7 @@ const FiltersDrawer = ({ isOpen, onClose }) => {
        <div className="flex-1 p-4 flex flex-col gap-4 overflow-y-auto">
         {/* Género */}
         <div>
-          <h3 className="font-semibold mb-2 text-gray-800 md:text-gray-300">Género</h3>
+          <h3 className="font-semibold mb-2 text-gray-400 md:text-gray-300">Género</h3>
           <div className="flex flex-col gap-1">
             {generos.map((g) => (
               <label key={g} className="flex items-center gap-2">
@@ -100,7 +100,7 @@ const FiltersDrawer = ({ isOpen, onClose }) => {
 
         {/* Temporada */}
         <div>
-          <h3 className="font-semibold mb-2 text-gray-800 md:text-gray-300">Temporada</h3>
+          <h3 className="font-semibold mb-2 text-gray-400 md:text-gray-300">Temporada</h3>
           <div className="flex flex-col gap-1">
             {temporadas.map((t) => (
               <label key={t} className="flex items-center gap-2">
@@ -117,7 +117,7 @@ const FiltersDrawer = ({ isOpen, onClose }) => {
 
         {/* Tiempo */}
         <div>
-          <h3 className="font-semibold mb-2 text-gray-800 md:text-gray-300">Ocasion / Tiempo del día</h3>
+          <h3 className="font-semibold mb-2 text-gray-400 md:text-gray-300">Ocasion / Tiempo del día</h3>
           <div className="flex flex-col gap-1">
             {tiempos.map((t) => (
               <label key={t} className="flex items-center gap-2">
@@ -134,7 +134,7 @@ const FiltersDrawer = ({ isOpen, onClose }) => {
 
         {/* Tags */}
         <div>
-          <h3 className="font-semibold mb-2 text-gray-800 md:text-gray-300">Aromas</h3>
+          <h3 className="font-semibold mb-2 text-gray-400 md:text-gray-300">Aromas</h3>
           <div className="flex flex-col gap-1 overflow-y-auto" style={{ maxHeight: "150px" }}>
             {tags.map((tag) => (
               <label key={tag} className={`flex items-center gap-2 ${tag} px-2 py-1 rounded`}>
@@ -151,7 +151,7 @@ const FiltersDrawer = ({ isOpen, onClose }) => {
 
         {/* Precio */}
         <div>
-          <h3 className="font-semibold mb-2 text-gray-800 md:text-gray-300">Precio</h3>
+          <h3 className="font-semibold mb-2 text-gray-400 md:text-gray-300">Precio</h3>
           <div className="flex gap-2 items-center">
             <input
               type="number"
@@ -169,7 +169,7 @@ const FiltersDrawer = ({ isOpen, onClose }) => {
             />
             <button
               onClick={applyPriceFilter}
-              className="bg-gray-200 md:bg-primary md:hover:bg-primary/80 md:text-gray-300 px-3 py-1 rounded hover:bg-gray-300 cursor-pointer"
+              className="bg-red-600 md:bg-primary md:hover:bg-primary/80 md:text-gray-300 px-3 py-1 rounded hover:bg-gray-300 cursor-pointer"
             >
               Aplicar
             </button>
@@ -178,7 +178,7 @@ const FiltersDrawer = ({ isOpen, onClose }) => {
 
         {/* Orden */}
         <div>
-          <h3 className="font-semibold mb-2 text-gray-800 md:text-gray-300">Ordenar por</h3>
+          <h3 className="font-semibold mb-2 text-gray-400 md:text-gray-300">Ordenar por</h3>
           <select
             className="w-full p-2 border rounded md:text-gray-700 md:bg-white"
             value={selectedOrder}

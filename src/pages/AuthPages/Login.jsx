@@ -32,43 +32,44 @@ const Login = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      setAlert({
-        msg: "Por favor, ingresa un correo electrónico válido.",
-        error: true,
-      });
-      return;
-    }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!formData.password.trim()) {
-      setAlert({
-        msg: "La contraseña es obligatoria.",
-        error: true,
-      });
-      return;
-    }
+  if (!emailRegex.test(formData.email)) {
+    setAlert({
+      msg: "Por favor, ingresa un correo electrónico válido.",
+      error: true,
+    });
+    return;
+  }
 
-    setLoading(true);
+  if (!formData.password.trim()) {
+    setAlert({
+      msg: "La contraseña es obligatoria.",
+      error: true,
+    });
+    return;
+  }
 
-    try {
-      const response = await loginFetching(formData);
-      if (response.success) {
-        updateAuth(response.user, true);
-        clearVerificationCardOnLogin();
-        navigate("/storage"); 
-      } else {
-        setAlert({ error: true, msg: response.message });
-      }
-    } catch (error) {
-      setAlert({ error: true, msg: "Hubo un error. Por favor, intenta de nuevo." });
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+
+  const response = await loginFetching(formData);
+
+  if (response.success) {
+    updateAuth(response.user, true);
+    clearVerificationCardOnLogin();
+    navigate("/storage");
+  } else {
+    setAlert({
+      error: true,
+      msg: response.message,
+    });
+  }
+
+  setLoading(false);
+};
+
 
   const styleInput = "bg-stone-800 mt-1 p-2 w-full border border-gray-300 rounded-md"
 

@@ -13,7 +13,7 @@ const ReviewCardAdmin = ({ review, onApprove, onDelete }) => {
   };
 
   return (
-    <div className="p-4 border rounded shadow-md flex justify-between items-start">
+    <div className="p-4 border border-gray-600 rounded-lg shadow-md flex justify-between items-start">
       <div>
         <h3 className="font-semibold">{review.productName}</h3>
         <p>{review.comment || "Sin comentario"}</p>
@@ -40,7 +40,7 @@ const ReviewCardAdmin = ({ review, onApprove, onDelete }) => {
       {/* Modal de confirmación */}
       {showModal && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-md w-80 text-center">
+          <div className=" bg-stone-900  p-6 rounded shadow-md w-80 text-center">
             <p className="mb-4">
               ¿Estás seguro que deseas eliminar la reseña de{" "}
               <span className="font-semibold">
@@ -53,11 +53,11 @@ const ReviewCardAdmin = ({ review, onApprove, onDelete }) => {
                 onClick={handleConfirmDelete}
                 className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded cursor-pointer"
               >
-                Sí, eliminar
+                Eliminar
               </button>
               <button
                 onClick={() => setShowModal(false)}
-                className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded cursor-pointer"
+                className="bg-gray-700 hover:bg-gray-500 text-white px-4 py-2 rounded cursor-pointer"
               >
                 Cancelar
               </button>

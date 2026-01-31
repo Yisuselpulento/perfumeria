@@ -19,29 +19,33 @@ const UpdatePassword = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (password !== confirmPassword) {
-      setAlert({ error: true, msg: "Las contraseñas no coinciden" });
-      return;
-    }
+  if (password !== confirmPassword) {
+    setAlert({
+      error: true,
+      msg: "Las contraseñas no coinciden",
+    });
+    return;
+  }
 
-    setLoading(true);
-    try {
-      const response = await updatePasswordFetching({ password }, token);
-      if (response.success) {
-        toast.success(<div className="text-green-600">{response.message}</div>);
-        navigate("/");
-      } else {
-        setAlert({ error: true, msg: response.message });
-      }
-    } catch (error) {
-      toast.error("Hubo un error. Por favor, intenta de nuevo.");
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+
+  const response = await updatePasswordFetching({ password }, token);
+
+  if (response.success) {
+    toast.success(<div className="text-green-600">{response.message}</div>);
+    navigate("/");
+  } else {
+    setAlert({
+      error: true,
+      msg: response.message,
+    });
+  }
+
+  setLoading(false);
+};
+
 
   const isFormValid = password && confirmPassword;
 

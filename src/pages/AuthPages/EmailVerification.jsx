@@ -50,27 +50,28 @@ const EmailVerificationCode = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const code = codeToken.join("");
-    setLoading(true);
-    try {
-      const response = await emailVerificationFetching({ code });
-      if (response.success) {
-        setAlert({ error: false, msg: "" });
-        toast.success(<div className="text-green-600">{response.message}</div>);
-        updateAuth(response.user);
-        navigate('/profile')
-      } else {
-        setAlert({ error: true, msg: response.message });
-      }
-    } catch (error) {
-      toast.error("Hubo un error. Por favor, intenta de nuevo.");
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const code = codeToken.join("");
+  setLoading(true);
+
+  const response = await emailVerificationFetching({ code });
+
+  if (response.success) {
+    setAlert({ error: false, msg: "" });
+    toast.success(<div className="text-green-600">{response.message}</div>);
+    updateAuth(response.user);
+    navigate("/profile");
+  } else {
+    setAlert({
+      error: true,
+      msg: response.message,
+    });
+  }
+
+  setLoading(false);
+};
+
 
    const isFormValid = codeToken.join("").length === 6
 

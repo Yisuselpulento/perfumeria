@@ -1,57 +1,52 @@
 import axiosInstance from "../helpers/axiosConfig.js";
 
-// ----------------- Usuario -----------------
-export const getUserNotificationsFetching = async () => {
+/* -------------------------- HANDLE REQUEST -------------------------- */
+const handleRequest = async (request) => {
   try {
-    const { data } = await axiosInstance.get("/api/notifications");
+    const { data } = await request;
     return data;
   } catch (error) {
-    return { success: false, message: error.response?.data?.message || "Error al obtener notificaciones" };
+    console.error("API Error:", error.response?.data?.message || error.message);
+
+    if (error.response?.data) {
+      return error.response.data;
+    }
+
+    return {
+      success: false,
+      message: "No se pudo conectar con el servidor",
+    };
   }
 };
 
-export const markNotificationAsReadFetching = async (id) => {
-  try {
-    const { data } = await axiosInstance.put(`/api/notifications/${id}/read`);
-    return data;
-  } catch (error) {
-    return { success: false, message: error.response?.data?.message || "Error al marcar notificación como leída" };
-  }
-};
+/* ========================== USER ========================== */
+export const getUserNotificationsFetching = async () =>
+  handleRequest(
+    axiosInstance.get("/api/notifications")
+  );
 
-// ----------------- Admin -----------------
-export const getAllNotificationsFetching = async () => {
-  try {
-    const { data } = await axiosInstance.get("/api/notifications/all");
-    return data;
-  } catch (error) {
-    return { success: false, message: error.response?.data?.message || "Error al obtener todas las notificaciones" };
-  }
-};
+export const markNotificationAsReadFetching = async (id) =>
+  handleRequest(
+    axiosInstance.put(`/api/notifications/${id}/read`)
+  );
 
-export const createNotificationFetching = async (notification) => {
-  try {
-    const { data } = await axiosInstance.post("/api/notifications", notification);
-    return data;
-  } catch (error) {
-    return { success: false, message: error.response?.data?.message || "Error al crear notificación" };
-  }
-};
+/* ========================== ADMIN ========================== */
+export const getAllNotificationsFetching = async () =>
+  handleRequest(
+    axiosInstance.get("/api/notifications/all")
+  );
 
-export const updateNotificationFetching = async (id, update) => {
-  try {
-    const { data } = await axiosInstance.put(`/api/notifications/${id}`, update);
-    return data;
-  } catch (error) {
-    return { success: false, message: error.response?.data?.message || "Error al actualizar notificación" };
-  }
-};
+export const createNotificationFetching = async (notification) =>
+  handleRequest(
+    axiosInstance.post("/api/notifications", notification)
+  );
 
-export const deleteNotificationFetching = async (id) => {
-  try {
-    const { data } = await axiosInstance.delete(`/api/notifications/${id}`);
-    return data;
-  } catch (error) {
-    return { success: false, message: error.response?.data?.message || "Error al eliminar notificación" };
-  }
-};
+export const updateNotificationFetching = async (id, update) =>
+  handleRequest(
+    axiosInstance.put(`/api/notifications/${id}`, update)
+  );
+
+export const deleteNotificationFetching = async (id) =>
+  handleRequest(
+    axiosInstance.delete(`/api/notifications/${id}`)
+  );

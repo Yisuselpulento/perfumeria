@@ -36,47 +36,44 @@ const navigate = useNavigate();
     });
   };
 
-  const handleSubmit = async(e)=> {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(formData.email)) {
-        setAlert({
-          msg: "Por favor, ingresa un correo electrónico válido.",
-          error: true,
-        });
-        return; 
-      }
-    
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-      if (formData.password !== formData.confirmPassword) {
-        setAlert({
-          msg: "Las contraseñas no coinciden.",
-          error: true,
-        });
-        return; 
-      }
+  if (!emailRegex.test(formData.email)) {
+    setAlert({
+      msg: "Por favor, ingresa un correo electrónico válido.",
+      error: true,
+    });
+    return;
+  }
 
-       setLoading(true);
+  if (formData.password !== formData.confirmPassword) {
+    setAlert({
+      msg: "Las contraseñas no coinciden.",
+      error: true,
+    });
+    return;
+  }
 
-      try {
-        const response = await signUpFetching(formData );
-        if (response.success) {
-         /*  toast.success(<div className="text-green-600">{response.message}, Te hemos mandado un Codigo al Email para verificar tu cuenta</div>); */
-          console.log(response.user);
-          updateAuth(response.user, true);
-         navigate("/storage") 
-        } else {
-          setAlert({error: true, msg: response.message })
-        }
-      } catch (error) {
-        toast.error("Hubo un error. Por favor, intenta de nuevo.");
-        console.error("Error:", error);
-      } finally {
-        setLoading(false); 
-      }   
+  setLoading(true);
 
-   }
+  const response = await signUpFetching(formData);
+
+  if (response.success) {
+    updateAuth(response.user, true);
+    navigate("/storage");
+  } else {
+    setAlert({
+      error: true,
+      msg: response.message,
+    });
+  }
+
+  setLoading(false);
+};
+
 
    const styleInput = "bg-stone-800 mt-1 p-2 w-full border border-gray-300 rounded-md"
 

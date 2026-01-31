@@ -6,6 +6,7 @@ import CardReviewUser from "./CardReviewUser";
 const ReviewUserSection = ({ productId }) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
 
   const [form, setForm] = useState({
     rating: 5,
@@ -29,19 +30,32 @@ const ReviewUserSection = ({ productId }) => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!form.comment.trim()) return toast.error("Debes escribir un mensaje.");
+  e.preventDefault();
 
-    const reviewData = { ...form, productId };
-    const res = await addReviewFetching(reviewData);
-    if (res.success) {
-      toast.success("Reseña enviada y pendiente de aprobación.");
-      setForm({ rating: 5, message: "" });
-      fetchReviews();
-    } else {
-      toast.error(res.message);
-    }
-  };
+  if (!form.comment.trim()) {
+    return toast.error("Debes escribir un mensaje.");
+  }
+
+  setSubmitting(true);
+
+  const reviewData = { ...form, productId };
+  const res = await addReviewFetching(reviewData);
+
+  if (res.success) {
+    toast.success("Reseña enviada y pendiente de aprobación.");
+    setForm({ rating: 5, comment: "" });
+    fetchReviews();
+  } else {
+    toast.error(res.message);
+  }
+
+  setSubmitting(false);
+};
+
+  const handleDeleteLocal = (id) => {
+  setReviews((prev) => prev.filter((r) => r._id !== id));
+};
+
 
   return (
     <div className="max-w-3xl mx-auto my-8 p-4 border rounded shadow-md bg-gray-900 text-white">
@@ -67,7 +81,7 @@ const ReviewUserSection = ({ productId }) => {
           Comentario:
           <textarea
             name="comment"
-            value={form.message}
+            value={form.comment}
             onChange={handleChange}
             placeholder="Escribe tu reseña..."
             className="mt-1 p-2 rounded bg-gray-800 text-white resize-none"
@@ -76,11 +90,16 @@ const ReviewUserSection = ({ productId }) => {
         </label>
 
         <button
-          type="submit"
-          className="bg-primary hover:bg-primary/80 px-4 py-2 rounded font-semibold cursor-pointer"
-        >
-          Enviar Reseña
-        </button>
+            type="submit"
+            disabled={submitting}
+            className={`px-4 py-2 rounded font-semibold flex items-center justify-center gap-2
+              ${submitting
+                ? "bg-primary/70 cursor-not-allowed"
+                : "bg-primary hover:bg-primary/80 cursor-pointer"}
+            `}
+          >
+            {submitting ? "Enviando..." : "Enviar Reseña"}
+          </button>
       </form>
 
       {/* Listado de reviews */}
@@ -90,7 +109,12 @@ const ReviewUserSection = ({ productId }) => {
         ) : reviews.length === 0 ? (
           <p>No hay reseñas todavía.</p>
         ) : (
-          reviews.map((r) => <CardReviewUser key={r._id} review={r} />)
+          reviews.map((r) => 
+          <CardReviewUser
+              key={r._id}
+              review={r}
+              onDeleted={() => handleDeleteLocal(r._id)}
+            />)
         )}
       </div>
     </div>

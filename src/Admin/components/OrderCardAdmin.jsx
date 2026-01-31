@@ -131,20 +131,20 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
       {/* Modal eliminar */}
       {showDeleteModal && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-          <div className="bg-white dark:bg-gray-800 p-6 rounded shadow-md w-80 text-center">
+          <div className="bg-stone-900 p-6 rounded shadow-md w-80 text-center">
             <p className="mb-4">
               ¿Estás seguro que deseas eliminar esta orden?
             </p>
-            <div className="flex justify-around gap-4">
+            <div className="flex justify-around gap-4 ">
               <button
                 onClick={handleDelete}
                 className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded cursor-pointer"
               >
-                Sí, eliminar
+               Eliminar
               </button>
               <button
                 onClick={() => setShowDeleteModal(false)}
-                className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded cursor-pointer"
+                className="bg-gray-600 hover:bg-gray-500 text-white px-4 py-2 rounded cursor-pointer"
               >
                 Cancelar
               </button>

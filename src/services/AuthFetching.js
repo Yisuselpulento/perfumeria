@@ -1,81 +1,62 @@
 import axiosInstance from "../helpers/axiosConfig.js";
 
-export const signUpFetching = async (userData) => { 
+/* -------------------------- HANDLE REQUEST -------------------------- */
+const handleRequest = async (request) => {
   try {
-  const { data } = await axiosInstance.post("/api/auth/signup", userData);
-   return data
-} catch (error) {
-  console.error('Error during signUp:', error.response.data.message);
-  const errorMessage = error.response?.data?.message || "Error al registrar";
-  return { success: false, message: errorMessage };
-} 
-};
- 
+    const { data } = await request;
+    return data;
+  } catch (error) {
+    console.error("API Error:", error.response?.data?.message || error.message);
 
-export const loginFetching = async (userData) => { 
-  try {
-  const { data } = await axiosInstance.post("/api/auth/login", userData);
-   return data
-} catch (error) {
-  console.error('Error during login:', error?.response.data.message);
-  const errorMessage = error?.response?.data?.message || "Error al iniciar sesión";
-  return { success: false, message: errorMessage };
-} 
+    if (error.response?.data) {
+      return error.response.data;
+    }
+
+    return {
+      success: false,
+      message: "No se pudo conectar con el servidor",
+    };
+  }
 };
 
-export const logoutFetching = async () => {  
-  try {
-  const { data } = await axiosInstance.post("/api/auth/logout");
-   return data
-} catch (error) {
-  console.error('Error during logout:', error.response.data.message);
-  const errorMessage = error.response?.data?.message || "Error al cerrar sesión";
-  return { success: false, message: errorMessage };
-} 
-};
+/* -------------------------- SIGN UP -------------------------- */
+export const signUpFetching = async (userData) =>
+  handleRequest(
+    axiosInstance.post("/api/auth/signup", userData)
+  );
 
-export const forgotPasswordFetching = async (userData) => { 
-  try {
-  const { data } = await axiosInstance.post("/api/auth/forgot-password", userData);
-   return data
-} catch (error) {
-  console.error('Error al enviar', error.response.data.message);
-  const errorMessage = error.response?.data?.message || "Error al enviar";
-  return { success: false, message: errorMessage };
-} 
-};
+/* -------------------------- LOGIN -------------------------- */
+export const loginFetching = async (userData) =>
+  handleRequest(
+    axiosInstance.post("/api/auth/login", userData)
+  );
 
-export const updatePasswordFetching = async (newPassword,TOKEN) => { 
-  try {
-  const { data } = await axiosInstance.post(`/api/auth/reset-password/${TOKEN}`, newPassword);
-   return data
-} catch (error) {
-  console.error('Error al actualizar:', error.response.data.message);
-  const errorMessage = error.response?.data?.message || "Error al tratar de actualizar";
-  return { success: false, message: errorMessage };
-} 
-};
+/* -------------------------- LOGOUT -------------------------- */
+export const logoutFetching = async () =>
+  handleRequest(
+    axiosInstance.post("/api/auth/logout")
+  );
 
-export const emailVerificationFetching = async (code) => { 
+/* -------------------------- FORGOT PASSWORD -------------------------- */
+export const forgotPasswordFetching = async (userData) =>
+  handleRequest(
+    axiosInstance.post("/api/auth/forgot-password", userData)
+  );
 
-  try {
-  const { data } = await axiosInstance.post("/api/auth/verify-email", code);
-   return data
-} catch (error) {
-  console.error('Error during login:', error.response.data.message);
-  const errorMessage = error.response?.data?.message || "Error token";
-  return { success: false, message: errorMessage };
-} 
-};
+/* -------------------------- RESET PASSWORD -------------------------- */
+export const updatePasswordFetching = async (newPassword, TOKEN) =>
+  handleRequest(
+    axiosInstance.post(`/api/auth/reset-password/${TOKEN}`, newPassword)
+  );
 
-export const resendTokenFetching = async () => { 
-  try {
-  const { data } = await axiosInstance.post("/api/auth/resend-verification-token");
-   return data
-} catch (error) {
-  console.error('Error during login:', error.response.data.message);
-  const errorMessage = error.response?.data?.message || "Error token";
-  return { success: false, message: errorMessage };
-} 
-};
+/* -------------------------- VERIFY EMAIL -------------------------- */
+export const emailVerificationFetching = async (code) =>
+  handleRequest(
+    axiosInstance.post("/api/auth/verify-email", code)
+  );
 
+/* -------------------------- RESEND TOKEN -------------------------- */
+export const resendTokenFetching = async () =>
+  handleRequest(
+    axiosInstance.post("/api/auth/resend-verification-token")
+  );

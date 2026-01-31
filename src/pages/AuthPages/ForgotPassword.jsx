@@ -11,32 +11,36 @@ const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setAlert({ msg: "Por favor, ingresa un correo electrónico válido.", error: true });
-      return;
-    }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    setLoading(true);
-    setAlert({ msg: "", error: false });
+  if (!emailRegex.test(email)) {
+    setAlert({
+      msg: "Por favor, ingresa un correo electrónico válido.",
+      error: true,
+    });
+    return;
+  }
 
-    try {
-      const response = await forgotPasswordFetching({email});
-      if (response.success) {
-        toast.success(<div className="text-green-600">{response.message}</div>);
-        setEmail("")
-      } else {
-        setAlert({ error: true, msg: response.message });
-      }
-    } catch (error) {
-      toast.error("Hubo un error. Por favor, intenta de nuevo.");
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  setAlert({ msg: "", error: false });
+
+  const response = await forgotPasswordFetching({ email });
+
+  if (response.success) {
+    toast.success(<div className="text-green-600">{response.message}</div>);
+    setEmail("");
+  } else {
+    setAlert({
+      error: true,
+      msg: response.message,
+    });
+  }
+
+  setLoading(false);
+};
+
 
     const styleInput = "bg-stone-800 mt-1 p-2 w-full border border-gray-300 rounded-md"
 

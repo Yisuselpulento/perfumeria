@@ -1,72 +1,49 @@
 // src/services/reviewFetching.js
 import axiosInstance from "../helpers/axiosConfig.js";
 
-// ➕ Usuario: agregar reseña
-export const addReviewFetching = async (reviewData) => {
+/* -------------------------- HANDLE REQUEST -------------------------- */
+const handleRequest = async (request) => {
   try {
-    const { data } = await axiosInstance.post("/api/reviews", reviewData);
+    const { data } = await request;
     return data;
   } catch (error) {
-    console.error("Error al agregar reseña:", error.response?.data?.message);
+    console.error("API Error:", error.response?.data?.message || error.message);
+
+    if (error.response?.data) {
+      return error.response.data;
+    }
+
     return {
       success: false,
-      message: error.response?.data?.message || "Error al agregar reseña",
+      message: "No se pudo conectar con el servidor",
     };
   }
 };
 
-// 🌍 Público: obtener reseñas de un producto
-export const getProductReviewsFetching = async (productId) => {
-  try {
-    const { data } = await axiosInstance.get(`/api/reviews/product/${productId}`);
-    return data;
-  } catch (error) {
-    console.error("Error al obtener reseñas:", error.response?.data?.message);
-    return {
-      success: false,
-      message: error.response?.data?.message || "Error al obtener reseñas",
-    };
-  }
-};
+/* ========================== USER ========================== */
+export const addReviewFetching = async (reviewData) =>
+  handleRequest(
+    axiosInstance.post("/api/reviews", reviewData)
+  );
 
-// 🟢 Admin: aprobar reseña
-export const approveReviewFetching = async (reviewId) => {
-  try {
-    const { data } = await axiosInstance.put(`/api/reviews/approve/${reviewId}`);
-    return data;
-  } catch (error) {
-    console.error("Error al aprobar reseña:", error.response?.data?.message);
-    return {
-      success: false,
-      message: error.response?.data?.message || "Error al aprobar reseña",
-    };
-  }
-};
+/* ========================== PUBLIC ========================== */
+export const getProductReviewsFetching = async (productId) =>
+  handleRequest(
+    axiosInstance.get(`/api/reviews/product/${productId}`)
+  );
 
-// 🗑️ Admin: eliminar reseña
-export const deleteReviewFetching = async (reviewId) => {
-  try {
-    const { data } = await axiosInstance.delete(`/api/reviews/${reviewId}`);
-    return data;
-  } catch (error) {
-    console.error("Error al eliminar reseña:", error.response?.data?.message);
-    return {
-      success: false,
-      message: error.response?.data?.message || "Error al eliminar reseña",
-    };
-  }
-};
+/* ========================== ADMIN ========================== */
+export const approveReviewFetching = async (reviewId) =>
+  handleRequest(
+    axiosInstance.put(`/api/reviews/approve/${reviewId}`)
+  );
 
-// 📋 Admin: obtener reseñas pendientes
-export const getPendingReviewsFetching = async () => {
-  try {
-    const { data } = await axiosInstance.get("/api/reviews/pending/all");
-    return data;
-  } catch (error) {
-    console.error("Error al obtener reseñas pendientes:", error.response?.data?.message);
-    return {
-      success: false,
-      message: error.response?.data?.message || "Error al obtener reseñas pendientes",
-    };
-  }
-};
+export const deleteReviewFetching = async (reviewId) =>
+  handleRequest(
+    axiosInstance.delete(`/api/reviews/${reviewId}`)
+  );
+
+export const getPendingReviewsFetching = async () =>
+  handleRequest(
+    axiosInstance.get("/api/reviews/pending/all")
+  );

@@ -10,7 +10,7 @@ const ProductCardAdmin = ({ product, onDeleted, onUpdated }) => {
 
   return (
     <>
-      <div className="flex rounded-md shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition relative backdrop-blur-lg border border-black/20 md:w-[500px]">
+      <div className="flex rounded-md shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition relative backdrop-blur-lg border border-stone-800 p-1 bg-stone-900 md:w-[500px]">
         {/* Imagen */}
         <div className="w-20 h-20">
           <img

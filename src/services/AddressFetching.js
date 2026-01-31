@@ -1,57 +1,40 @@
 import axiosInstance from "../helpers/axiosConfig.js";
 
-// ➕ Agregar una nueva dirección
-export const addAddressFetching = async (addressData) => {
+const handleRequest = async (request) => {
   try {
-    const { data } = await axiosInstance.post("/api/user/address", addressData);
+    const { data } = await request;
     return data;
   } catch (error) {
-    console.error("Error al agregar dirección:", error.response?.data?.message);
+    if (error.response?.data) {
+      return error.response.data;
+    }
     return {
       success: false,
-      message: error.response?.data?.message || "Error al agregar dirección"
+      message: "No se pudo conectar con el servidor",
     };
   }
 };
 
-// 📦 Obtener todas las direcciones del usuario
-export const getAddressesFetching = async () => {
-  try {
-    const { data } = await axiosInstance.get("/api/user/address");
-    return data;
-  } catch (error) {
-    console.error("Error al obtener direcciones:", error.response?.data?.message);
-    return {
-      success: false,
-      message: error.response?.data?.message || "Error al obtener direcciones"
-    };
-  }
-};
+/* -------------------------- ADD ADDRESS -------------------------- */
+export const addAddressFetching = async (addressData) =>
+  handleRequest(
+    axiosInstance.post("/api/user/address", addressData)
+  );
 
-// ✏️ Actualizar una dirección
-export const updateAddressFetching = async (addressId, updatedData) => {
-  try {
-    const { data } = await axiosInstance.put(`/api/user/address/${addressId}`, updatedData);
-    return data;
-  } catch (error) {
-    console.error("Error al actualizar dirección:", error.response?.data?.message);
-    return {
-      success: false,
-      message: error.response?.data?.message || "Error al actualizar dirección"
-    };
-  }
-};
+/* -------------------------- GET ADDRESSES -------------------------- */
+export const getAddressesFetching = async () =>
+  handleRequest(
+    axiosInstance.get("/api/user/address")
+  );
 
-// 🗑️ Eliminar una dirección
-export const deleteAddressFetching = async (addressId) => {
-  try {
-    const { data } = await axiosInstance.delete(`/api/user/address/${addressId}`);
-    return data;
-  } catch (error) {
-    console.error("Error al eliminar dirección:", error.response?.data?.message);
-    return {
-      success: false,
-      message: error.response?.data?.message || "Error al eliminar dirección"
-    };
-  }
-};
+/* -------------------------- UPDATE ADDRESS -------------------------- */
+export const updateAddressFetching = async (addressId, updatedData) =>
+  handleRequest(
+    axiosInstance.put(`/api/user/address/${addressId}`, updatedData)
+  );
+
+/* -------------------------- DELETE ADDRESS -------------------------- */
+export const deleteAddressFetching = async (addressId) =>
+  handleRequest(
+    axiosInstance.delete(`/api/user/address/${addressId}`)
+  );

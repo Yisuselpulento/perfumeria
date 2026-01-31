@@ -57,7 +57,7 @@ const ProductsSection = () => {
 
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 p-4">
+    <div className="flex flex-col md:flex-row gap-4 p-2">
       {/* Columna izquierda → lista de productos */}
       <div className="flex-1">
         <SearchBar />
@@ -66,7 +66,7 @@ const ProductsSection = () => {
         ) : error ? (
           <p>{error}</p>
         ) : (
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4 mt-3">
             
             {products.map((product) => (
               <ProductCardAdmin
