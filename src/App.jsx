@@ -25,6 +25,7 @@ import EditProfile from './pages/EditProfile';
 import NotificationsPage from './pages/NotificationsPage';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import CheckoutFailure from './pages/CheckoutFailure';
+import { ProductsProvider } from './context/ProductProvider';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
    <ScrollToTop/>
    <ThemeProvider>
       <AuthProvider>
+        <ProductsProvider>
       <CartProvider>
           <Routes>
               <Route  path="/" element={<Layout />}>
@@ -67,7 +69,8 @@ function App() {
                   <Route path="*" element={<NotFound />} />
               </Route>
           </Routes>
-      </CartProvider>
+          </CartProvider>
+          </ProductsProvider>
       </AuthProvider>
    </ThemeProvider>
    </BrowserRouter>

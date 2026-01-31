@@ -43,8 +43,8 @@ const MyOrders = () => {
     );
 
   return (
-   <div className="max-w-4xl mx-auto px-4 py-6">
-      <h1 className="text-2xl font-semibold mb-6">Mis Órdenes</h1>
+   <div className="max-w-4xl mx-auto px-2 py-2">
+      <h1 className="text-xl font-semibold mb-6">Mis Órdenes</h1>
       <ul className="flex flex-col gap-2">
         {orders?.map((order) => (
           <li key={order?._id} className="p-4 rounded backdrop-blur-lg border border-white/20 shadow-md">
