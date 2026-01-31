@@ -4,5 +4,12 @@ export const availableIngredients = [
   "cuero",
   "enebro de virginia",
   "pimienta rosa",
-  "violeta"
+  "violeta",
+  "bergamota",
+  "manzana",
+  "naranja",
+  "cardamomo",
+  "piña",
+  "jengibre",
+  "iris"
 ];

@@ -38,7 +38,7 @@ const Home = () => {
       </p>
       <div className="relative left-0 right-0 w-screen">
         <img 
-          className="w-full h-60 object-cover mb-4 rounded-lg md:rounded-none md:h-[600px]"
+          className="w-full h-60 object-cover mb-4 rounded-lg md:rounded-none md:h-[500px]"
           src="images/perfumes.webp" 
         />
     </div>
