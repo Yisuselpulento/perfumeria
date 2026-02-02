@@ -114,7 +114,7 @@ const NavBar = ({ setIsCardVisible }) => {
         </div>
       </nav>
 
-    {/*   <TokenVerificationCard setIsCardVisible={setIsCardVisible} /> */}
+     <TokenVerificationCard setIsCardVisible={setIsCardVisible} /> 
     </div>
   );
 };
