@@ -9,7 +9,7 @@ import useAuth from "../../hooks/useAuth";
 
 const CartDrawer = () => {
   const [open, setOpen] = useState(false);
-  const { cartItems, cartTotal } = useCart();
+  const { cartItems, cartTotal, refreshCart, cartChanged } = useCart();
   const { auth } = useAuth();
   const navigate = useNavigate();
 
@@ -29,7 +29,13 @@ const CartDrawer = () => {
   return (
     <>
       {/* Botón flotante del carrito */}
-      <CartButton count={cartItems.length} onOpen={() => setOpen(true)} />
+            <CartButton
+          count={cartItems.length}
+          onOpen={async () => {
+            await refreshCart();
+            setOpen(true);
+          }}
+        />
 
       <AnimatePresence>
         {open && (
@@ -86,6 +92,13 @@ const CartDrawer = () => {
                   cartItems.map((item, i) => <CartItem key={i} item={item} />)
                 )}
               </div>
+              {cartChanged && (
+                    <div className="mb-3 rounded bg-yellow-500/10 border border-yellow-500/30 p-2">
+                      <p className="text-yellow-400 text-sm">
+                        ⚠️ Algunos precios o disponibilidad se actualizaron
+                      </p>
+                    </div>
+                  )}
 
               {/* FOOTER */}
               {cartItems.length > 0 && (
