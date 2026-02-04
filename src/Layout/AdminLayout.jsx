@@ -3,7 +3,7 @@ import { getAllOrdersFetching } from "../services/OrderFetching";
 import BadgeCounter from "../components/BadgeCounter";
 import { getAllNotificationsFetching } from "../services/NotificationFetching";
 
-const AdminLayout = ({ ProductsSection, OrdersSection, NotificationsSection, ReviewSection  }) => {
+const AdminLayout = ({ ProductsSection, OrdersSection, NotificationsSection, ReviewSection, StockRequestsSection  }) => {
   const [activeSection, setActiveSection] = useState("products");
   const [ordersCount, setOrdersCount] = useState(0);
   const [notificationsCount, setNotificationsCount] = useState(0);
@@ -78,14 +78,27 @@ const AdminLayout = ({ ProductsSection, OrdersSection, NotificationsSection, Rev
          <button onClick={() => setActiveSection("reviews")} className={`flex-1 text-center py-2 ${activeSection === "reviews" ? "font-semibold text-blue-600" : "text-gray-300 cursor-pointer"}`}>
           Reseñas
           </button>
+          <button
+            onClick={() => setActiveSection("stock-requests")}
+            className={`flex-1 text-center py-2 ${
+              activeSection === "stock-requests"
+                ? "font-semibold text-blue-600"
+                : "text-gray-300 cursor-pointer"
+            }`}
+          >
+            Solicitudes Stock
+          </button>
       </div>
 
       <div className="flex-1 overflow-auto">
-        {activeSection === "products" && <ProductsSection />}
-        {activeSection === "orders" && <OrdersSection />}
-        {activeSection === "notifications" && <NotificationsSection />}
-        {activeSection === "reviews" && <ReviewSection />}
-      </div>
+            {activeSection === "products" && <ProductsSection />}
+            {activeSection === "orders" && <OrdersSection />}
+            {activeSection === "stock-requests" && StockRequestsSection && (
+              <StockRequestsSection />
+            )}
+            {activeSection === "notifications" && <NotificationsSection />}
+            {activeSection === "reviews" && <ReviewSection />}
+          </div>
     </div>
   );
 };

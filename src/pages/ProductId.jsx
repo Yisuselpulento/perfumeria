@@ -8,6 +8,7 @@ import { toCLP } from "../helpers/toClp.js";
 import useCart from "../hooks/useCart.jsx";
 import { toast } from "sonner";
 import ReviewUserSection from "../components/Reviews/ReviewUserSection.jsx";
+import RequestStockButton from "../components/Buttons/RequestStockButton.jsx";
 
 const formatTimeOfDay = (time) => {
   if (!time) return "";
@@ -269,16 +270,22 @@ const ProductId = () => {
 
 
       <div className="w-[90%] md:w-[50%] mx-auto">
-        <button
-          onClick={handleAddToCart}
-          className="bg-primary hover:bg-primary/60 cursor-pointer p-3 rounded-full mt-10 w-full text-xl font-bold"
-        >
-          Agregar al carrito
-        </button>
+            {status !== "sin_stock" ? (
+              <button
+                onClick={handleAddToCart}
+                className="bg-primary hover:bg-primary/60 cursor-pointer p-3 rounded-full mt-10 w-full text-xl font-bold"
+              >
+                Agregar al carrito
+              </button>
+            ) : (
+              <RequestStockButton
+                productId={product._id}
+                productStatus={status}
+              />
+            )}
 
-        {/* Alerta debajo del botón */}
-        {alert && <p className="text-red-600 mt-2 text-sm">{alert}</p>}
-      </div>
+            {alert && <p className="text-red-600 mt-2 text-sm">{alert}</p>}
+          </div>
 
       <section className="mt-6 text-sm text-gray-300 md:w-[70%] mx-auto">
         <h2 className="text-md font-bold mb-4">Detalles del producto</h2>
