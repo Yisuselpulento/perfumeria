@@ -51,13 +51,13 @@ const AdminLayout = ({ ProductsSection, OrdersSection, NotificationsSection, Rev
 }, []);
 
   return (
-    <div className="flex flex-col h-screen text-sm">
+    <div className="flex flex-col h-screen text-xs">
       <div className="flex justify-around items-center h-16 backdrop-blur-lg border border-white/20 shadow-md  mb-1">
         <button
           onClick={() => setActiveSection("products")}
-          className={`flex-1 text-center py-2 ${activeSection === "products" ? "font-semibold text-blue-600" : "text-gray-300 cursor-pointer"}`}
+          className={`flex-1 text-md text-center py-2 ${activeSection === "products" ? "font-semibold text-blue-600" : "text-gray-300 cursor-pointer"}`}
         >
-          Productos
+          Products
         </button>
         <button
             onClick={() => setActiveSection("orders")}
@@ -66,13 +66,13 @@ const AdminLayout = ({ ProductsSection, OrdersSection, NotificationsSection, Rev
             }`}
           >
             <BadgeCounter count={ordersCount}>
-              Órdenes
+              Órders
             </BadgeCounter>
           </button>
          <button
           onClick={() => setActiveSection("notifications")}
           className={`flex-1 text-center py-2 ${activeSection === "notifications" ? "font-semibold text-blue-600" : "text-gray-300 cursor-pointer"}`}
-        >Notificaciones
+        >Notifications
         {/*   <BadgeCounter count={notificationsCount}>Notificaciones</BadgeCounter> */}
         </button>
          <button onClick={() => setActiveSection("reviews")} className={`flex-1 text-center py-2 ${activeSection === "reviews" ? "font-semibold text-blue-600" : "text-gray-300 cursor-pointer"}`}>

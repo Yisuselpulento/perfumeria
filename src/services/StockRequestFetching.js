@@ -53,3 +53,9 @@ export const updateStockRequestStatusFetching = async (
   handleRequest(
     axiosInstance.put(`/api/stock-requests/${requestId}`, { status })
   );
+
+
+  export const deleteStockRequestFetching = async (requestId) =>
+  handleRequest(
+    axiosInstance.delete(`/api/stock-requests/${requestId}`)
+  );
