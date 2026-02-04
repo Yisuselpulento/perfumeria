@@ -1,106 +1,181 @@
 import { useState, useEffect } from "react";
+import { CHILE_LOCATIONS } from "../../helpers/chileLocations.js";
+
+const REQUIRED_FIELDS = ["street", "city", "state", "zip", "phone"];
 
 const ShippingForm = ({ onChange, defaultAddress }) => {
   const [form, setForm] = useState({
     fullName: "",
     street: "",
-    city: "",
-    state: "",
+    state: "", // Región
+    city: "",  // Comuna
     zip: "",
     phone: "",
-    country: "Chile"
+    country: "Chile",
   });
 
   const [errors, setErrors] = useState({});
 
-  // 👉 cuando recibimos una dirección por defecto, precargamos el formulario
+  // 👉 precargar dirección por defecto
   useEffect(() => {
     if (defaultAddress) {
       setForm({
         fullName: defaultAddress.fullName || "",
         street: defaultAddress.street || "",
-        city: defaultAddress.city || "",
         state: defaultAddress.state || "",
+        city: defaultAddress.city || "",
         zip: defaultAddress.zip || "",
         phone: defaultAddress.phone || "",
-        country: defaultAddress.country || "Chile"
+        country: defaultAddress.country || "Chile",
       });
     }
   }, [defaultAddress]);
 
-const REQUIRED_FIELDS = ["street", "city", "state", "zip", "phone"];
+  const validate = (field, value) => {
+    if (REQUIRED_FIELDS.includes(field) && !value.trim()) {
+      return "Este campo es obligatorio";
+    }
 
-const validate = (field, value) => {
-  if (REQUIRED_FIELDS.includes(field) && !value.trim()) {
-    return "Este campo es obligatorio";
-  }
+    if (field === "zip" && value && !/^\d{4,10}$/.test(value)) {
+      return "Código postal inválido";
+    }
 
-  if (field === "zip" && value && !/^\d{4,10}$/.test(value)) {
-    return "Código postal inválido";
-  }
+    if (field === "phone" && value && !/^\+?\d{8,15}$/.test(value)) {
+      return "Número de teléfono inválido";
+    }
 
-  if (field === "phone" && value && !/^\+?\d{8,15}$/.test(value)) {
-    return "Número de teléfono inválido";
-  }
-
-  return "";
-};
+    return "";
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const updated = { ...form, [name]: value };
+
+    let updated;
+
+    // si cambia región → reseteamos ciudad
+    if (name === "state") {
+      updated = { ...form, state: value, city: "" };
+    } else {
+      updated = { ...form, [name]: value };
+    }
 
     setForm(updated);
-    const newErrors = { ...errors, [name]: validate(name, value) };
+
+    const newErrors = {
+      ...errors,
+      [name]: validate(name, value),
+    };
+
     setErrors(newErrors);
 
-    onChange(updated, Object.values(newErrors).some((err) => err));
+    // 🔥 enviamos data + si hay errores
+    onChange(updated, Object.values(newErrors).some(Boolean));
   };
 
+  const selectedRegion = CHILE_LOCATIONS.find(
+    (r) => r.region === form.state
+  );
+
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <h3 className="text-lg font-semibold">Datos de envío</h3>
 
-      {[
-        "fullName",
-        "street",
-        "city",
-        "state",
-        "zip",
-        "phone",
-        "country"
-      ].map((field) => (
-        <div key={field}>
-          <input
-            type={field === "phone" ? "tel" : "text"}
-            name={field}
-            placeholder={
-              field === "fullName"
-                ? "Nombre completo"
-                : field === "street"
-                ? "Dirección"
-                : field === "city"
-                ? "Ciudad"
-                : field === "state"
-                ? "Región / Estado"
-                : field === "zip"
-                ? "Código postal"
-                : field === "phone"
-                ? "Teléfono"
-                : "País"
-            }
-            value={form[field]}
-            onChange={handleChange}
-            className={`w-full border p-2 rounded ${
-              errors[field] ? "border-red-500" : ""
-            }`}
-            required
-          />
-          {errors[field] && (
-            <p className="text-red-500 text-sm">{errors[field]}</p>
-          )}
-        </div>
-      ))}
+      {/* NOMBRE */}
+      <input
+        name="fullName"
+        placeholder="Nombre completo"
+        value={form.fullName}
+        onChange={handleChange}
+        className="w-full border p-2 rounded"
+      />
+
+      {/* DIRECCIÓN */}
+      <input
+        name="street"
+        placeholder="Dirección"
+        value={form.street}
+        onChange={handleChange}
+        className={`w-full border p-2 rounded ${
+          errors.street ? "border-red-500" : ""
+        }`}
+        required
+      />
+      {errors.street && (
+        <p className="text-red-500 text-sm">{errors.street}</p>
+      )}
+
+      {/* REGIÓN */}
+      <select
+        name="state"
+        value={form.state}
+        onChange={handleChange}
+        className={`w-full border p-2 rounded bg-stone-950 ${
+          errors.state ? "border-red-500" : ""
+        }`}
+        required
+      >
+        <option value="">Selecciona una región</option>
+        {CHILE_LOCATIONS.map((r) => (
+          <option key={r.region} value={r.region}>
+            {r.region}
+          </option>
+        ))}
+      </select>
+
+      {/* CIUDAD / COMUNA */}
+      <input
+        list="shipping-cities"
+        name="city"
+        value={form.city}
+        onChange={handleChange}
+        placeholder={
+          form.state
+            ? "Selecciona ciudad"
+            : "Selecciona primero una región"
+        }
+        disabled={!form.state}
+        className={`w-full border p-2 rounded ${
+          errors.city ? "border-red-500" : ""
+        }`}
+        required
+      />
+
+      <datalist id="shipping-cities">
+        {selectedRegion?.comunas.map((comuna) => (
+          <option key={comuna} value={comuna} />
+        ))}
+      </datalist>
+
+      {/* ZIP */}
+      <input
+        name="zip"
+        placeholder="Código postal"
+        value={form.zip}
+        onChange={handleChange}
+        className={`w-full border p-2 rounded ${
+          errors.zip ? "border-red-500" : ""
+        }`}
+        required
+      />
+      {errors.zip && (
+        <p className="text-red-500 text-sm">{errors.zip}</p>
+      )}
+
+      {/* TELÉFONO */}
+      <input
+        type="tel"
+        name="phone"
+        placeholder="Teléfono"
+        value={form.phone}
+        onChange={handleChange}
+        className={`w-full border p-2 rounded ${
+          errors.phone ? "border-red-500" : ""
+        }`}
+        required
+      />
+      {errors.phone && (
+        <p className="text-red-500 text-sm">{errors.phone}</p>
+      )}
     </div>
   );
 };
