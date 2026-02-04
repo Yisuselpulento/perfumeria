@@ -277,7 +277,7 @@ const ProductForm = ({ initialValues = null, onCreate, onUpdate, onCancel }) => 
       {/* Estado */}
       <div>
         <label>Estado</label>
-        <select name="status" value={formData.status} onChange={handleChange} className="w-full border p-2 rounded">
+        <select name="status" value={formData.status} onChange={handleChange} className="w-full border p-2 rounded bg-stone-900">
           <option value="en_stock">En stock</option>
           <option value="poco_stock">Quedan pocos</option>
           <option value="sin_stock">Agotado</option>
