@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
-import { getAllNotificationsFetching, createNotificationFetching, deleteNotificationFetching, updateNotificationFetching } from "../../services/NotificationFetching";
+import {
+  getAllNotificationsFetching,
+  createNotificationFetching,
+  deleteNotificationFetching,
+  updateNotificationFetching,
+} from "../../services/NotificationFetching";
 import NotificationsCardsAdmin from "../NotificationsCardsAdmin";
 import CreateNotificationForm from "../CreateNotificationForm";
+import Spinner from "../../components/Spinner/Spinner"; // ajusta path si hace falta
 
 const NotificationsSection = () => {
   const [notifications, setNotifications] = useState([]);
@@ -12,7 +18,6 @@ const NotificationsSection = () => {
     setLoading(true);
     const res = await getAllNotificationsFetching();
     if (res.success) setNotifications(res.data);
-    console.log(res.data)
     setLoading(false);
   };
 
@@ -38,9 +43,13 @@ const NotificationsSection = () => {
   const handleUpdate = async (id) => {
     const newMessage = prompt("Ingresa el nuevo mensaje de la notificación:");
     if (newMessage) {
-      const res = await updateNotificationFetching(id, { message: newMessage });
+      const res = await updateNotificationFetching(id, {
+        message: newMessage,
+      });
       if (res.success) {
-        setNotifications((prev) => prev.map((n) => (n._id === id ? res.data : n)));
+        setNotifications((prev) =>
+          prev.map((n) => (n._id === id ? res.data : n))
+        );
       }
     }
   };
@@ -48,7 +57,24 @@ const NotificationsSection = () => {
   return (
     <div className="flex flex-col md:flex-row gap-4 p-4">
       <div className="flex-1">
-        {loading ? <p>Cargando notificaciones...</p> : <NotificationsCardsAdmin notifications={notifications} onDelete={handleDelete} onUpdate={handleUpdate} />}
+        {loading ? (
+          <div className="flex justify-center items-center h-40">
+            <Spinner size="2.5rem" />
+          </div>
+        ) : notifications.length === 0 ? (
+          <div className="text-center text-gray-400 mt-10">
+            <p className="text-lg font-semibold">No hay notificaciones</p>
+            <p className="text-sm">
+              Cuando crees una, aparecerá aquí
+            </p>
+          </div>
+        ) : (
+          <NotificationsCardsAdmin
+            notifications={notifications}
+            onDelete={handleDelete}
+            onUpdate={handleUpdate}
+          />
+        )}
       </div>
 
       {/* Formulario desktop */}
@@ -58,13 +84,22 @@ const NotificationsSection = () => {
 
       {/* Botón y formulario móvil */}
       <div className="md:hidden">
-        <button onClick={() => setShowFormMobile(true)} className="bg-blue-600 text-white px-4 py-2 rounded mb-2">
+        <button
+          onClick={() => setShowFormMobile(true)}
+          className="bg-blue-600 text-white px-4 py-2 rounded mb-2"
+        >
           Crear Notificación
         </button>
+
         {showFormMobile && (
-          <div className="fixed inset-0 bg-black/50 flex justify-center items-center p-4">
-            <div className="bg-black rounded w-full max-w-md relative">
-              <button onClick={() => setShowFormMobile(false)} className="absolute top-2 right-2 text-gray-500 text-lg">&times;</button>
+          <div className="fixed inset-0 bg-black/50 flex justify-center items-center p-4 z-50">
+            <div className="bg-black rounded w-full max-w-md relative p-4">
+              <button
+                onClick={() => setShowFormMobile(false)}
+                className="absolute top-2 right-2 text-gray-500 text-lg"
+              >
+                &times;
+              </button>
               <CreateNotificationForm onCreate={handleCreate} />
             </div>
           </div>

@@ -86,7 +86,7 @@ const AdminLayout = ({ ProductsSection, OrdersSection, NotificationsSection, Rev
                 : "text-gray-300 cursor-pointer"
             }`}
           >
-            Solicitudes Stock
+            Soli-Stock
           </button>
       </div>
 

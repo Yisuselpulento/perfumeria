@@ -10,22 +10,22 @@ const ProductCardAdmin = ({ product, onDeleted, onUpdated }) => {
 
   return (
     <>
-      <div className="flex rounded-md shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition relative backdrop-blur-lg border border-stone-800 p-1 bg-stone-900 md:w-[500px]">
+      <div className="flex items-center rounded-md shadow-md overflow-hidden cursor-pointer hover:shadow-lg transition relative backdrop-blur-lg border border-stone-800 p-1 bg-stone-900 md:w-[400px] hover:bg-stone-950">
         {/* Imagen */}
         <div className="w-20 h-20">
           <img
             src={image.url}
             alt={name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-lg"
           />
         </div>
 
         {/* Info del producto */}
         <div
-          className="flex-1 p-2 flex flex-col justify-center"
+          className="flex-1 p-1 px-2 flex flex-col justify-center"
           onClick={() => setSelected(!selected)}
         >
-          <h2 className="text-sm font-semibold mb-2">{name}</h2>
+          <h2 className="text-xs font-semibold mb-2">{name}</h2>
           <div className="flex flex-col flex-wrap">
             {variants.map((variant) => (
               <span

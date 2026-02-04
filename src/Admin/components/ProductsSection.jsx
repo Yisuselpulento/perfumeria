@@ -66,7 +66,13 @@ const ProductsSection = () => {
         ) : error ? (
           <p>{error}</p>
         ) : (
-          <div className="flex flex-col gap-4 mt-3">
+          <div className="flex flex-col gap-1 mt-3">
+                    <button
+          onClick={() => setShowFormMobile(true)}
+          className="bg-blue-600 text-white px-4 py-2 rounded mb-2 md:hidden"
+        >
+          Crear Producto
+        </button>
             
             {products.map((product) => (
               <ProductCardAdmin
@@ -87,12 +93,7 @@ const ProductsSection = () => {
 
       {/* Botón y modal en móvil */}
       <div className="md:hidden">
-        <button
-          onClick={() => setShowFormMobile(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded mb-2"
-        >
-          Crear Producto
-        </button>
+
 
         {showFormMobile && (
           <div className="fixed inset-0 bg-black/50 flex justify-center items-center p-1">
