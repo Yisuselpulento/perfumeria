@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
-import { approveReviewFetching, deleteReviewFetching, getPendingReviewsFetching } from "../../services/ReviewFetching";
+import {
+  approveReviewFetching,
+  deleteReviewFetching,
+  getPendingReviewsFetching,
+} from "../../services/ReviewFetching";
 import ReviewCardAdmin from "../ReviewCardAdmin";
+import Spinner from "../../components/Spinner/Spinner"; // ajusta path si hace falta
 
 const ReviewSection = () => {
   const [reviews, setReviews] = useState([]);
@@ -31,14 +36,33 @@ const ReviewSection = () => {
     }
   };
 
-  if (loading) return <p className="p-4">Cargando reseñas pendientes...</p>;
-  if (reviews.length === 0) return <p className="p-4">No hay reseñas pendientes.</p>;
-
   return (
-    <div className="p-4 flex flex-col gap-3">
-      {reviews.map((review) => (
-        <ReviewCardAdmin key={review._id} review={review} onApprove={handleApprove} onDelete={handleDelete} />
-      ))}
+    <div className="p-4">
+      {loading ? (
+        <div className="flex justify-center items-center h-40">
+          <Spinner size="2.5rem" />
+        </div>
+      ) : reviews.length === 0 ? (
+        <div className="text-center text-gray-400 mt-10">
+          <p className="text-lg font-semibold">
+            No hay reseñas pendientes
+          </p>
+          <p className="text-sm">
+            Todas las reseñas ya fueron moderadas
+          </p>
+        </div>
+      ) : (
+        <div className="flex flex-col gap-3">
+          {reviews.map((review) => (
+            <ReviewCardAdmin
+              key={review._id}
+              review={review}
+              onApprove={handleApprove}
+              onDelete={handleDelete}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

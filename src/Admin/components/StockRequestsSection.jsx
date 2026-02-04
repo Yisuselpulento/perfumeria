@@ -4,6 +4,7 @@ import {
   updateStockRequestStatusFetching,
 } from "../../services/StockRequestFetching";
 import { toast } from "sonner";
+import Spinner from "../../components/Spinner/Spinner"; // ajusta path si hace falta
 
 const StockRequestsSection = () => {
   const [requests, setRequests] = useState([]);
@@ -13,11 +14,7 @@ const StockRequestsSection = () => {
   const fetchRequests = async () => {
     setLoading(true);
     const res = await getAllStockRequestsFetching();
-
-    if (res.success) {
-      setRequests(res.data);
-    }
-
+    if (res.success) setRequests(res.data);
     setLoading(false);
   };
 
@@ -32,7 +29,7 @@ const StockRequestsSection = () => {
 
     if (res.success) {
       toast.success("Estado actualizado");
-      fetchRequests();
+      await fetchRequests();
     } else {
       toast.error(res.message || "Error al actualizar");
     }
@@ -40,16 +37,25 @@ const StockRequestsSection = () => {
     setUpdatingId(null);
   };
 
-  if (loading) return <p>Cargando solicitudes de stock...</p>;
-
   return (
-    <div>
+    <div className="p-4">
       <h2 className="text-xl font-bold mb-4">
         Solicitudes de productos sin stock
       </h2>
 
-      {requests.length === 0 ? (
-        <p>No hay solicitudes</p>
+      {loading ? (
+        <div className="flex justify-center items-center h-40">
+          <Spinner size="2.5rem" />
+        </div>
+      ) : requests.length === 0 ? (
+        <div className="text-center text-gray-400 mt-10">
+          <p className="text-lg font-semibold">
+            No hay solicitudes de stock
+          </p>
+          <p className="text-sm">
+            Todo está al día por ahora 🚀
+          </p>
+        </div>
       ) : (
         <ul className="space-y-3">
           {requests.map((req) => (
@@ -69,7 +75,6 @@ const StockRequestsSection = () => {
                 </p>
               </div>
 
-              {/* 🔘 Acciones solo si está pendiente */}
               {req.status === "pending" && (
                 <div className="flex gap-2">
                   <button
@@ -79,7 +84,7 @@ const StockRequestsSection = () => {
                     }
                     className="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50"
                   >
-                    Notificar stock
+                    {updatingId === req._id ? "Procesando..." : "Notificar stock"}
                   </button>
 
                   <button
