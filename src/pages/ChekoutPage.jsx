@@ -8,7 +8,9 @@ import { toast } from "sonner";
 import useAuth from "../hooks/useAuth.jsx";
 import { getAddressesFetching } from "../services/AddressFetching.js";
 
+// 📦 Costos
 const SHIPPING_PRICE = 4500;
+const FREE_SHIPPING_THRESHOLD = 40000; // 🔹 Envío gratis si subtotal >= 40k
 
 const CheckoutPage = () => {
   const { cartItems, cartTotal } = useCart();
@@ -17,13 +19,13 @@ const CheckoutPage = () => {
 
   const [loading, setLoading] = useState(false);
   const [shipping, setShipping] = useState({
-  fullName: "",
-  street: "",
-  city: "",
-  state: "",
-  phone: "",
-  country: "Chile",
-});
+    fullName: "",
+    street: "",
+    city: "",
+    state: "",
+    phone: "",
+    country: "Chile",
+  });
   const [defaultAddress, setDefaultAddress] = useState(null);
   const [guestEmail, setGuestEmail] = useState("");
   const [deliveryMethod, setDeliveryMethod] = useState("shipping");
@@ -70,15 +72,22 @@ const CheckoutPage = () => {
     setLoading(true);
 
     try {
+      // 🔹 Calculamos envío dinámico según subtotal
+      const shippingCost =
+        deliveryMethod === "shipping" && cartTotal < FREE_SHIPPING_THRESHOLD
+          ? SHIPPING_PRICE
+          : 0;
+
       const orderData = {
-      items: cartItems.map(item => ({
-        id: item.id,
-        variant: { _id: item.variant._id },
-        quantity: item.quantity,
+        items: cartItems.map(item => ({
+          id: item.id,
+          variant: { _id: item.variant._id },
+          quantity: item.quantity,
         })),
         email: auth?.user?.email || guestEmail,
         deliveryMethod,
-       shippingAddress: shipping, 
+        shippingAddress: shipping,
+        shippingCost, // 🔹 enviamos el costo calculado
       };
 
       const response = await createOrderWithPayment(orderData);
@@ -95,6 +104,12 @@ const CheckoutPage = () => {
       setLoading(false);
     }
   };
+
+  // 🔹 Calculamos envío dinámico para mostrar en la UI
+  const shippingCost = 
+    deliveryMethod === "shipping" && cartTotal < FREE_SHIPPING_THRESHOLD
+      ? SHIPPING_PRICE
+      : 0;
 
   return (
     <form
@@ -119,54 +134,57 @@ const CheckoutPage = () => {
       </ul>
 
       {/* RESUMEN DE COSTOS */}
-          <div className="space-y-1 mb-4 text-sm">
-            <div className="flex justify-between">
-              <span>Subtotal</span>
-              <span>{toCLP(cartTotal)}</span>
-            </div>
+      <div className="space-y-1 mb-4 text-sm">
+        <div className="flex justify-between">
+          <span>Subtotal</span>
+          <span>{toCLP(cartTotal)}</span>
+        </div>
 
-            {deliveryMethod === "shipping" && (
-              <div className="flex justify-between">
-                <span>Envío</span>
-                <span>{toCLP(SHIPPING_PRICE)}</span>
-              </div>
-            )}
+        {cartTotal < FREE_SHIPPING_THRESHOLD && deliveryMethod === "shipping" && (
+          <p className="text-sm text-green-400">
+            ¡Supera {toCLP(FREE_SHIPPING_THRESHOLD)} y obtén envío gratis!
+          </p>
+        )}
 
-            <div className="flex justify-between font-bold text-base border-t pt-2">
-              <span>Total</span>
-              <span>
-                {toCLP(
-                  cartTotal +
-                    (deliveryMethod === "shipping" ? SHIPPING_PRICE : 0)
-                )}
-              </span>
-            </div>
+        {deliveryMethod === "shipping" && (
+          <div className="flex justify-between">
+            <span>Envío</span>
+            <span>
+              {cartTotal >= FREE_SHIPPING_THRESHOLD
+                ? "Gratis 🎉"
+                : toCLP(SHIPPING_PRICE)}
+            </span>
           </div>
+        )}
 
-          {/* TELÉFONO PARA RETIRO */}
-{deliveryMethod === "pickup" && (
-  <div className="mb-4 space-y-2">
-    <label className="text-sm font-medium">
-      Teléfono de contacto
-    </label>
-    <input
-      type="tel"
-      placeholder="Ej: +56912345678"
-      value={shipping.phone}
-      onChange={(e) =>
-        setShipping({
-          ...shipping,
-          phone: e.target.value,
-          street: "Retiro en persona",
-          city: "Los Andes",
-          state: "Valparaíso",
-        })
-      }
-      className="w-full p-2 rounded bg-neutral-900 border border-white/20"
-      required
-    />
-  </div>
-)}
+        <div className="flex justify-between font-bold text-base border-t pt-2">
+          <span>Total</span>
+          <span>{toCLP(cartTotal + shippingCost)}</span>
+        </div>
+      </div>
+
+      {/* TELÉFONO PARA RETIRO */}
+      {deliveryMethod === "pickup" && (
+        <div className="mb-4 space-y-2">
+          <label className="text-sm font-medium">Teléfono de contacto</label>
+          <input
+            type="tel"
+            placeholder="Ej: +56912345678"
+            value={shipping.phone}
+            onChange={(e) =>
+              setShipping({
+                ...shipping,
+                phone: e.target.value,
+                street: "Retiro en persona",
+                city: "Los Andes",
+                state: "Valparaíso",
+              })
+            }
+            className="w-full p-2 rounded bg-neutral-900 border border-white/20"
+            required
+          />
+        </div>
+      )}
 
       {/* EMAIL INVITADO */}
       {!auth?.success && (
@@ -180,46 +198,46 @@ const CheckoutPage = () => {
         />
       )}
 
+      {/* MÉTODO DE ENTREGA */}
       <div className="mb-4 space-y-2">
-  <h3 className="font-semibold">Método de entrega</h3>
+        <h3 className="font-semibold">Método de entrega</h3>
 
-  <label className="flex items-center gap-2 cursor-pointer">
-    <input
-      type="radio"
-      name="deliveryMethod"
-      value="shipping"
-      checked={deliveryMethod === "shipping"}
-      onChange={() => setDeliveryMethod("shipping")}
-    />
-    <span>Envío a domicilio</span>
-    <span className="ml-auto text-sm">{toCLP(SHIPPING_PRICE)}</span>
-  </label>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="radio"
+            name="deliveryMethod"
+            value="shipping"
+            checked={deliveryMethod === "shipping"}
+            onChange={() => setDeliveryMethod("shipping")}
+          />
+          <span>Envío a domicilio</span>
+          <span className="ml-auto text-sm">
+            {cartTotal >= FREE_SHIPPING_THRESHOLD ? "Gratis 🎉" : toCLP(SHIPPING_PRICE)}
+          </span>
+        </label>
 
-  <label className="flex items-center gap-2 cursor-pointer">
-        <input
-          type="radio"
-          name="deliveryMethod"
-          value="pickup"
-          checked={deliveryMethod === "pickup"}
-          onChange={() => setDeliveryMethod("pickup")}
-        />
-        <span>Retiro en persona</span>
-        <span className="ml-auto text-sm text-green-400">Gratis</span>
-      </label>
+        <label className="flex items-center gap-2 cursor-pointer">
+          <input
+            type="radio"
+            name="deliveryMethod"
+            value="pickup"
+            checked={deliveryMethod === "pickup"}
+            onChange={() => setDeliveryMethod("pickup")}
+          />
+          <span>Retiro en persona</span>
+          <span className="ml-auto text-sm text-green-400">Gratis</span>
+        </label>
 
-      {deliveryMethod === "pickup" && (
-        <p className="text-sm text-neutral-400">
-          📍 Retiro en <b>Los Andes</b>
-        </p>
-      )}
-    </div>
+        {deliveryMethod === "pickup" && (
+          <p className="text-sm text-neutral-400">
+            📍 Retiro en <b>Los Andes</b>
+          </p>
+        )}
+      </div>
 
       {/* ENVÍO */}
       {deliveryMethod === "shipping" && (
-        <ShippingForm
-          defaultAddress={defaultAddress}
-          onChange={setShipping}
-        />
+        <ShippingForm defaultAddress={defaultAddress} onChange={setShipping} />
       )}
 
       <button
