@@ -112,10 +112,19 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
       </p>
 
       <p>
-        <strong>Dirección:</strong>{" "}
-        {shipping.street || "-"}, {shipping.city || "-"},{" "}
-        {shipping.state || "-"}, {shipping.zip || "-"}
-      </p>
+  <strong>Dirección:</strong>{" "}
+  {order.deliveryMethod === "shipping" ? (
+    <>
+      {shipping.street || "-"}, {shipping.city || "-"}, {shipping.state || "-"} <br />
+      <strong>Teléfono:</strong> {shipping.phone || "-"}
+    </>
+  ) : (
+    <>
+      Retiro en persona: {shipping.city || "Los Andes"}, {shipping.state || "Valparaíso"} <br />
+      <strong>Teléfono:</strong> {shipping.phone || "-"}
+    </>
+  )}
+</p>
 
       {/* Productos */}
       <div className="mt-2">
