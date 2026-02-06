@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { CHILE_LOCATIONS } from "../../helpers/chileLocations.js";
 
-const REQUIRED_FIELDS = ["street", "city", "state", "zip", "phone"];
+const REQUIRED_FIELDS = ["street", "city", "state", "phone"];
 
 const ShippingForm = ({ onChange, defaultAddress }) => {
   const [form, setForm] = useState({
@@ -9,7 +9,6 @@ const ShippingForm = ({ onChange, defaultAddress }) => {
     street: "",
     state: "", // Región
     city: "",  // Comuna
-    zip: "",
     phone: "",
     country: "Chile",
   });
@@ -24,7 +23,6 @@ const ShippingForm = ({ onChange, defaultAddress }) => {
         street: defaultAddress.street || "",
         state: defaultAddress.state || "",
         city: defaultAddress.city || "",
-        zip: defaultAddress.zip || "",
         phone: defaultAddress.phone || "",
         country: defaultAddress.country || "Chile",
       });
@@ -34,10 +32,6 @@ const ShippingForm = ({ onChange, defaultAddress }) => {
   const validate = (field, value) => {
     if (REQUIRED_FIELDS.includes(field) && !value.trim()) {
       return "Este campo es obligatorio";
-    }
-
-    if (field === "zip" && value && !/^\d{4,10}$/.test(value)) {
-      return "Código postal inválido";
     }
 
     if (field === "phone" && value && !/^\+?\d{8,15}$/.test(value)) {
@@ -68,7 +62,7 @@ const ShippingForm = ({ onChange, defaultAddress }) => {
 
     setErrors(newErrors);
 
-    // 🔥 enviamos data + si hay errores
+    // 🔥 enviamos data + flag de error
     onChange(updated, Object.values(newErrors).some(Boolean));
   };
 
@@ -88,22 +82,6 @@ const ShippingForm = ({ onChange, defaultAddress }) => {
         onChange={handleChange}
         className="w-full border p-2 rounded"
       />
-
-      {/* DIRECCIÓN */}
-      <input
-        name="street"
-        placeholder="Dirección"
-        value={form.street}
-        onChange={handleChange}
-        className={`w-full border p-2 rounded ${
-          errors.street ? "border-red-500" : ""
-        }`}
-        required
-      />
-      {errors.street && (
-        <p className="text-red-500 text-sm">{errors.street}</p>
-      )}
-
       {/* REGIÓN */}
       <select
         name="state"
@@ -140,26 +118,28 @@ const ShippingForm = ({ onChange, defaultAddress }) => {
         required
       />
 
+
       <datalist id="shipping-cities">
         {selectedRegion?.comunas.map((comuna) => (
           <option key={comuna} value={comuna} />
         ))}
       </datalist>
 
-      {/* ZIP */}
+           {/* DIRECCIÓN */}
       <input
-        name="zip"
-        placeholder="Código postal"
-        value={form.zip}
+        name="street"
+        placeholder="Dirección"
+        value={form.street}
         onChange={handleChange}
         className={`w-full border p-2 rounded ${
-          errors.zip ? "border-red-500" : ""
+          errors.street ? "border-red-500" : ""
         }`}
         required
       />
-      {errors.zip && (
-        <p className="text-red-500 text-sm">{errors.zip}</p>
+      {errors.street && (
+        <p className="text-red-500 text-sm">{errors.street}</p>
       )}
+
 
       {/* TELÉFONO */}
       <input

@@ -6,7 +6,6 @@ const AddressForm = ({ initialData, onSubmit, onCancel }) => {
     street: "",
     state: "", // Región
     city: "",  // Comuna
-    zip: "",
     phone: "",
     label: "",
     isDefault: false,
@@ -18,7 +17,6 @@ const AddressForm = ({ initialData, onSubmit, onCancel }) => {
         street: initialData.street || "",
         state: initialData.state || "",
         city: initialData.city || "",
-        zip: initialData.zip || "",
         phone: initialData.phone || "",
         label: initialData.label || "",
         isDefault: initialData.isDefault || false,
@@ -69,15 +67,7 @@ const AddressForm = ({ initialData, onSubmit, onCancel }) => {
         required
       />
 
-      <input
-        className="border p-2 rounded"
-        placeholder="Calle"
-        name="street"
-        value={form.street}
-        onChange={handleChange}
-        required
-      />
-
+ 
       {/* REGIÓN */}
       <select
         name="state"
@@ -116,14 +106,15 @@ const AddressForm = ({ initialData, onSubmit, onCancel }) => {
         ))}
       </select>
 
-      <input
+           <input
         className="border p-2 rounded"
-        placeholder="Código Postal"
-        name="zip"
-        value={form.zip}
+        placeholder="Direccion"
+        name="street"
+        value={form.street}
         onChange={handleChange}
         required
       />
+
 
       <input
         className="border p-2 rounded"

@@ -7,7 +7,6 @@ const CardAddress = ({ address, onEdit, onDelete }) => {
     <div className="border rounded-lg p-3 flex flex-col gap-1 shadow-sm">
       <p className="font-semibold">{address.label}</p>
       <p className="text-sm">{address.street}, {address.city}, {address.state}</p>
-      <p className="text-sm">{address.zip}</p>
       <p className="text-sm">📞 {address.phone}</p>
       {address.isDefault && <span className="text-xs text-green-600">✔ Dirección principal</span>}
 
