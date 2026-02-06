@@ -10,15 +10,18 @@ import { getAddressesFetching } from "../services/AddressFetching.js";
 
 const CheckoutPage = () => {
   const { cartItems, cartTotal } = useCart();
-  const [loading, setLoading] = useState(false);
-  const [shipping, setShipping] = useState(null);
-  const [defaultAddress, setDefaultAddress] = useState(null);
-
   const { auth } = useAuth();
   const navigate = useNavigate();
 
-  // 📍 Dirección por defecto
+  const [loading, setLoading] = useState(false);
+  const [shipping, setShipping] = useState(null);
+  const [defaultAddress, setDefaultAddress] = useState(null);
+  const [guestEmail, setGuestEmail] = useState("");
+
+  // 📍 Dirección por defecto (solo usuarios logueados)
   useEffect(() => {
+    if (!auth?.success) return;
+
     const fetchAddresses = async () => {
       const res = await getAddressesFetching();
       if (res?.success) {
@@ -26,15 +29,16 @@ const CheckoutPage = () => {
         setDefaultAddress(def || null);
       }
     };
+
     fetchAddresses();
-  }, []);
+  }, [auth]);
 
   // 💳 Checkout Mercado Pago
   const handleCheckout = async (e) => {
     e.preventDefault();
 
-    if (!auth?.success) {
-      navigate("/login");
+    if (!cartItems.length) {
+      toast.error("El carrito está vacío");
       return;
     }
 
@@ -43,8 +47,8 @@ const CheckoutPage = () => {
       return;
     }
 
-    if (!cartItems.length) {
-      toast.error("El carrito está vacío");
+    if (!auth?.success && !guestEmail) {
+      toast.error("Ingresa tu email para continuar");
       return;
     }
 
@@ -58,6 +62,7 @@ const CheckoutPage = () => {
           quantity: item.quantity,
         })),
         shippingAddress: shipping,
+        email: auth?.user?.email || guestEmail,
       };
 
       const response = await createOrderWithPayment(orderData);
@@ -82,6 +87,7 @@ const CheckoutPage = () => {
     >
       <h2 className="text-xl font-semibold mb-4">Resumen de compra</h2>
 
+      {/* RESUMEN */}
       <ul className="mb-4">
         {cartItems.map(item => (
           <li
@@ -100,6 +106,19 @@ const CheckoutPage = () => {
         Total: {toCLP(cartTotal)}
       </div>
 
+      {/* EMAIL INVITADO */}
+      {!auth?.success && (
+        <input
+          type="email"
+          placeholder="Tu email"
+          value={guestEmail}
+          onChange={(e) => setGuestEmail(e.target.value)}
+          className="w-full mb-4 p-2 rounded bg-neutral-900 border border-white/20"
+          required
+        />
+      )}
+
+      {/* ENVÍO */}
       <ShippingForm
         defaultAddress={defaultAddress}
         onChange={setShipping}
@@ -110,7 +129,7 @@ const CheckoutPage = () => {
         disabled={loading}
         className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/80 w-full cursor-pointer mt-4 disabled:opacity-60"
       >
-        {loading ? "Cargando..." : "Pagar"}
+        {loading ? "Redirigiendo..." : "Pagar"}
       </button>
     </form>
   );

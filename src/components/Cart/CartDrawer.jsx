@@ -13,18 +13,12 @@ const CartDrawer = () => {
   const { auth } = useAuth();
   const navigate = useNavigate();
 
-  const handleCheckout = () => {
-    if (cartItems.length === 0) return;
+ const handleCheckout = () => {
+  if (cartItems.length === 0) return;
 
-    if (!auth?.success) {
-      setOpen(false);
-      navigate("/login");
-      return;
-    }
-
-    setOpen(false);
-    navigate("/checkout");
-  };
+  setOpen(false);
+  navigate("/checkout");
+};
 
   return (
     <>

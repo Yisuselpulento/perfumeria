@@ -51,15 +51,15 @@ function App() {
                    <Route path="/storage" element={<Storage />} />
                    <Route path="/product/:id" element={<ProductId />} />
                   <Route path="/terminosycondiciones" element={<TerminosyCondiciones/>} />
+                    <Route path="/checkout" element={<CheckoutPage />} />
+                    <Route path="/checkout/success" element={<CheckoutSuccess />} />
+                    <Route path="/checkout/failure" element={<CheckoutFailure />} />
 
                   <Route element={<ProtectedRoute />}>
                           <Route path='/profile' element={<Profile/>} />   
                           <Route path="/edit-profile" element={<EditProfile />} />
                           <Route path="/my-orders" element={<MyOrders />} />
-                          <Route path="/checkout" element={<CheckoutPage />} />
                           <Route path="/notifications" element={<NotificationsPage />} />
-                           <Route path="/checkout/success" element={<CheckoutSuccess />} />
-                          <Route path="/checkout/failure" element={<CheckoutFailure />} />
                   </Route>
 
                   <Route element={<ProtectedRoute adminOnly={true} />}>
