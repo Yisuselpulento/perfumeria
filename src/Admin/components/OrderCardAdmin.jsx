@@ -11,10 +11,16 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
   const [loading, setLoading] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  // ✅ Cambiar estado de la orden
+  // 🔹 Cliente (auth o guest)
+  const customerName = order.customerName || "Guest";
+  const customerEmail = order.customerEmail || "N/A";
+  const isGuest = order.isGuest;
+
+  const shipping = order.shippingAddress || {};
+
+  // ✅ Cambiar estado
   const handleStatusChange = async (e) => {
     const newStatus = e.target.value;
-
     if (newStatus === status) return;
 
     setLoading(true);
@@ -55,14 +61,18 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
     }
   };
 
-  const shipping = order.shippingAddress || {};
-  const user = order.userId || {};
-
   return (
     <div className="p-4 rounded-md flex flex-col gap-2 backdrop-blur-lg border border-white/20 shadow-md">
+      
+      {/* Header */}
       <div className="flex justify-between items-center mb-2">
         <span className="font-semibold">
-          Usuario: {user.fullName || "Desconocido"} ({user.email || "N/A"})
+          Usuario: {customerName} ({customerEmail})
+          {isGuest && (
+            <span className="ml-2 text-xs text-orange-400 font-bold">
+              GUEST
+            </span>
+          )}
         </span>
 
         <select
@@ -91,6 +101,7 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
         </select>
       </div>
 
+      {/* Info */}
       <p>
         <strong>Fecha:</strong>{" "}
         {new Date(order.createdAt).toLocaleString()}
@@ -106,6 +117,7 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
         {shipping.state || "-"}, {shipping.zip || "-"}
       </p>
 
+      {/* Productos */}
       <div className="mt-2">
         <strong>Productos:</strong>
         <ul className="ml-4 list-disc">
@@ -118,6 +130,7 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
         </ul>
       </div>
 
+      {/* Acciones */}
       <div className="mt-3 flex gap-2">
         <button
           onClick={() => setShowDeleteModal(true)}
@@ -135,12 +148,12 @@ const OrderCardAdmin = ({ order, onDelete, onUpdate }) => {
             <p className="mb-4">
               ¿Estás seguro que deseas eliminar esta orden?
             </p>
-            <div className="flex justify-around gap-4 ">
+            <div className="flex justify-around gap-4">
               <button
                 onClick={handleDelete}
                 className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded cursor-pointer"
               >
-               Eliminar
+                Eliminar
               </button>
               <button
                 onClick={() => setShowDeleteModal(false)}
